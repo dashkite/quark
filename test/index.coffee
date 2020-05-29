@@ -1,4 +1,7 @@
+import assert from "assert"
+import {print, test, success} from "amen"
 import "source-map-support/register"
+
 import {wrap, tee, flow} from "panda-garden"
 import {stack, push, pop, peek, log} from "@dashkite/katana"
 
@@ -14,4 +17,15 @@ sheet = stylesheet flow [
   article
 ]
 
-do -> console.log toString await sheet()
+do ->
+
+  print await test "Neutrino basic test", ->
+
+    expected = """
+      main article { margin-bottom: '4rem'; }
+      main article > h1 { color: 'blue'; }
+      """
+
+    assert.equal expected, toString await sheet()
+
+  process.exit if success then 0 else 1
