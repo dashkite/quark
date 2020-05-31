@@ -1,10 +1,14 @@
-import {curry, rtee} from "panda-garden"
-import {push} from "@dashkite/katana"
+import {curry, rtee} from "@pandastrike/garden"
+import {spush as push} from "@dashkite/katana"
 
 class Container
   constructor: (@children = []) ->
   append: (value) -> @children.push value
-  toString: -> @children.reduce ((s,p) -> s += p.toString()), ""
+  toString: ->
+    @children
+      .map ((value) -> value.toString())
+      .filter ((value) -> value?)
+      .join " "
 
 class Styles extends Container
   @create: -> new Styles
@@ -26,8 +30,7 @@ class Rule extends Container
 
   toString: ->
     if @children.length > 0
-      "#{@selector} { #{super.toString()} }\n"
-    else ""
+      "#{@selector} { #{super.toString()} }"
 
 class Property
 
@@ -39,11 +42,14 @@ class Property
 
   toString: -> "#{@key}: '#{@value}';"
 
-styles = Styles.create
+styles = (f) ->
+  ->
+    styles = Styles.create()
+    await f [ styles ]
+    styles
 
-rule = curry Rule.create
-
+selector = curry Rule.create
 
 property = curry Property.create
 
-export {styles, rule, property}
+export {styles, selector, property}

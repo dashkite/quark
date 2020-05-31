@@ -21,13 +21,14 @@
     "test": "p9k test"
   },
   "dependencies": {
-    "@dashkite/katana": "0.0.6",
-    "panda-garden": "^5.0.0"
+    "@dashkite/katana": "file:../katana",
+    "@pandastrike/garden": "file:../../pandastrike/garden"
   },
   "devDependencies": {
     "amen": "^3.0.0",
     "panda-9000": "^5.0.2",
     "panda-builder": "^4.0.13",
+    "panda-garden": "^5.0.0",
     "source-map-support": "^0.5.19"
   }
 }

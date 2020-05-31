@@ -2,29 +2,32 @@ import assert from "assert"
 import {print, test, success} from "amen"
 import "source-map-support/register"
 
-import {wrap, tee, flow} from "panda-garden"
-import {stack, push, pop, peek, log} from "@dashkite/katana"
+import {wrap, tee, pipe} from "@pandastrike/garden"
+import {stack, spush as push, spop as pop,
+  speek as peek} from "@dashkite/katana"
 
-import {rule} from "../src"
-import {stylesheet, toString} from "./helpers"
+import {styles, selector} from "../src"
+import {toString} from "./helpers"
 import theme from "./theme"
 import Article from "./article"
 
 {article} = Article.bind theme
 
-sheet = stylesheet flow [
-  push rule "main"
-  article
+sheet = styles pipe [
+  push selector "main"
+  push selector "article"
+  article [ "block", "h1" ]
 ]
 
 do ->
 
-  print await test "Neutrino basic test", ->
+  print await test "Neutrino baseline test", ->
 
-    expected = """
-      main article { margin-bottom: '4rem'; }
-      main article > h1 { color: 'blue'; }
-      """
+    expected = "main article { margin-bottom: '4rem'; }
+      main article > h1 {
+        font-weight: 'bold';
+        font-family: 'sans-serif';
+        color: 'blue'; }"
 
     assert.equal expected, toString await sheet()
 

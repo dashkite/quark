@@ -1,22 +1,27 @@
-import {tee, flow} from "panda-garden"
-import {push, pop, peek} from "@dashkite/katana"
-import {rule, property} from "../src"
+import {tee, pipe} from "@pandastrike/garden"
+import {spush as push, spop as pop, speek as peek} from "@dashkite/katana"
+import {selector, property} from "../src"
 
 Article =
 
   bind: (theme) ->
 
-    h1 = tee flow [
-      push rule "> h1"
+    h1 = tee pipe [
+      push selector "> h1"
+      theme.type.heading
       pop property "color", theme.colors.primary.foreground
     ]
 
-    article = tee flow [
-      push rule "article"
+    block = tee pipe [
       peek property "margin-bottom", "4rem"
-      h1
     ]
 
-    {article, h1}
+    dictionary = {h1, block}
+
+    article = (names) ->
+      combinators = names.map (name) -> dictionary[name]
+      tee pipe combinators
+
+    {article, block, h1}
 
 export default Article
