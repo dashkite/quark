@@ -6,12 +6,12 @@ import {wrap, tee, pipe} from "@pandastrike/garden"
 import {stack, spush as push, spop as pop,
   speek as peek} from "@dashkite/katana"
 
-import {styles, selector} from "../src"
+import {styles, selector, color} from "../src"
 import {toString} from "./helpers"
-import theme from "./theme"
+import {type} from "./theme"
 import Article from "./article"
 
-{article} = Article.bind theme
+{article} = Article.bind {type, color}
 
 sheet = styles pipe [
   push selector "main"
@@ -27,7 +27,7 @@ do ->
       main article > h1 {
         font-weight: 'bold';
         font-family: 'sans-serif';
-        color: 'blue'; }"
+        color: '#357edd'; }"
 
     assert.equal expected, toString await sheet()
 

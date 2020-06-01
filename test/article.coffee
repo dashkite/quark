@@ -4,12 +4,12 @@ import {selector, property} from "../src"
 
 Article =
 
-  bind: (theme) ->
+  bind: ({type, color}) ->
 
     h1 = tee pipe [
       push selector "> h1"
-      theme.type.heading
-      pop property "color", theme.colors.primary.foreground
+      type.heading
+      color "blue"
     ]
 
     block = tee pipe [
