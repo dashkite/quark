@@ -1,26 +1,4 @@
-import {pipe, curry} from "@pandastrike/garden"
-import {speek as peek} from "@dashkite/katana"
-import {property} from "./index"
-
-italic = peek property "font-style", "italic"
-bold = peek property "font-weight", "bold"
-underline = peek property "text-decoration", "underline"
-strikeout = peek property "text-decoration", "line-through"
-capitalize = peek property "text-transform", "capitalize"
-uppercase = peek property "text-transform", "uppercase"
-plain = pipe [
-  peek property "font-style", "normal"
-  peek property "font-weight", "normal"
-  peek property "text-decoration", "none"
-  peek property "text-transform", "none"
-]
-
-sans = peek property "font-family", "sans-serif"
-serif = peek property "font-family", "serif"
-monospace = peek property "font-family", "monospace"
-
-set = curry (name, value) -> peek property name, value
-setd = curry (name, d, value) -> peek property name, d[value] ? value
+import {setd} from "./helpers"
 
 colors =
 
@@ -93,6 +71,4 @@ colors =
 color = setd "color", colors
 background = setd "background", colors
 
-export {italic, bold, underline, strikeout, capitalize, uppercase, plain,
-  sans, serif, monospace,
-  color, background}
+export {color, background}

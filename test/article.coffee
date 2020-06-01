@@ -8,8 +8,8 @@ Article =
 
     h1 = tee pipe [
       push selector "> h1"
-      type.heading
-      color "blue"
+      type "heading"
+      color "near-black"
     ]
 
     block = tee pipe [
