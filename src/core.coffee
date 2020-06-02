@@ -1,5 +1,5 @@
 import {curry, rtee} from "@pandastrike/garden"
-import {spush as push} from "@dashkite/katana"
+import {spush as push, speek as peek} from "@dashkite/katana"
 
 class Container
   constructor: (@children = []) ->
@@ -50,6 +50,14 @@ styles = (f) ->
 
 selector = curry Rule.create
 
+select = (s) -> push selector s
+
 property = curry Property.create
 
-export {styles, selector, property}
+set = curry (name, value) -> peek property name, value
+
+setWith = curry (name, f, value) -> set name, f value
+
+lookup = curry (object, key) -> object[key]
+
+export {styles, select, set, lookup, setWith}

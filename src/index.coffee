@@ -1,2 +1,2 @@
 export * from "./core"
-export * from "./atomic"
+export * from "./hadrons"

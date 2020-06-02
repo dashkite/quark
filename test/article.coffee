@@ -1,26 +1,22 @@
-import {tee, pipe} from "@pandastrike/garden"
+import {tee, pipe, pipeWith} from "@pandastrike/garden"
 import {spush as push, spop as pop, speek as peek} from "@dashkite/katana"
-import {selector, property} from "../src"
+import {select, set, lookup} from "../src"
 
 Article =
 
   bind: ({type, color}) ->
 
     h1 = tee pipe [
-      push selector "> h1"
+      select "> h1"
       type "heading"
       color "near-black"
     ]
 
     block = tee pipe [
-      peek property "margin-bottom", "4rem"
+      set "margin-bottom", "4rem"
     ]
 
-    dictionary = {h1, block}
-
-    article = (names) ->
-      combinators = names.map (name) -> dictionary[name]
-      tee pipe combinators
+    article = pipeWith lookup {h1, block}
 
     {article, block, h1}
 

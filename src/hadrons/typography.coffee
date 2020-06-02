@@ -1,5 +1,5 @@
 import {pipe, curry} from "@pandastrike/garden"
-import {set} from "./helpers"
+import {set} from "../core"
 
 italic = set "font-style", "italic"
 bold = set "font-weight", "bold"

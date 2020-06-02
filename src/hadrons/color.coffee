@@ -1,4 +1,4 @@
-import {setd} from "./helpers"
+import {lookup, setWith} from "../core"
 
 colors =
 
@@ -68,7 +68,7 @@ colors =
   "washed-yellow": "#fffceb"
   "washed-red": "#ffdfdf"
 
-color = setd "color", colors
-background = setd "background", colors
+color = setWith "color", lookup colors
+background = setWith "background", lookup colors
 
 export {color, background}
