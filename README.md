@@ -18,12 +18,12 @@ This will produce CSS that looks like the following:
 
 ```css
 main > article {
-   margin: 0;
-   padding: 0;
-   border: 0;
-   font-size: 100%;
-   font: inherit;
-   vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 main > article > h1 {
   font-family: 'sans-serif';
@@ -86,7 +86,7 @@ If we want to be less cryptic, we can introduce lookup tables. The `lookup` help
 
 ```coffeescript
 margin = lookup
-	"top large": mtl
+  "top large": mtl
   "top medium": mtm
   "top small": mts
   # ... and so on
@@ -179,14 +179,6 @@ Sets a property based on a function.
 
 ```coffeescript
 mt = setWith "margin-top", lookup margins
-```
-
-#### `pipeMap`
-
-Composes a series of functions based on a lookup.
-
-```coffeescript
-article = pipeMap lookup {h1, h2, p, ul, ol, li, blockquote}
 ```
 
 ### Hadrons: Color
