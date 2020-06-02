@@ -2,7 +2,7 @@
 
 _Combinators for generating CSS_
 
-The goal to be able to encapsulate, change, and reuse CSS arguably remains aspirational. Preprocessors, scoped CSS, atomic CSS, and CSS in JS are among the many ways the developer community has tried to address these requirements. Quark represents a new approach: encapsulating CSS in functions, which may then be composed into stylesheets.
+Preprocessors, scoped CSS, atomic CSS, and CSS in JS are among the many ways developers and designers have tried to encapsulate, reuse, and manage CSS. Quark represents a new approach: encapsulating CSS in functions, which may then be composed into stylesheets.
 
 ```coffeescript
 sheet = styles pipe [
@@ -106,10 +106,10 @@ color = setWith "color", lookup colors
 color = setWith "background", lookup colors
 ```
 
-Sometimes you want to do a bunch of lookups and compose them together. We can do this with `pipeMap`:
+Sometimes you want to do a bunch of lookups and compose them together. We can do this with Garden's `pipeWith`:
 
 ```coffeescript
-article = pipeMap lookup {h1, h2, p, ul, ol, li, blockquote}
+article = pipeWith lookup {h1, h2, p, ul, ol, li, blockquote}
 ```
 
 which allows us to write:
