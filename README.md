@@ -181,7 +181,50 @@ Sets a property based on a function.
 mt = setWith "margin-top", lookup margins
 ```
 
-### Hadrons: Color
+### Units
+
+#### `px`, `pct`, `em`, `rem`, `vh`, `vw`
+
+Converts a number into CSS units.
+
+```coffeescript
+# set width to 20rem
+width rem 20
+```
+
+### Height and Width
+
+#### `width`, `height`
+
+Set with units, or other CSS value, ex: `min-content`. Prefixes [`stretch`](https://developer.mozilla.org/en-US/docs/Web/CSS/height#Browser_compatibility).
+
+```coffeescript
+width pct 1/3
+width "fit-content(20rem)"
+```
+
+#### `min`, `max`
+
+Modifies `width` or `height`.
+
+```coffeescript
+# set the max width
+max width "34em"
+```
+
+#### `readable`
+
+Sets the `width`, `min-width`, and `max-width` to ensure the readability of the text. Equivalent to:
+
+```coffeescript
+width "stretch"
+min width "20em"
+max width "34em"
+```
+
+Based on Tachyon’s [`measure` classes](http://tachyons.io/docs/typography/measure/).
+
+### Color
 
 #### `color`
 
@@ -195,7 +238,7 @@ color "white-20"
 
 Sets the `background` property with a color name based on the HTML or Tachyon color or any valid [background](https://developer.mozilla.org/en-US/docs/Web/CSS/background) shorthand.
 
-### Hadrons: Type
+### Typography
 
 #### `italic`, `bold`, `underline`, `strikeout`, `capitalize`, `uppercase`, `plain`
 
@@ -216,7 +259,7 @@ rhythm (rem 8), 2/3
 
 #### `type`
 
-Sets font/text properties based on standard presets. 
+Sets font/text properties based on standard presets.
 
 ```coffeescript
 type "extra large heading"
@@ -239,3 +282,88 @@ Presets:
 | extra small copy    | 4                 | 2⅔              | 17 8&frasl;9   |
 
 Pixel values are based on a rem size of 6 2&frasl;3 pixels.
+
+### Borders
+
+#### `border`
+
+Sets the border using an array of presets. Color will be inherited unless set with `borderColor`.
+
+```coffeescript
+border [ "round" ]
+border [ "top", "bottom" ]
+border [ "pill" ]
+```
+
+##### Presets
+
+top, bottom, left, right, dotted, dashed, thin, thick, thicker, thickest, box, round, rounder, pill
+
+#### `borderColor`
+
+Sets the border color. Accepts the same color values as the Hadron `color` function.
+
+### Background Size
+
+#### `cover`, `contain`
+
+Sets the [`background-size`](https://developer.mozilla.org/en-US/docs/Web/CSS/background-size) property.
+
+### Opacity
+
+#### `opacity`
+
+Set the opacity using a percentage.
+
+#### `visible`
+
+Set the opacity to 100%.
+
+#### `invisible`
+
+Set the opacity to 0%.
+
+### Flexbox
+
+#### `rows`, `columns`
+
+Set up a row or column-based container.
+
+### Forms
+
+…
+
+### Tables
+
+…
+
+#### `wrap`
+
+Sets a flex container to wrap content. (Not wrapping is the default.)
+
+### Code
+
+…
+
+### Resets
+
+#### `body`, `block`, `list`, `blockquote`, `table`
+
+…
+
+### Normalize
+
+#### `normalize`
+
+…
+
+### Article
+
+#### `Article.bind`
+
+…
+
+#### `article`
+
+…
+

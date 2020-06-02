@@ -1,3 +1,4 @@
+import {pipe, tee} from "@pandastrike/garden"
 import {color as _color} from "../src"
 
 colors =
