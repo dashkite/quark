@@ -23,9 +23,9 @@ import Article from "./article"
 
 {article} = Article.bind {type, color}
 
-sheet = styles pipe [
-  select "main", pipe [
-    select "article", pipe [
+sheet = styles [
+  select "main", [
+    select "article", [
       article [ "block", "h1" ]
 ] ] ]
 

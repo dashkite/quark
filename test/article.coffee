@@ -6,7 +6,7 @@ Article =
 
   bind: ({type, color}) ->
 
-    h1 = select "> h1", pipe [
+    h1 = select "> h1", [
       type "heading"
       color "near-black"
     ]

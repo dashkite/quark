@@ -1,4 +1,4 @@
-import {flip, curry, pipe, rtee} from "@pandastrike/garden"
+import {flip, curry, pipe, tee} from "@pandastrike/garden"
 import {
   spush as push
   speek as peek
@@ -6,15 +6,16 @@ import {
   smpop as mpop
   log
 } from "@dashkite/katana"
+
 import {getter} from "./helpers"
 
 append = (child, parent) ->
   parent.children.push child
   child
 
-styles = (f) ->
+styles = (ax) ->
   ->
-    f [ (styles = children: []) ]
+    (pipe ax) [ (styles = children: []) ]
     styles
 
 selector = curry (value, parent) ->
@@ -24,12 +25,12 @@ selector = curry (value, parent) ->
 
 property = curry (name, value) -> {name, value}
 
-select = curry (value, f) ->
-  pipe [
+select = curry (value, ax) ->
+  tee pipe [
     push selector value
     push getter "styles"
     pop flip append
-    f
+    pipe ax
   ]
 
 set = curry (name, value) ->
