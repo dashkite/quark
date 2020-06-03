@@ -50,6 +50,6 @@ do ->
         font-size: 'calc(8rem * 0.8)';
         color: '#111';
       }"
-    diffCSS expected, toString await sheet()
+    diffCSS expected, sheet().toString()
 
   process.exit if success then 0 else 1

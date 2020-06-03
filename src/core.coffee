@@ -45,7 +45,7 @@ class Property
 styles = (f) ->
   ->
     styles = Styles.create()
-    await f [ styles ]
+    f [ styles ]
     styles
 
 selector = curry Rule.create
