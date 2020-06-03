@@ -1,6 +1,6 @@
 import {tee, pipe, pipeWith} from "@pandastrike/garden"
 import {spush as push, spop as pop, speek as peek} from "@dashkite/katana"
-import {select, set, lookup, rem} from "../src"
+import {select, set, lookup, rem, readable} from "../src"
 
 Article =
 
@@ -13,6 +13,7 @@ Article =
     ]
 
     block = tee pipe [
+      readable
       set "margin-bottom", rem 4
     ]
 

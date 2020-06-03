@@ -254,7 +254,7 @@ Sets the line-height and relative font-size.
 
 ```coffeescript
 # set the line-height to 8rem and the font-size to 5.33rem
-text 8, 2/3
+text (rem 8), 2/3
 ```
 
 #### `type`
