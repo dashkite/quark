@@ -7,15 +7,16 @@ prefixed =
   stretch: [ "-webkit-fill-available" ]
 
 dimension = curry (name, value) ->
-  actions = [ set name, value ]
+  actions = []
   if prefixed[value]?
     actions.push set name, prefixed[value]
+  actions.push set name, value
   pipe actions
 
 width = dimension "width"
 height = dimension "height"
 
-prefix = curry (name, p) -> p.key = "#{name}-#{p.key}"
+prefix = curry (text, p) -> p.name = "#{text}-#{p.name}"
 children = pipe [ first, getter "children" ]
 min = (f) -> tee pipe [ f, children, last, prefix "min" ]
 max = (f) -> tee pipe [ f, children, last, prefix "max" ]

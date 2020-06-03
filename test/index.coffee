@@ -17,28 +17,26 @@ diffCSS = (expected, actual) ->
 
 import {tee, pipe} from "@pandastrike/garden"
 
-import {styles, select, type} from "../src"
-import {toString} from "./helpers"
+import {styles, select, toString, type} from "../src"
 import {color} from "./theme"
 import Article from "./article"
 
 {article} = Article.bind {type, color}
 
 sheet = styles pipe [
-  select "main"
-  tee pipe [
-    select "article"
-    article [ "block", "h1" ]
-  ]
-]
+  select "main", pipe [
+    select "article", pipe [
+      article [ "block", "h1" ]
+] ] ]
+
 
 do ->
 
   print await test "Neutrino baseline test", ->
 
     expected = "main article {
-        width: 'stretch';
         width: '-webkit-fill-available';
+        width: 'stretch';
         min-width: '20em';
         max-width: '34em';
         margin-bottom: '4rem';
@@ -50,6 +48,6 @@ do ->
         font-size: 'calc(8rem * 0.8)';
         color: '#111';
       }"
-    diffCSS expected, sheet().toString()
+    diffCSS expected, toString sheet()
 
   process.exit if success then 0 else 1

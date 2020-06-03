@@ -6,13 +6,12 @@ Article =
 
   bind: ({type, color}) ->
 
-    h1 = tee pipe [
-      select "> h1"
+    h1 = select "> h1", pipe [
       type "heading"
       color "near-black"
     ]
 
-    block = tee pipe [
+    block = pipe [
       readable
       set "margin-bottom", rem 4
     ]

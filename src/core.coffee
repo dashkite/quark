@@ -1,63 +1,57 @@
-import {curry, rtee} from "@pandastrike/garden"
-import {spush as push, speek as peek} from "@dashkite/katana"
+import {flip, curry, pipe, rtee} from "@pandastrike/garden"
+import {
+  spush as push
+  speek as peek
+  spop as pop
+  smpop as mpop
+  log
+} from "@dashkite/katana"
+import {getter} from "./helpers"
 
-class Container
-  constructor: (@children = []) ->
-  append: (value) -> @children.push value
-  toString: ->
-    @children
-      .map ((value) -> value.toString())
-      .filter ((value) -> value?)
-      .join " "
-
-class Styles extends Container
-  @create: -> new Styles
-
-class Rule extends Container
-
-  @create: (selector, parent) ->
-    switch parent.constructor
-      when Styles
-        rval = (new Rule selector, parent)
-        parent.append rval
-      when Rule
-        rval = (new Rule "#{parent.selector} #{selector}", parent.styles)
-        parent.styles.append rval
-    rval
-
-  constructor: (@selector, @styles) ->
-    super()
-
-  toString: ->
-    if @children.length > 0
-      "#{@selector} { #{super.toString()} }"
-
-class Property
-
-  @create: (key, value, rule) ->
-    rule.append rval = new Property key, value
-    rval
-
-  constructor: (@key, @value) ->
-
-  toString: -> "#{@key}: '#{@value}';"
+append = (child, parent) ->
+  parent.children.push child
+  child
 
 styles = (f) ->
   ->
-    styles = Styles.create()
-    f [ styles ]
+    f [ (styles = children: []) ]
     styles
 
-selector = curry Rule.create
+selector = curry (value, parent) ->
+  styles: parent.styles ? parent
+  selector: if parent.selector? then "#{parent.selector} #{value}" else value
+  children: []
 
-select = (s) -> push selector s
+property = curry (name, value) -> {name, value}
 
-property = curry Property.create
+select = curry (value, f) ->
+  pipe [
+    push selector value
+    push getter "styles"
+    pop flip append
+    f
+  ]
 
-set = curry (name, value) -> peek property name, value
+set = curry (name, value) ->
+  pipe [
+    push -> property name, value
+    pop append
+  ]
 
 setWith = curry (name, f, value) -> set name, f value
 
-lookup = curry (object, key) -> object[key]
+lookup = curry flip getter
 
-export {styles, select, set, lookup, setWith}
+join = (ax) -> ax.join " "
+
+toString = ({children, selector}) ->
+  if selector?
+    join do ({name, value} = {})->
+      for {name, value} in children
+        "#{name}: '#{value}';"
+  else
+    join do ({rule} = {})->
+      for rule in children when rule.children.length > 0
+        "#{rule.selector} { #{toString rule} }"
+
+export {styles, selector, property, select, set, lookup, setWith, toString}
