@@ -248,13 +248,13 @@ Sets the corresponding text property.
 
 Sets the font family.
 
-#### `rhythm`
+#### `text`
 
 Sets the line-height and relative font-size.
 
 ```coffeescript
 # set the line-height to 8rem and the font-size to 5.33rem
-rhythm (rem 8), 2/3
+text 8, 2/3
 ```
 
 #### `type`
@@ -367,3 +367,5 @@ Sets a flex container to wrap content. (Not wrapping is the default.)
 
 …
 
+- [ ] 
+  - [ ] 

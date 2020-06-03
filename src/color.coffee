@@ -1,4 +1,4 @@
-import {lookup, setWith} from "../core"
+import {lookup, setWith} from "./core"
 
 colors =
 

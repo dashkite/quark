@@ -27,8 +27,8 @@ do ->
       main article > h1 {
         font-family: 'sans-serif';
         font-weight: 'bold';
-        font-size: '6.4rem';
         line-height: '8rem';
+        font-size: 'calc(8rem * 0.8)';
         color: '#111'; }"
     assert.equal expected, toString await sheet()
 
