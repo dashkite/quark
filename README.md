@@ -329,6 +329,10 @@ Set the opacity to 0%.
 
 Set up a row or column-based container.
 
+#### `wrap`
+
+Sets a flex container to wrap content. (Not wrapping is the default.)
+
 ### Forms
 
 …
@@ -336,10 +340,6 @@ Set up a row or column-based container.
 ### Tables
 
 …
-
-#### `wrap`
-
-Sets a flex container to wrap content. (Not wrapping is the default.)
 
 ### Code
 

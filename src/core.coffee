@@ -38,7 +38,7 @@ set = curry (name, value) ->
 
 setWith = curry (name, f, value) -> set name, f value
 
-lookup = curry flip getter
+lookup = curry (dictionary, key) -> dictionary[key] ? key
 
 join = (ax) -> ax.join " "
 
@@ -52,4 +52,16 @@ toString = ({children, selector}) ->
       for rule in children when rule.children.length > 0
         "#{rule.selector} { #{toString rule} }"
 
-export {styles, selector, property, select, set, lookup, setWith, toString}
+render = (f) -> toString f()
+
+export {
+  styles
+  selector
+  property
+  select
+  set
+  lookup
+  setWith
+  toString
+  render
+}

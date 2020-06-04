@@ -14,7 +14,7 @@ import {
   min
   text
   type
-  toString
+  render
 } from "../src"
 import {color} from "./theme"
 import Article from "./article"
@@ -26,9 +26,9 @@ diffCSS = (expected, actual) ->
       message += (colors[color] value)
     message
 
-verify = ({generator, css}) ->
+verify = ({quark, css}) ->
   expected = css
-  actual = toString generator()
+  actual = render quark
   try
     assert.equal expected, actual
   catch error
@@ -45,14 +45,14 @@ do ->
 
       test "set", ->
         verify
-          generator: styles [ select "main", [ set "display", "block" ] ]
+          quark: styles [ select "main", [ set "display", "block" ] ]
           css: "main { display: block; }"
 
       test "setWith", ->
         foo = setWith "display", (value) ->
           if value == "bar" then "block" else "span"
         verify
-          generator: styles [ select "main", [ foo "bar" ] ]
+          quark: styles [ select "main", [ foo "bar" ] ]
           css: "main { display: block; }"
     ]
 
@@ -67,15 +67,20 @@ do ->
 
       test "width", ->
         verify
-          generator: styles [ select "main", [ width "90%" ] ]
+          quark: styles [ select "main", [ width "90%" ] ]
           css: "main { width: 90%; }"
 
       test "min width", ->
         verify
-          generator: styles [ select "main", [ min width "90%" ] ]
+          quark: styles [ select "main", [ min width "90%" ] ]
           css: "main { min-width: 90%; }"
 
       test "max width"
+
+      test "stretch", ->
+        verify
+          quark: styles [ select "main", [ width "stretch" ] ]
+          css: "main { width: -webkit-fill-available; width: stretch; }"
 
     ]
 
@@ -85,7 +90,7 @@ do ->
 
       test "color", ->
         verify
-          generator: styles [ select "main", [ color "dark-blue" ] ]
+          quark: styles [ select "main", [ color "dark-blue" ] ]
           css: "main { color: #00449e; }"
 
       test "background"
@@ -96,12 +101,12 @@ do ->
 
       test "text", ->
         verify
-          generator: styles [ select "main", [ text "6rem", "2/3" ] ]
+          quark: styles [ select "main", [ text "6rem", "2/3" ] ]
           css: "main { line-height: 6rem; font-size: calc(6rem * 2/3); }"
 
       test "type", ->
         verify
-          generator: styles [ select "main", [ type "large heading" ] ]
+          quark: styles [ select "main", [ type "large heading" ] ]
           css: "main {
             font-family: sans-serif;
             font-weight: bold;
@@ -156,7 +161,7 @@ do ->
       test "p"
 
       test "ul"
-      
+
     ]
 
 
