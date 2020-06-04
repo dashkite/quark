@@ -13,10 +13,7 @@ append = (child, parent) ->
   parent.children.push child
   child
 
-styles = (ax) ->
-  ->
-    (pipe ax) [ (styles = children: []) ]
-    styles
+styles = (ax) -> -> (pipe ax) [ (r = children: []) ]; r
 
 selector = curry (value, parent) ->
   styles: parent.styles ? parent
@@ -49,7 +46,7 @@ toString = ({children, selector}) ->
   if selector?
     join do ({name, value} = {})->
       for {name, value} in children
-        "#{name}: '#{value}';"
+        "#{name}: #{value};"
   else
     join do ({rule} = {})->
       for rule in children when rule.children.length > 0

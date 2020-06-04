@@ -41,4 +41,4 @@ typography =
 type = (name) -> typography[name]
 
 export {italic, bold, underline, strikeout, capitalize, uppercase, plain,
-  sans, serif, monospace, type}
+  sans, serif, monospace, text, type}

@@ -5,13 +5,13 @@ _Combinators for generating CSS_
 Preprocessors, scoped CSS, atomic CSS, and CSS in JS are among the many ways developers and designers have tried to encapsulate, reuse, and manage CSS. Quark represents a new approach: encapsulating CSS in functions, which may then be composed into stylesheets.
 
 ```coffeescript
-sheet = styles pipe [
-  select "main > article"
-  reset "block"
-  margin "bottom left"
-  article [ "h1", "p", "lists", "blockquote", "figure" ]
-]
-css = sheet().toString()
+sheet = styles [
+  select "main > article", [
+    reset "block"
+    margin "bottom left"
+    article [ "h1", "p", "lists", "blockquote", "figure" ] ] ]
+
+css = toString sheet()
 ```
 
 This will produce CSS that looks like the following:
@@ -367,5 +367,5 @@ Sets a flex container to wrap content. (Not wrapping is the default.)
 
 …
 
-- [ ] 
-  - [ ] 
+- [ ]
+  - [ ]

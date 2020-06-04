@@ -21,8 +21,8 @@
     "test": "p9k test"
   },
   "dependencies": {
-    "@dashkite/katana": "file:../katana",
-    "@pandastrike/garden": "file:../../pandastrike/garden"
+    "@dashkite/katana": "0.0.8",
+    "@pandastrike/garden": "^6.0.1"
   },
   "devDependencies": {
     "amen": "^3.0.0",
