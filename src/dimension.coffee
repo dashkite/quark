@@ -3,6 +3,8 @@ import {speek as peek, log} from "@dashkite/katana"
 import {set, lookup, any} from "./core"
 import {first, last, getter} from "./helpers"
 
+display = set "display"
+
 width = any [
   lookup
     stretch: pipe [
@@ -34,4 +36,11 @@ readable = pipe [
   max width "34em"
 ]
 
-export {width, height, min, max, readable}
+export {
+  display
+  width
+  height
+  min
+  max
+  readable
+}

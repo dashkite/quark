@@ -14,6 +14,9 @@ import {
   min
   text
   type
+  rows
+  columns
+  wrap
   render
 } from "../src"
 import {color} from "./theme"
@@ -116,11 +119,20 @@ do ->
 
     test "flexbox", [
 
-      test "rows"
+      test "rows", ->
+        verify
+          quark: styles [ select "main", [ rows ] ]
+          css: "main { display: flex; }"
 
-      test "columns"
+      test "columns", ->
+        verify
+          quark: styles [ select "main", [ columns ] ]
+          css: "main { display: flex; flex-direction: column; }"
 
-      test "wrap"
+      test "wrap", ->
+        verify
+          quark: styles [ select "main", [ rows, wrap ] ]
+          css: "main { display: flex; flex-wrap: wrap; }"
 
     ]
 
