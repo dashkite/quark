@@ -1,4 +1,5 @@
-import {lookup, setWith} from "./core"
+import {identity, pipe} from "@pandastrike/garden"
+import {set, lookup, any} from "./core"
 
 colors =
 
@@ -68,7 +69,14 @@ colors =
   "washed-yellow": "#fffceb"
   "washed-red": "#ffdfdf"
 
-color = setWith "color", lookup colors
-background = setWith "background", lookup colors
+color = pipe [
+  any [ (lookup colors), identity ]
+  set "color"
+]
+
+background = pipe [
+  any [ (lookup colors), identity ]
+  set "background"
+]
 
 export {color, background}

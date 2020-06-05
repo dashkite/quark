@@ -173,12 +173,40 @@ margins = lookup "none": "none", "small": "1rem", "medium": "2rem", "large": "3r
 assert.equal "2rem", margins "medium"
 ```
 
-#### `setWith`
-
-Sets a property based on a function.
+Since this is a curried function, you can use it define simple presets:
 
 ```coffeescript
-mt = setWith "margin-top", lookup margins
+type = lookup
+  heading: pipe [ sans, bold, text (rem 8), 4/5 ]"
+```
+
+#### `any`
+
+Returns a function that, given a value, will apply each given function with that value until one returns a value that isn’t undefined. In combination with lookup, this allows you to implement common patterns like prefixed properties:
+
+```coffeescript
+width = any [
+  lookup
+    stretch: pipe [
+      set "width", "-webkit-fill-available"
+      set "width", "stretch"
+  ]
+  # fallback...
+  set "width"
+]
+```
+
+#### `toString`
+
+Given a stylesheet object, returns CSS.
+
+#### `render`
+
+Given a stylesheet function, executes it and calls `toString`.
+
+```coffeescript
+assert.equal render styles [ select "main", [ width "90%" ] ],
+	"main { width: 90%; }"
 ```
 
 ### Units

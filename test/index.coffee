@@ -48,12 +48,6 @@ do ->
           quark: styles [ select "main", [ set "display", "block" ] ]
           css: "main { display: block; }"
 
-      test "setWith", ->
-        foo = setWith "display", (value) ->
-          if value == "bar" then "block" else "span"
-        verify
-          quark: styles [ select "main", [ foo "bar" ] ]
-          css: "main { display: block; }"
     ]
 
 

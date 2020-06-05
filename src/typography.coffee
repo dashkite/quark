@@ -1,5 +1,5 @@
 import {pipe, curry} from "@pandastrike/garden"
-import {set} from "./core"
+import {set, lookup} from "./core"
 import {rem} from "./units"
 
 italic = set "font-style", "italic"
@@ -25,7 +25,7 @@ text = curry (lh, r) ->
     set "font-size", "calc(#{lh} * #{r})"
   ]
 
-typography =
+type = lookup
   "banner": pipe [ sans, bold, text (rem 18), 4/5 ]
   "extra large heading": pipe [ sans, bold, text (rem 14), 4/5 ]
   "large heading": pipe [ sans, bold, text (rem 10), 4/5 ]
@@ -37,8 +37,6 @@ typography =
   "copy": pipe [ serif, text (rem 6), 2/3 ]
   "small copy": pipe [ serif, text (rem 5), 2/3 ]
   "extra small copy": pipe [ serif, text (rem 5), 2/3 ]
-
-type = (name) -> typography[name]
 
 export {italic, bold, underline, strikeout, capitalize, uppercase, plain,
   sans, serif, monospace, text, type}

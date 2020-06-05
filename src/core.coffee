@@ -36,9 +36,12 @@ set = curry (name, value) ->
     pop append
   ]
 
-setWith = curry (name, f, value) -> set name, f value
+lookup = curry flip getter
 
-lookup = curry (dictionary, key) -> dictionary[key] ? key
+any = (fx) ->
+  (x) ->
+    for f from fx
+      if (r = f x)? then return r
 
 join = (ax) -> ax.join " "
 
@@ -61,7 +64,7 @@ export {
   select
   set
   lookup
-  setWith
+  any
   toString
   render
 }
