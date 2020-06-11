@@ -1,15 +1,15 @@
 {
-  "name": "@dashkite/neutrino",
+  "name": "@dashkite/quark",
   "version": "0.0.0",
   "description": "Combinators for generating CSS",
   "keywords": [],
-  "homepage": "https://github.com/dashkite/nice#readme",
+  "homepage": "https://github.com/dashkite/quark#readme",
   "bugs": {
-    "url": "https://github.com/dashkite/nice/issues"
+    "url": "https://github.com/dashkite/quark/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dashkite/nice.git"
+    "url": "git+https://github.com/dashkite/quark.git"
   },
   "license": "SEE LICENSE IN LICENSE.md",
   "author": "",

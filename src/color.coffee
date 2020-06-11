@@ -70,7 +70,10 @@ colors =
   "washed-red": "#ffdfdf"
 
 color = pipe [
-  any [ (lookup colors), identity ]
+  any [
+    lookup colors
+    identity
+  ]
   set "color"
 ]
 
