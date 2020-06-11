@@ -5,13 +5,11 @@ _Combinators for generating CSS_
 Preprocessors, scoped CSS, atomic CSS, and CSS in JS are among the many ways developers and designers have tried to encapsulate, reuse, and manage CSS. Quark represents a new approach: encapsulating CSS in functions, which may then be composed into stylesheets.
 
 ```coffeescript
-sheet = styles [
+css = render styles [
   select "main > article", [
     reset "block"
     margin "bottom left"
     article [ "h1", "p", "lists", "blockquote", "figure" ] ] ]
-
-css = toString sheet()
 ```
 
 This will produce CSS that looks like the following:
@@ -44,15 +42,15 @@ Let’s start with the building blocks. We have three:
 - `select` places a new selector on the stack.
 - `set` sets a property.
 
-We also rely on Garden’s `pipe` operator to compose the functions. Behind the scenes, we’re using Katana to manage our context stack, which allows us to nest selectors and create media queries. Most of the time you don’t need to think about that.
+We also rely on Garden’s `pipe` and `pipeWith` functions for composition and Katana to manage our context stack. However, most of the time, you won’t need to worry about them.
 
-With these simple functions, we can already build up arbitrarily complex stylesheets, but we’re just getting started. Next, we define all our atomic combinators. For example, this is `bold`:
+With these simple functions, we can already build up arbitrarily complex stylesheets. But it’s a bit tedious, so we define simple combinators that are the Quark equivalent of atomic CSS. For example, this is `bold`:
 
 ```coffeescript
 bold = set "font-weight", "bold"
 ```
 
-This is `plain`, which provides a simple illustration of composition:
+This is `plain`, which provides a simple illustration of composition :
 
 ```coffeescript
 plain = pipe [
@@ -86,9 +84,9 @@ If we want to be less cryptic, we can introduce lookup tables. The `lookup` help
 
 ```coffeescript
 margin = lookup
-  "top large": mtl
-  "top medium": mtm
-  "top small": mts
+  "top large": set "margin-top", "4rem"
+  "top medium": set "margin-top", "2rem"
+  "top small": set "margin-top", "1rem"
   # ... and so on
 ```
 
@@ -98,12 +96,17 @@ We can now use `margin` like this:
 margin "top large"
 ```
 
-Sometimes you simply want to lookup a _value_, like a color, and set a property using that value. We can do this using `setWith`:
+Sometimes you simply want to lookup a _value_, like a color, and set a property using that value. We can do this using `pipe`, `lookup`, and `any`, which tries functions until one returns a defined value. This example tries a lookup for predefined color values, falling back to the value passed into it:
 
 ```coffeescript
 # colors is a lookup table for color values
-color = setWith "color", lookup colors
-color = setWith "background", lookup colors
+color = pipe [
+  any [
+    lookup colors
+    identity
+  ]
+  set "color"
+]
 ```
 
 Sometimes you want to do a bunch of lookups and compose them together. We can do this with Garden's `pipeWith`:
@@ -121,10 +124,10 @@ aritcle [ "h1", "p" ]
 Of course, since these are still just functions, we can simply write them out when we need something funky. Here’s a combinator that allows us to express the font size relative to the line-height:
 
 ```coffeescript
-rhythm = curry (lh, r) ->
+text = curry (lh, r) ->
   pipe [
-    set "font-size", rem lh * r
-    set "line-height", rem lh
+    set "line-height", lh
+    set "font-size", "calc(#{lh} * #{r})"
   ]
 ```
 
@@ -140,9 +143,10 @@ Combinators may introduce nested selectors, which allows us to go beyond collect
 
 ```coffeescript
 h1 = tee pipe [
-  select "> h1"
-  type "heading"
-  color "near-black"
+  select "> h1", [
+    type "heading"
+    color "near-black"  
+  ]
 ]
 ```
 
