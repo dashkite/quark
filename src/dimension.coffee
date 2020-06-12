@@ -5,6 +5,10 @@ import {first, last, getter} from "./helpers"
 
 display = set "display"
 
+margin = set "margin"
+
+padding = set "padding"
+
 width = any [
   lookup
     stretch: pipe [
@@ -38,6 +42,8 @@ readable = pipe [
 
 export {
   display
+  margin
+  padding
   width
   height
   min

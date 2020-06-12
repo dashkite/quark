@@ -18,6 +18,9 @@ import {
   columns
   wrap
   render
+  borders
+  form
+  reset
 } from "../src"
 import {color} from "./theme"
 import Article from "./article"
@@ -115,7 +118,14 @@ do ->
 
     ]
 
-    test "borders"
+    test "borders", ->
+      verify
+        quark: styles [ select "main", [ borders [ "round" ] ] ]
+        css: "main {
+          border-style: solid;
+          border-width: 1px;
+          border-radius: 0.5rem;
+        }"
 
     test "flexbox", [
 
@@ -136,7 +146,9 @@ do ->
 
     ]
 
-    test "forms"
+    test "forms", ->
+      render styles [ select "form", [ form [ "header", "section", "input" ] ]]
+
 
     test "tables"
 
@@ -144,7 +156,19 @@ do ->
 
     test "resets", [
 
-      test "block"
+      test "block", ->
+        quark: styles [ select "main", [ reset [ "block" ] ]]
+        css: "
+          main {
+            box-sizing: border-box;
+            display: block;
+            margin: 0;
+            padding: 0;
+            border: none;
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+          }"
 
       test "lists"
 

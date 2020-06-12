@@ -329,11 +329,10 @@ border [ "pill" ]
 
 ##### Presets
 
-top, bottom, left, right, dotted, dashed, thin, thick, thicker, thickest, box, round, rounder, pill
-
-#### `borderColor`
-
-Sets the border color. Accepts the same color values as the Hadron `color` function.
+- top, bottom, left, right
+- dotted, dashed, thin, thick, thicker, thickest
+- box, round, rounder, pill
+- any value accepted by `color`
 
 ### Background Size
 
@@ -367,7 +366,11 @@ Sets a flex container to wrap content. (Not wrapping is the default.)
 
 ### Forms
 
-…
+Presets for a variety of form elements:
+
+- h1
+- section
+- input
 
 ### Tables
 
@@ -379,9 +382,9 @@ Sets a flex container to wrap content. (Not wrapping is the default.)
 
 ### Resets
 
-#### `body`, `block`, `list`, `blockquote`, `table`
+Presets for a variety of resets:
 
-…
+- body, block, list, blockquote, table
 
 ### Normalize
 
