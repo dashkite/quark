@@ -61,21 +61,15 @@ do ->
 
       test "height"
 
-      test "min height"
-
-      test "max height"
-
       test "width", ->
         verify
           quark: styles [ select "main", [ width "90%" ] ]
           css: "main { width: 90%; }"
 
-      test "min width", ->
+      test "minWidth", ->
         verify
-          quark: styles [ select "main", [ min width "90%" ] ]
+          quark: styles [ select "main", [ minWidth "90%" ] ]
           css: "main { min-width: 90%; }"
-
-      test "max width"
 
       test "stretch", ->
         verify

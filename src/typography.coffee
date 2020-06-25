@@ -1,6 +1,6 @@
 import {pipe, curry} from "@pandastrike/garden"
 import {set, lookup} from "./core"
-import {rem} from "./units"
+import {hrem, rem} from "./units"
 
 italic = set "font-style", "italic"
 bold = set "font-weight", "bold"
@@ -26,17 +26,17 @@ text = curry (lh, r) ->
   ]
 
 type = lookup
-  "banner": pipe [ sans, bold, text (rem 18), 4/5 ]
-  "extra large heading": pipe [ sans, bold, text (rem 14), 4/5 ]
-  "large heading": pipe [ sans, bold, text (rem 10), 4/5 ]
-  "heading": pipe [ sans, bold, text (rem 8), 4/5 ]
-  "small heading": pipe [ sans, bold, text (rem 7), 4/5 ]
-  "extra small heading": pipe [ sans, bold, text (rem 6), 4/5 ]
-  "extra large copy": pipe [ serif, text (rem 8), 2/3 ]
-  "large copy": pipe [ serif, text (rem 7), 2/3 ]
-  "copy": pipe [ serif, text (rem 6), 2/3 ]
-  "small copy": pipe [ serif, text (rem 5), 2/3 ]
-  "extra small copy": pipe [ serif, text (rem 5), 2/3 ]
+  "banner": pipe [ sans, bold, text (hrem 8), 4/5 ]
+  "extra large heading": pipe [ sans, bold, text (hrem 6), 4/5 ]
+  "large heading": pipe [ sans, bold, text (hrem 5), 4/5 ]
+  "heading": pipe [ sans, bold, text (hrem 4), 4/5 ]
+  "small heading": pipe [ sans, bold, text (hrem 3), 4/5 ]
+  "extra small heading": pipe [ sans, bold, text (hrem 2), 4/5 ]
+  "extra large copy": pipe [ serif, text (hrem 5), 2/3 ]
+  "large copy": pipe [ serif, text (hrem 4), 2/3 ]
+  "copy": pipe [ serif, text (hrem 3), 2/3 ]
+  "small copy": pipe [ serif, text (hrem 2), 3/4 ]
+  "extra small copy": pipe [ serif, text (hrem 1), 4/5 ]
 
 export {italic, bold, underline, strikeout, capitalize, uppercase, plain,
   sans, serif, monospace, text, type}

@@ -1,9 +1,11 @@
 px = (value) -> "#{value}px"
-pct = (value) -> "#{value}pct"
+pct = (value) -> "#{value}%"
 em = (value) -> "#{value}em"
 ch = (value) -> "#{value}ch"
 rem = (value) -> "#{value}rem"
+hrem = (value) -> "#{value / 2}rem"
+qrem = (value) -> "#{value / 4}rem"
 vw = (value) -> "#{value}vw"
 vh = (value) -> "#{value}vh"
 
-export {px, pct, em, ch, rem, vw, vh}
+export {px, pct, em, ch, rem, hrem, qrem, vw, vh}

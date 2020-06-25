@@ -1,6 +1,6 @@
 import {pipe, pipeWith} from "@pandastrike/garden"
 import {set, lookup} from "./core"
-import {rem, px} from "./units"
+import {rem, px, pct} from "./units"
 
 borders = pipeWith lookup
 
@@ -13,6 +13,32 @@ borders = pipeWith lookup
     # round always implies all
     _bordersAll
     set "border-radius", rem 1/2
+  ]
+
+  circular: pipe [
+    _bordersAll
+    set "border-radius", pct 50
+  ]
+
+  top: pipe [
+    set "border-top-style", "solid"
+    set "border-top-width", "1px"
+  ]
+  right: pipe [
+    set "border-right-style", "solid"
+    set "border-right-width", "1px"
+  ]
+  bottom: pipe [
+    set "border-bottom-style", "solid"
+    set "border-bottom-width", "1px"
+  ]
+  left: pipe [
+    set "border-left-style", "solid"
+    set "border-left-width", "1px"
+  ]
+  none: pipe [
+    set "border-style", "none"
+    set "border-width", "0"
   ]
 
   # TODO allow any color in colors

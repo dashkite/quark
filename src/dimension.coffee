@@ -27,17 +27,15 @@ height = any [
   set "height"
 ]
 
-# TODO this technique will not worked with prefixed values
-#      since it relies on grabbing the last property
-prefix = curry (text, p) -> p.name = "#{text}-#{p.name}"
-children = pipe [ first, getter "children" ]
-min = (f) -> tee pipe [ f, children, last, prefix "min" ]
-max = (f) -> tee pipe [ f, children, last, prefix "max" ]
+minWidth = set "min-width"
+maxWidth = set "max-width"
+minHeight = set "min-height"
+maxHeight = set "max-height"
 
 readable = pipe [
   width "stretch"
-  min width "20em"
-  max width "34em"
+  minWidth "20em"
+  maxWidth "34em"
 ]
 
 export {
@@ -46,7 +44,9 @@ export {
   padding
   width
   height
-  min
-  max
+  minWidth
+  maxWidth
+  minHeight
+  maxHeight
   readable
 }

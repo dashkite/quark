@@ -14,6 +14,7 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "author": "",
   "main": "build/npm/src/index.js",
+  "coffee-main": "src/index.coffee",
   "files": [
     "build/npm/src"
   ],
@@ -21,8 +22,8 @@
     "test": "p9k test"
   },
   "dependencies": {
-    "@dashkite/katana": "0.0.9",
-    "@pandastrike/garden": "^6.0.1"
+    "@dashkite/katana": "^0.1.4",
+    "@pandastrike/garden": "^8.0.0-alpha.1"
   },
   "devDependencies": {
     "amen": "^3.0.0",
