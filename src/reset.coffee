@@ -1,5 +1,5 @@
 import {pipe, pipeWith} from "@pandastrike/garden"
-import {set, lookup} from "./core"
+import {select, set, lookup} from "./core"
 import {display, margin, padding} from "./dimension"
 
 reset = pipeWith lookup
@@ -27,7 +27,14 @@ reset = pipeWith lookup
     display "inline-block"
   ]
 
-  list: set "list-style", "none"
+  list: pipe [
+    _resetBlock
+    set "list-style", "none"
+
+    select "li", [
+      _resetBlock
+    ]
+  ]
 
   blockquote: pipe [
     set "quotes", "none"

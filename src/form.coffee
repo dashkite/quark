@@ -1,7 +1,7 @@
 import {pipe, pipeWith} from "@pandastrike/garden"
 import {select, set, lookup} from "./core"
 import {reset} from "./reset"
-import {rem} from "./units"
+import {hrem} from "./units"
 import {padding, maxWidth, height, width} from "./dimension"
 import {text, bold} from "./typography"
 import {rows, columns} from "./flexbox"
@@ -12,11 +12,11 @@ form = pipeWith lookup
   header: select "header", [
     reset [ "block" ]
     columns
-    set "margin-bottom", rem 3
+    set "margin-bottom", hrem 3
     select "h1", [
       reset [ "block" ]
       # TODO adjust text styles
-      text (rem 6), 4/5
+      text (hrem 6), 4/5
       bold
     ]
   ]
@@ -24,14 +24,14 @@ form = pipeWith lookup
   section: select "section", [
     reset [ "block" ]
     rows
-    set "margin-bottom", rem 3
+    set "margin-bottom", hrem 3
     select "label", [
       width "stretch"
       # TODO adjust text styles
-      text (rem 3), 4/5
+      text (hrem 3), 4/5
       select "p", [
         reset [ "block" ]
-        set "margin-bottom", rem 2
+        set "margin-bottom", hrem 2
       ]
     ]
   ]
@@ -39,12 +39,12 @@ form = pipeWith lookup
   input: select "input", [
     reset [ "block" ]
     width "stretch"
-    maxWidth "96rem"
-    set "margin-bottom", rem 1
+    maxWidth "96hrem"
+    set "margin-bottom", hrem 1
     borders [ "round", "silver" ]
-    padding rem 1.5
+    padding hrem 1.5
     # TODO adjust text styles
-    text (rem 3), 4/5
+    text (hrem 3), 4/5
     # TODO can't do this correctly in quark yet
     # &:disabled
     #   colors kite-gray lightest-kite-gray
@@ -52,14 +52,14 @@ form = pipeWith lookup
 
   textarea: select "textarea", [
     reset [ "block" ]
-    height rem 8 * 3 # 8 lines
+    height hrem 8 * 3 # 8 lines
     width "stretch"
-    maxWidth "96rem"
-    set "margin-bottom", rem 1
+    maxWidth hrem 96
+    set "margin-bottom", hrem 1
     borders [ "round", "silver" ]
-    padding rem 1.5
+    padding hrem 1.5
     # TODO adjust text styles
-    text (rem 3), 4/5
+    text (hrem 3), 4/5
     # TODO can't do this correctly in quark yet
     # &:disabled
     #   colors kite-gray lightest-kite-gray
