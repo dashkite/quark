@@ -37,10 +37,16 @@ readable = pipe [
   maxWidth "34em"
 ]
 
-gutter = (size) ->
+rowGap = (size) ->
   pipe [
     select "> :not(:first-child)", [ margin left: size ]
     select "> *", [ margin left: 0 ]
+  ]
+
+columnGap = (size) ->
+  pipe [
+    select "> :not(:first-child)", [ margin top: size ]
+    select "> *", [ margin top: 0 ]
   ]
 
 export {
@@ -54,5 +60,6 @@ export {
   minHeight
   maxHeight
   readable
-  gutter
+  rowGap
+  columnGap
 }
