@@ -1,6 +1,5 @@
-import {curry, tee,  pipe} from "@pandastrike/garden"
-import {speek as peek, log} from "@dashkite/katana"
-import {set, lookup, any} from "./core"
+import {pipe} from "@pandastrike/garden"
+import {select, set, lookup, any} from "./core"
 import {first, last, getter} from "./helpers"
 
 display = set "display"
@@ -38,6 +37,12 @@ readable = pipe [
   maxWidth "34em"
 ]
 
+gutter = (size) ->
+  pipe [
+    select "> :not(:first-child)", [ margin left: size ]
+    select "> *", [ margin left: 0 ]
+  ]
+
 export {
   display
   margin
@@ -49,4 +54,5 @@ export {
   minHeight
   maxHeight
   readable
+  gutter
 }

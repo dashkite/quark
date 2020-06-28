@@ -11,8 +11,20 @@ columns = pipe [
 
 wrap = set "flex-wrap", "wrap"
 
+justifyContent = set "justify-content"
+
+alignItems = set "align-items"
+
+flex = set "flex"
+
+stretch = flex 1
+
 export {
   rows
   columns
   wrap
+  justifyContent
+  alignItems
+  flex
+  stretch
 }

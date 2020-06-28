@@ -6,5 +6,12 @@ opacity = set "opacity"
 
 animation = set "animation"
 
+outline = set "outline"
 
-export {cursor, opacity, animation}
+
+export {
+  cursor
+  opacity
+  animation
+  outline
+}
