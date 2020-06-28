@@ -15,9 +15,18 @@ append = (child, parent) ->
 
 styles = (ax) -> -> (pipe ax) [ (r = children: []) ]; r
 
+munge = (parent, child) ->
+  if child.includes "&"
+    child.replace "&", -> parent
+  else if /^@/.test child
+    # this is a bit hacky
+    "#{child}&&#{parent}"
+  else
+    "#{parent} #{child}"
+
 selector = curry (value, parent) ->
   styles: parent.styles ? parent
-  selector: if parent.selector? then "#{parent.selector} #{value}" else value
+  selector: if parent.selector? then munge parent.selector, value else value
   children: []
 
 property = curry (name, value) -> {name, value}
@@ -53,7 +62,11 @@ toString = ({children, selector}) ->
   else
     join do ({rule} = {})->
       for rule in children when rule.children.length > 0
-        "#{rule.selector} { #{toString rule} }"
+        if /^@/.test rule.selector
+          [atRule, selector] = rule.selector.split "&&"
+          "#{atRule} { #{selector} { #{toString rule} } }"
+        else
+          "#{rule.selector} { #{toString rule} }"
 
 render = (f) -> toString f()
 

@@ -32,11 +32,11 @@ type = lookup
   "heading": pipe [ sans, bold, text (hrem 4), 4/5 ]
   "small heading": pipe [ sans, bold, text (hrem 3), 4/5 ]
   "extra small heading": pipe [ sans, bold, text (hrem 2), 4/5 ]
-  "extra large copy": pipe [ serif, text (hrem 5), 2/3 ]
-  "large copy": pipe [ serif, text (hrem 4), 2/3 ]
-  "copy": pipe [ serif, text (hrem 3), 2/3 ]
-  "small copy": pipe [ serif, text (hrem 2), 3/4 ]
-  "extra small copy": pipe [ serif, text (hrem 1), 4/5 ]
+  "extra large copy": pipe [ plain, serif, text (hrem 5), 2/3 ]
+  "large copy": pipe [ plain, serif, text (hrem 4), 2/3 ]
+  "copy": pipe [ plain, serif, text (hrem 3), 2/3 ]
+  "small copy": pipe [ plain, serif, text (hrem 2), 3/4 ]
+  "extra small copy": pipe [ plain, serif, text (hrem 1), 4/5 ]
 
 export {italic, bold, underline, strikeout, capitalize, uppercase, plain,
   sans, serif, monospace, text, type}

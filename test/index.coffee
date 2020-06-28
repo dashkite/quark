@@ -5,23 +5,7 @@ colors = require "colors"
 Diff = require "diff"
 
 import {tee, pipe} from "@pandastrike/garden"
-import {
-  styles
-  select
-  set
-  setWith
-  width
-  min
-  text
-  type
-  rows
-  columns
-  wrap
-  render
-  borders
-  form
-  reset
-} from "../src"
+import * as q from "../src"
 import {color} from "./theme"
 import Article from "./article"
 
@@ -34,14 +18,16 @@ diffCSS = (expected, actual) ->
 
 verify = ({quark, css}) ->
   expected = css
-  actual = render quark
+  actual = q.render quark
   try
     assert.equal expected, actual
   catch error
     console.error "CSS mismatch, diff:", diffCSS expected, actual
     throw error
 
-{article} = Article.bind {type, color}
+{article} = Article.bind
+  type: q.type
+  color: q.color
 
 do ->
 
@@ -51,7 +37,7 @@ do ->
 
       test "set", ->
         verify
-          quark: styles [ select "main", [ set "display", "block" ] ]
+          quark: q.styles [ q.select "main", [ q.set "display", "block" ] ]
           css: "main { display: block; }"
 
     ]
@@ -63,17 +49,17 @@ do ->
 
       test "width", ->
         verify
-          quark: styles [ select "main", [ width "90%" ] ]
+          quark: q.styles [ q.select "main", [ q.width "90%" ] ]
           css: "main { width: 90%; }"
 
       test "minWidth", ->
         verify
-          quark: styles [ select "main", [ minWidth "90%" ] ]
+          quark: q.styles [ q.select "main", [ q.minWidth "90%" ] ]
           css: "main { min-width: 90%; }"
 
       test "stretch", ->
         verify
-          quark: styles [ select "main", [ width "stretch" ] ]
+          quark: q.styles [ q.select "main", [ q.width "stretch" ] ]
           css: "main { width: -webkit-fill-available; width: stretch; }"
 
     ]
@@ -84,7 +70,7 @@ do ->
 
       test "color", ->
         verify
-          quark: styles [ select "main", [ color "dark-blue" ] ]
+          quark: q.styles [ q.select "main", [ q.color "dark-blue" ] ]
           css: "main { color: #00449e; }"
 
       test "background"
@@ -95,17 +81,17 @@ do ->
 
       test "text", ->
         verify
-          quark: styles [ select "main", [ text "6rem", "2/3" ] ]
+          quark: q.styles [ q.select "main", [ q.text "6rem", "2/3" ] ]
           css: "main { line-height: 6rem; font-size: calc(6rem * 2/3); }"
 
       test "type", ->
         verify
-          quark: styles [ select "main", [ type "large heading" ] ]
+          quark: q.styles [ q.select "main", [ q.type "large heading" ] ]
           css: "main {
             font-family: sans-serif;
             font-weight: bold;
-            line-height: 10rem;
-            font-size: calc(10rem * 0.8);
+            line-height: 2.5rem;
+            font-size: calc(2.5rem * 0.8);
           }"
 
       test "readable"
@@ -114,7 +100,7 @@ do ->
 
     test "borders", ->
       verify
-        quark: styles [ select "main", [ borders [ "round" ] ] ]
+        quark: q.styles [ q.select "main", [ q.borders [ "round" ] ] ]
         css: "main {
           border-style: solid;
           border-width: 1px;
@@ -125,23 +111,26 @@ do ->
 
       test "rows", ->
         verify
-          quark: styles [ select "main", [ rows ] ]
+          quark: q.styles [ q.select "main", [ q.rows ] ]
           css: "main { display: flex; }"
 
       test "columns", ->
         verify
-          quark: styles [ select "main", [ columns ] ]
+          quark: q.styles [ q.select "main", [ q.columns ] ]
           css: "main { display: flex; flex-direction: column; }"
 
       test "wrap", ->
         verify
-          quark: styles [ select "main", [ rows, wrap ] ]
+          quark: q.styles [ q.select "main", [ q.rows, q.wrap ] ]
           css: "main { display: flex; flex-wrap: wrap; }"
 
     ]
 
     test "forms", ->
-      render styles [ select "form", [ form [ "header", "section", "input" ] ]]
+      q.render q.styles [
+        q.select "form", [
+          q.form [ "header", "section", "input" ]
+        ]]
 
 
     test "tables"
@@ -151,18 +140,19 @@ do ->
     test "resets", [
 
       test "block", ->
-        quark: styles [ select "main", [ reset [ "block" ] ]]
-        css: "
-          main {
-            box-sizing: border-box;
-            display: block;
-            margin: 0;
-            padding: 0;
-            border: none;
-            font-family: inherit;
-            font-size: inherit;
-            line-height: inherit;
-          }"
+        verify
+          quark: q.styles [ q.select "main", [ q.reset [ "block" ] ]]
+          css: "
+            main {
+              box-sizing: border-box;
+              display: block;
+              margin: 0;
+              padding: 0;
+              border: none;
+              font-family: inherit;
+              font-size: inherit;
+              line-height: inherit;
+            }"
 
       test "lists"
 
@@ -188,7 +178,48 @@ do ->
 
     ]
 
+    test "selector munging", [
 
+      test "&.", ->
+        verify
+          quark: q.styles [
+            q.select "img", [
+              q.select "&.avatar", [
+                q.height  q.hrem 6
+                q.width  q.hrem 6
+              ] ] ]
+          css: "img.avatar { height: 3rem; width: 3rem; }"
+
+      test "&:", ->
+        verify
+          quark: q.styles [
+            q.select "input", [
+              q.select "&:focus", [
+                q.set "border-color", "blue"
+              ] ] ]
+          css: "input:focus { border-color: blue; }"
+
+    ]
+
+    test "at-rules", [
+      test "nested media queries", ->
+        verify
+          quark: q.styles [
+            q.select "article", [
+              q.select "@media screen and (min-width: 800px)", [
+                q.select "figure", [
+                  q.set "float", "right"
+                ]
+              ]
+            ]
+          ]
+          css: "
+            @media screen and (min-width: 800px) {
+              article figure {
+                float: right;
+              }
+            }"
+    ]
   ]
 
   process.exit if success then 0 else 1
