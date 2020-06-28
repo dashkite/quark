@@ -58,7 +58,13 @@ toString = ({children, selector}) ->
   if selector?
     join do ({name, value} = {})->
       for {name, value} in children
-        "#{name}: #{value};"
+        switch value.constructor
+          when Object
+            join do ({suffix, suffixValue} = {}) ->
+              for suffix, suffixValue of value
+                "#{name}-#{suffix}: #{suffixValue};"
+          else
+            "#{name}: #{value};"
   else
     join do ({rule} = {})->
       for rule in children when rule.children.length > 0

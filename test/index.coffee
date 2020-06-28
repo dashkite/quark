@@ -220,6 +220,21 @@ do ->
               }
             }"
     ]
+
+    test "object values", [
+      test "bottom margin", ->
+        verify
+          quark: q.styles [
+            q.select "p", [
+              q.margin bottom: q.hrem 2
+            ]
+          ]
+          css: "
+          p {
+            margin-bottom: 1rem;
+          }
+          "
+    ]
   ]
 
   process.exit if success then 0 else 1
