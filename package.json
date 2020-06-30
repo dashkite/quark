@@ -14,7 +14,7 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "author": "",
   "main": "build/npm/src/index.js",
-  "coffee-main": "src/index.coffee",
+  "main:coffee": "src/index.coffee",
   "files": [
     "build/npm/src"
   ],

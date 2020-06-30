@@ -17,7 +17,7 @@ styles = (ax) -> -> (pipe ax) [ (r = children: []) ]; r
 
 munge = (parent, child) ->
   if child.includes "&"
-    child.replace "&", -> parent
+    child.replace /\&/g, -> parent
   else if /^@/.test child
     # this is a bit hacky
     "#{child}&&#{parent}"

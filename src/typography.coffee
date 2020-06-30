@@ -27,16 +27,48 @@ text = curry (lh, r) ->
 
 type = lookup
   "banner": pipe [ sans, bold, text (hrem 8), 4/5 ]
+
   "extra large heading": pipe [ sans, bold, text (hrem 6), 4/5 ]
   "large heading": pipe [ sans, bold, text (hrem 5), 4/5 ]
   "heading": pipe [ sans, bold, text (hrem 4), 4/5 ]
   "small heading": pipe [ sans, bold, text (hrem 3), 4/5 ]
   "extra small heading": pipe [ sans, bold, text (hrem 2), 4/5 ]
-  "extra large copy": pipe [ plain, serif, text (hrem 5), 2/3 ]
-  "large copy": pipe [ plain, serif, text (hrem 4), 2/3 ]
-  "copy": pipe [ plain, serif, text (hrem 3), 2/3 ]
-  "small copy": pipe [ plain, serif, text (hrem 2), 3/4 ]
-  "extra small copy": pipe [ plain, serif, text (hrem 1), 4/5 ]
+
+  "extra large body": pipe [ plain, serif, text (hrem 5), 2/3 ]
+  "large body": pipe [ plain, serif, text (hrem 4), 2/3 ]
+  "body": pipe [ plain, serif, text (hrem 3), 2/3 ]
+  "small body": pipe [ plain, serif, text (hrem 2), 3/4 ]
+  "extra small body": pipe [ plain, serif, text (hrem 1), 4/5 ]
+
+  "extra large copy": pipe [ plain, sans, text (hrem 5), 2/3 ]
+  "large copy": pipe [ plain, sans, text (hrem 4), 2/3 ]
+  "copy": pipe [ plain, sans, text (hrem 3), 2/3 ]
+  "small copy": pipe [ plain, sans, text (hrem 2), 3/4 ]
+  "extra small copy": pipe [ plain, sans, text (hrem 1), 4/5 ]
+
+  "extra large caption": pipe [ plain, sans, text (hrem 5), 3/4 ]
+  "large caption": pipe [ plain, sans, text (hrem 4), 3/4 ]
+  "caption": pipe [ plain, sans, text (hrem 3), 3/4 ]
+  "small caption": pipe [ plain, sans, text (hrem 2), 3/4 ]
+  "extra small caption": pipe [ plain, sans, text (hrem 1), 4/5 ]
+
+  "extra large label": pipe [ plain, sans, text (hrem 5), 4/5 ]
+  "large label": pipe [ plain, sans, text (hrem 4), 4/5 ]
+  "label": pipe [ plain, sans, text (hrem 3), 3/4 ]
+  "small label": pipe [ plain, sans, text (hrem 3), 2/3 ]
+  "extra small label": pipe [ plain, sans, text (hrem 2), 4/5 ]
+
+  "extra large field": pipe [ plain, sans, text (hrem 5), 2/3 ]
+  "large field": pipe [ plain, sans, text (hrem 4), 2/3 ]
+  "field": pipe [ plain, sans, text (hrem 3), 2/3 ]
+  "small field": pipe [ plain, sans, text (hrem 2), 3/4 ]
+  "extra small field": pipe [ plain, sans, text (hrem 1), 4/5 ]
+
+  "extra large code": pipe [ plain, monospace, text (hrem 5), 3/4 ]
+  "large code": pipe [ plain, monospace, text (hrem 4), 3/4 ]
+  "code": pipe [ plain, monospace, text (hrem 3), 3/4 ]
+  "small code": pipe [ plain, monospace, text (hrem 2), 3/4 ]
+  "extra small code": pipe [ plain, monospace, text (hrem 1), 4/5 ]
 
 export {italic, bold, underline, strikeout, capitalize, uppercase, plain,
   sans, serif, monospace, text, type}

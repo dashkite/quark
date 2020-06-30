@@ -37,17 +37,12 @@ readable = pipe [
   maxWidth "34em"
 ]
 
-rowGap = (size) ->
-  pipe [
-    select "> :not(:first-child)", [ margin left: size ]
-    select "> *", [ margin left: 0 ]
-  ]
+# these will be replaced with row-gap and column-gap
+# once they're supported in browsers
 
-columnGap = (size) ->
-  pipe [
-    select "> :not(:first-child)", [ margin top: size ]
-    select "> *", [ margin top: 0 ]
-  ]
+rowGap = (size) -> select "> *", [ margin right: size ]
+
+columnGap = (size) -> select "> *", [ margin bottom: size ]
 
 export {
   display
