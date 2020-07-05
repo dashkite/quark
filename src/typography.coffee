@@ -1,6 +1,6 @@
 import {pipe, curry} from "@pandastrike/garden"
 import {set, lookup} from "./core"
-import {hrem, rem} from "./units"
+import {qrem, hrem, rem} from "./units"
 
 italic = set "font-style", "italic"
 bold = set "font-weight", "bold"
@@ -26,7 +26,7 @@ text = curry (lh, r) ->
   ]
 
 type = lookup
-  "banner": pipe [ sans, bold, text (hrem 8), 4/5 ]
+  "banner": pipe [ sans, bold, text (hrem 10), 4/5 ]
 
   "extra large heading": pipe [ sans, bold, text (hrem 6), 4/5 ]
   "large heading": pipe [ sans, bold, text (hrem 5), 4/5 ]
@@ -36,13 +36,13 @@ type = lookup
 
   "extra large body": pipe [ plain, serif, text (hrem 5), 2/3 ]
   "large body": pipe [ plain, serif, text (hrem 4), 2/3 ]
-  "body": pipe [ plain, serif, text (hrem 3), 2/3 ]
+  "body": pipe [ plain, serif, text (qrem 7), 2/3 ]
   "small body": pipe [ plain, serif, text (hrem 2), 3/4 ]
   "extra small body": pipe [ plain, serif, text (hrem 1), 4/5 ]
 
   "extra large copy": pipe [ plain, sans, text (hrem 5), 2/3 ]
   "large copy": pipe [ plain, sans, text (hrem 4), 2/3 ]
-  "copy": pipe [ plain, sans, text (hrem 3), 2/3 ]
+  "copy": pipe [ plain, sans, text (qrem 7), 2/3 ]
   "small copy": pipe [ plain, sans, text (hrem 2), 3/4 ]
   "extra small copy": pipe [ plain, sans, text (hrem 1), 4/5 ]
 

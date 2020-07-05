@@ -16,13 +16,14 @@ append = (child, parent) ->
 styles = (ax) -> -> (pipe ax) [ (r = children: []) ]; r
 
 munge = (parent, child) ->
-  if child.includes "&"
-    child.replace /\&/g, -> parent
-  else if /^@/.test child
-    # this is a bit hacky
-    "#{child}&&#{parent}"
-  else
-    "#{parent} #{child}"
+  (for _parent in parent.split /,\s*/
+    if child.includes "&"
+      child.replace /\&/g, -> _parent
+    else if /^@/.test child
+      # this is a bit hacky
+      "#{child}&&#{_parent}"
+    else
+      "#{_parent} #{child}").join ", "
 
 selector = curry (value, parent) ->
   styles: parent.styles ? parent
@@ -74,7 +75,12 @@ toString = ({children, selector}) ->
         else
           "#{rule.selector} { #{toString rule} }"
 
-render = (f) -> toString f()
+render = (f) -> -> toString do f
+
+sheet = (f) -> ->
+  _sheet = new CSSStyleSheet
+  _sheet.replaceSync do f
+  _sheet
 
 export {
   styles
@@ -86,4 +92,5 @@ export {
   any
   toString
   render
+  sheet
 }

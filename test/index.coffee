@@ -7,7 +7,6 @@ Diff = require "diff"
 import {tee, pipe} from "@pandastrike/garden"
 import * as q from "../src"
 import {color} from "./theme"
-import Article from "./article"
 
 diffCSS = (expected, actual) ->
   do ({color} = {}, message = "") ->
@@ -18,16 +17,12 @@ diffCSS = (expected, actual) ->
 
 verify = ({quark, css}) ->
   expected = css
-  actual = q.render quark
+  actual = do q.render quark
   try
     assert.equal expected, actual
   catch error
     console.error "CSS mismatch, diff:", diffCSS expected, actual
     throw error
-
-{article} = Article.bind
-  type: q.type
-  color: q.color
 
 do ->
 
@@ -218,6 +213,20 @@ do ->
               article figure {
                 float: right;
               }
+            }"
+
+      test "keyframes", ->
+        verify
+          quark: q.styles [
+            q.select "@keyframes fade", [
+              q.select "from", [ q.opacity 0 ]
+              q.select "to", [ q.opacity 1 ]
+            ]
+          ]
+          css: "
+            @keyframes fade {
+              from { opacity: 0; }
+              to { opacity: 1; }
             }"
     ]
 

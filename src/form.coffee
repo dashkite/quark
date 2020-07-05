@@ -52,7 +52,7 @@ form = pipeWith lookup
   section: select "section", [
     f.columns
     f.stretch
-    d.minWidth hrem 48
+    d.minWidth hrem 36
     d.maxWidth hrem 96
 
     # section within a section is a group of fields
@@ -69,7 +69,7 @@ form = pipeWith lookup
     d.margin bottom: hrem 1
   ]
 
-  input: select "input", [
+  input: select "input[type='text'], select", [
     reset [ "block" ]
     d.width "stretch"
     d.maxWidth "96hrem"
