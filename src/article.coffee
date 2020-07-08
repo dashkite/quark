@@ -7,11 +7,17 @@ import {readable, margin} from "./dimension"
 import {reset} from "./reset"
 
 block = (tag, fx = []) ->
-  select "& #{tag}", [
-    reset [ "block" ]
-    margin bottom: hrem 2
-    pipe fx
+  gx = [
+    select "& #{tag}", [
+      reset [ "block" ]
+      margin bottom: hrem 1
+      pipe fx
+    ]
   ]
+  if tag[0] == 'h'
+    gx.push select "& > * + #{tag}", [ margin top: hrem 3 ]
+
+  pipe gx
 
 h1 = block "h1", [ type "extra large heading" ]
 h2 = block "h2", [ type "large heading" ]

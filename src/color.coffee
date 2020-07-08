@@ -1,5 +1,6 @@
 import {identity, pipe} from "@pandastrike/garden"
-import {set, lookup, any} from "./core"
+import {any} from "./helpers"
+import {set, lookup} from "./core"
 
 colors =
 

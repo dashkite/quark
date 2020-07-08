@@ -19,18 +19,18 @@
     "build/npm/src"
   ],
   "scripts": {
-    "test": "p9k test"
+    "test": "genie test"
   },
   "dependencies": {
-    "@dashkite/katana": "^0.1.4",
+    "@dashkite/katana": "^0.3.1",
     "@pandastrike/garden": "^8.0.0-alpha.1"
   },
   "devDependencies": {
+    "@dashkite/brick": "0.0.3",
+    "@dashkite/genie": "0.0.1",
     "amen": "^3.0.0",
     "colors": "^1.4.0",
     "diff": "^4.0.2",
-    "panda-9000": "^5.0.3",
-    "panda-builder": "^4.0.13",
     "panda-garden": "^5.0.0",
     "source-map-support": "^0.5.19"
   }

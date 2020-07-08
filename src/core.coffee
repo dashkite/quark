@@ -1,96 +1,105 @@
-import {flip, curry, pipe, tee} from "@pandastrike/garden"
-import {
-  spush as push
-  speek as peek
-  spop as pop
-  smpop as mpop
-  log
-} from "@dashkite/katana"
-
+import {unary, curry, flip, pipe, tee} from "@pandastrike/garden"
+import * as k from "@dashkite/katana"
 import {getter} from "./helpers"
-
-append = (child, parent) ->
-  parent.children.push child
-  child
-
-styles = (ax) -> -> (pipe ax) [ (r = children: []) ]; r
-
-munge = (parent, child) ->
-  (for _parent in parent.split /,\s*/
-    if child.includes "&"
-      child.replace /\&/g, -> _parent
-    else if /^@/.test child
-      # this is a bit hacky
-      "#{child}&&#{_parent}"
-    else
-      "#{_parent} #{child}").join ", "
-
-selector = curry (value, parent) ->
-  styles: parent.styles ? parent
-  selector: if parent.selector? then munge parent.selector, value else value
-  children: []
-
-property = curry (name, value) -> {name, value}
-
-select = curry (value, ax) ->
-  tee pipe [
-    push selector value
-    push getter "styles"
-    pop flip append
-    pipe ax
-  ]
-
-set = curry (name, value) ->
-  pipe [
-    push -> property name, value
-    pop append
-  ]
 
 lookup = curry flip getter
 
-any = (fx) ->
-  (x) ->
-    for f from fx
-      if (r = f x)? then return r
-
-join = (ax) -> ax.join " "
-
-toString = ({children, selector}) ->
-  if selector?
-    join do ({name, value} = {})->
-      for {name, value} in children
-        switch value.constructor
-          when Object
-            join do ({suffix, suffixValue} = {}) ->
-              for suffix, suffixValue of value
-                "#{name}-#{suffix}: #{suffixValue};"
-          else
-            "#{name}: #{value};"
+compose = (parent, child) ->
+  if !parent?
+    child
   else
-    join do ({rule} = {})->
-      for rule in children when rule.children.length > 0
-        if /^@/.test rule.selector
-          [atRule, selector] = rule.selector.split "&&"
-          "#{atRule} { #{selector} { #{toString rule} } }"
+    parent
+      .split /,\s*/
+      .map (parent) ->
+        if child.includes "&"
+          child.replace /\&/g, -> parent
         else
-          "#{rule.selector} { #{toString rule} }"
+          "#{parent} #{child}"
+      .join ", "
 
-render = (f) -> -> toString do f
+sheet = (ax) ->
+  f = tee k.stack pipe ax
+  f
+    imports: []
+    namespaces: []
+    media: []
+    supports: []
+    keyframes: []
+    styles: []
+    page: []
 
-sheet = (f) -> ->
-  _sheet = new CSSStyleSheet
-  _sheet.replaceSync do f
-  _sheet
+select = curry (value, ax) ->
+  pipe [
+    k.spush (parent) ->
+      selector: compose parent.selector, value
+      properties: []
+    pipe ax
+    k.read "styles"
+    k.smpop (styles, rule) ->
+      if rule.properties.length > 0
+        styles.push rule
+  ]
+
+media = curry (value, ax) ->
+  pipe [
+    k.spush (parent) ->
+      query: value
+      selector: parent.selector
+      styles: []
+    k.speek unary k.stack pipe ax
+    k.read "media"
+    k.smpop (rules, rule) ->
+      if rule.styles.length > 0
+        rules.push rule
+  ]
+
+set = curry (name, value) ->
+  k.speek (rule) ->
+    switch value.constructor
+      when Object
+        Object.entries value
+        .map ([suffix, value]) ->
+          rule.properties.push [ "#{name}-#{suffix}", value]
+      else
+        rule.properties.push [ name, value ]
+
+css =
+
+  sheet: (sheet) ->
+    (css.media sheet.media) + (css.styles sheet.styles)
+
+  media: (media) ->
+    media
+      .map ({query, styles}) ->
+        css.block query, css.styles styles
+      .join " "
+
+  styles: (styles) ->
+    styles
+      .map ({selector, properties}) ->
+        css.block selector, css.properties properties
+      .join " "
+
+  properties: (px) ->
+    px
+      .map ([key, value]) -> "#{key}: #{value};"
+      .join " "
+
+  block: (label, content) -> "#{label} { #{content} }"
+
+render = css.sheet
+
+build = (sheet) ->
+  r = new CSSStyleSheet
+  r.replaceSync toString css.sheet
+  r
 
 export {
-  styles
-  selector
-  property
+  sheet
   select
+  media
   set
   lookup
-  any
-  toString
   render
-  sheet
+  build
 }

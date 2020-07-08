@@ -17,7 +17,7 @@ diffCSS = (expected, actual) ->
 
 verify = ({quark, css}) ->
   expected = css
-  actual = do q.render quark
+  actual = q.render quark
   try
     assert.equal expected, actual
   catch error
@@ -32,7 +32,7 @@ do ->
 
       test "set", ->
         verify
-          quark: q.styles [ q.select "main", [ q.set "display", "block" ] ]
+          quark: q.sheet [ q.select "main", [ q.set "display", "block" ] ]
           css: "main { display: block; }"
 
     ]
@@ -44,17 +44,17 @@ do ->
 
       test "width", ->
         verify
-          quark: q.styles [ q.select "main", [ q.width "90%" ] ]
+          quark: q.sheet [ q.select "main", [ q.width "90%" ] ]
           css: "main { width: 90%; }"
 
       test "minWidth", ->
         verify
-          quark: q.styles [ q.select "main", [ q.minWidth "90%" ] ]
+          quark: q.sheet [ q.select "main", [ q.minWidth "90%" ] ]
           css: "main { min-width: 90%; }"
 
       test "stretch", ->
         verify
-          quark: q.styles [ q.select "main", [ q.width "stretch" ] ]
+          quark: q.sheet [ q.select "main", [ q.width "stretch" ] ]
           css: "main { width: -webkit-fill-available; width: stretch; }"
 
     ]
@@ -65,7 +65,7 @@ do ->
 
       test "color", ->
         verify
-          quark: q.styles [ q.select "main", [ q.color "dark-blue" ] ]
+          quark: q.sheet [ q.select "main", [ q.color "dark-blue" ] ]
           css: "main { color: #00449e; }"
 
       test "background"
@@ -76,12 +76,12 @@ do ->
 
       test "text", ->
         verify
-          quark: q.styles [ q.select "main", [ q.text "6rem", "2/3" ] ]
+          quark: q.sheet [ q.select "main", [ q.text "6rem", "2/3" ] ]
           css: "main { line-height: 6rem; font-size: calc(6rem * 2/3); }"
 
       test "type", ->
         verify
-          quark: q.styles [ q.select "main", [ q.type "large heading" ] ]
+          quark: q.sheet [ q.select "main", [ q.type "large heading" ] ]
           css: "main {
             font-family: sans-serif;
             font-weight: bold;
@@ -95,7 +95,7 @@ do ->
 
     test "borders", ->
       verify
-        quark: q.styles [ q.select "main", [ q.borders [ "round" ] ] ]
+        quark: q.sheet [ q.select "main", [ q.borders [ "round" ] ] ]
         css: "main {
           border-style: solid;
           border-width: 1px;
@@ -106,23 +106,23 @@ do ->
 
       test "rows", ->
         verify
-          quark: q.styles [ q.select "main", [ q.rows ] ]
+          quark: q.sheet [ q.select "main", [ q.rows ] ]
           css: "main { display: flex; }"
 
       test "columns", ->
         verify
-          quark: q.styles [ q.select "main", [ q.columns ] ]
+          quark: q.sheet [ q.select "main", [ q.columns ] ]
           css: "main { display: flex; flex-direction: column; }"
 
       test "wrap", ->
         verify
-          quark: q.styles [ q.select "main", [ q.rows, q.wrap ] ]
+          quark: q.sheet [ q.select "main", [ q.rows, q.wrap ] ]
           css: "main { display: flex; flex-wrap: wrap; }"
 
     ]
 
     test "forms", ->
-      q.render q.styles [
+      q.render q.sheet [
         q.select "form", [
           q.form [ "header", "section", "input" ]
         ]]
@@ -136,7 +136,7 @@ do ->
 
       test "block", ->
         verify
-          quark: q.styles [ q.select "main", [ q.reset [ "block" ] ]]
+          quark: q.sheet [ q.select "main", [ q.reset [ "block" ] ]]
           css: "
             main {
               box-sizing: border-box;
@@ -177,7 +177,7 @@ do ->
 
       test "&.", ->
         verify
-          quark: q.styles [
+          quark: q.sheet [
             q.select "img", [
               q.select "&.avatar", [
                 q.height  q.hrem 6
@@ -187,7 +187,7 @@ do ->
 
       test "&:", ->
         verify
-          quark: q.styles [
+          quark: q.sheet [
             q.select "input", [
               q.select "&:focus", [
                 q.set "border-color", "blue"
@@ -197,11 +197,12 @@ do ->
     ]
 
     test "at-rules", [
+
       test "nested media queries", ->
         verify
-          quark: q.styles [
+          quark: q.sheet [
             q.select "article", [
-              q.select "@media screen and (min-width: 800px)", [
+              q.media "@media screen and (min-width: 800px)", [
                 q.select "figure", [
                   q.set "float", "right"
                 ]
@@ -215,25 +216,25 @@ do ->
               }
             }"
 
-      test "keyframes", ->
-        verify
-          quark: q.styles [
-            q.select "@keyframes fade", [
-              q.select "from", [ q.opacity 0 ]
-              q.select "to", [ q.opacity 1 ]
-            ]
-          ]
-          css: "
-            @keyframes fade {
-              from { opacity: 0; }
-              to { opacity: 1; }
-            }"
+      # test "keyframes", ->
+      #   verify
+      #     quark: q.sheet [
+      #       q.select "@keyframes fade", [
+      #         q.select "from", [ q.opacity 0 ]
+      #         q.select "to", [ q.opacity 1 ]
+      #       ]
+      #     ]
+      #     css: "
+      #       @keyframes fade {
+      #         from { opacity: 0; }
+      #         to { opacity: 1; }
+      #       }"
     ]
 
     test "object values", [
       test "bottom margin", ->
         verify
-          quark: q.styles [
+          quark: q.sheet [
             q.select "p", [
               q.margin bottom: q.hrem 2
             ]

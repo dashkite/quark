@@ -1,6 +1,6 @@
 import {pipe} from "@pandastrike/garden"
-import {select, set, lookup, any} from "./core"
-import {first, last, getter} from "./helpers"
+import {select, set, lookup} from "./core"
+import {first, last, any, getter} from "./helpers"
 
 display = set "display"
 
