@@ -202,7 +202,7 @@ do ->
         verify
           quark: q.sheet [
             q.select "article", [
-              q.media "@media screen and (min-width: 800px)", [
+              q.media "screen and (min-width: 800px)", [
                 q.select "figure", [
                   q.set "float", "right"
                 ]

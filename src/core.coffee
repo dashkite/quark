@@ -105,7 +105,7 @@ css =
   media: (media) ->
     media
       .map ({query, styles}) ->
-        css.block query, css.styles styles
+        css.block "@media #{query}", css.styles styles
       .join " "
 
   frames: (frames) ->
