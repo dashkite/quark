@@ -216,19 +216,19 @@ do ->
               }
             }"
 
-      # test "keyframes", ->
-      #   verify
-      #     quark: q.sheet [
-      #       q.select "@keyframes fade", [
-      #         q.select "from", [ q.opacity 0 ]
-      #         q.select "to", [ q.opacity 1 ]
-      #       ]
-      #     ]
-      #     css: "
-      #       @keyframes fade {
-      #         from { opacity: 0; }
-      #         to { opacity: 1; }
-      #       }"
+      test "keyframes", ->
+        verify
+          quark: q.sheet [
+            q.frames "fade", [
+              q.from [ q.opacity 0 ]
+              q.to [ q.opacity 1 ]
+            ]
+          ]
+          css: "
+            @keyframes fade {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }"
     ]
 
     test "object values", [

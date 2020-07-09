@@ -1,4 +1,4 @@
-import {unary, curry, flip, pipe, tee} from "@pandastrike/garden"
+import {identity, unary, curry, flip, pipe, tee} from "@pandastrike/garden"
 import * as k from "@dashkite/katana"
 import {getter} from "./helpers"
 
@@ -24,7 +24,7 @@ sheet = (ax) ->
     namespaces: []
     media: []
     supports: []
-    keyframes: []
+    frames: []
     styles: []
     page: []
 
@@ -53,6 +53,34 @@ media = curry (value, ax) ->
         rules.push rule
   ]
 
+frames = curry (value, ax) ->
+  pipe [
+    k.spush ->
+      name: value
+      steps: []
+    k.speek unary k.stack pipe ax
+    k.read "frames"
+    k.smpop (rules, rule) ->
+      if rule.steps.length > 0
+        rules.push rule
+  ]
+
+frame = curry (value, ax) ->
+  pipe [
+    k.spush ->
+      name: value
+      properties: []
+    pipe ax
+    k.read "steps"
+    k.smpop (steps, step) ->
+      if step.properties.length > 0
+        steps.push step
+  ]
+
+from = frame "from"
+
+to = frame "to"
+
 set = curry (name, value) ->
   k.speek (rule) ->
     switch value.constructor
@@ -66,12 +94,30 @@ set = curry (name, value) ->
 css =
 
   sheet: (sheet) ->
-    (css.media sheet.media) + (css.styles sheet.styles)
+    [
+      (css.media sheet.media)
+      (css.frames sheet.frames)
+      (css.styles sheet.styles)
+    ]
+      .filter identity
+      .join " "
 
   media: (media) ->
     media
       .map ({query, styles}) ->
         css.block query, css.styles styles
+      .join " "
+
+  frames: (frames) ->
+    frames
+      .map ({name, steps}) ->
+        css.block "@keyframes #{name}", css.steps steps
+      .join " "
+
+  steps: (steps) ->
+    steps
+      .map ({name, properties}) ->
+        css.block name, css.properties properties
       .join " "
 
   styles: (styles) ->
@@ -98,6 +144,10 @@ export {
   sheet
   select
   media
+  frames
+  frame
+  from
+  to
   set
   lookup
   render
