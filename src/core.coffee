@@ -24,7 +24,7 @@ sheet = (ax) ->
     namespaces: []
     media: []
     supports: []
-    frames: []
+    keyframes: []
     styles: []
     page: []
 
@@ -53,19 +53,19 @@ media = curry (value, ax) ->
         rules.push rule
   ]
 
-frames = curry (value, ax) ->
+keyframes = curry (value, ax) ->
   pipe [
     k.spush ->
       name: value
       steps: []
     k.speek unary k.stack pipe ax
-    k.read "frames"
+    k.read "keyframes"
     k.smpop (rules, rule) ->
       if rule.steps.length > 0
         rules.push rule
   ]
 
-frame = curry (value, ax) ->
+keyframe = curry (value, ax) ->
   pipe [
     k.spush ->
       name: value
@@ -77,9 +77,9 @@ frame = curry (value, ax) ->
         steps.push step
   ]
 
-from = frame "from"
+from = keyframe "from"
 
-to = frame "to"
+to = keyframe "to"
 
 set = curry (name, value) ->
   k.speek (rule) ->
@@ -96,7 +96,7 @@ css =
   sheet: (sheet) ->
     [
       (css.media sheet.media)
-      (css.frames sheet.frames)
+      (css.keyframes sheet.keyframes)
       (css.styles sheet.styles)
     ]
       .filter identity
@@ -108,8 +108,8 @@ css =
         css.block "@media #{query}", css.styles styles
       .join " "
 
-  frames: (frames) ->
-    frames
+  keyframes: (keyframes) ->
+    keyframes
       .map ({name, steps}) ->
         css.block "@keyframes #{name}", css.steps steps
       .join " "
@@ -144,8 +144,8 @@ export {
   sheet
   select
   media
-  frames
-  frame
+  keyframes
+  keyframe
   from
   to
   set

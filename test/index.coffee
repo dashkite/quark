@@ -219,7 +219,7 @@ do ->
       test "keyframes", ->
         verify
           quark: q.sheet [
-            q.frames "fade", [
+            q.keyframes "fade", [
               q.from [ q.opacity 0 ]
               q.to [ q.opacity 1 ]
             ]
