@@ -13,10 +13,11 @@
   },
   "license": "SEE LICENSE IN LICENSE.md",
   "author": "",
-  "main": "build/npm/src/index.js",
+  "main": "build/src/index.js",
   "main:coffee": "src/index.coffee",
   "files": [
-    "build/npm/src"
+    "build/src"
+    "src"
   ],
   "scripts": {
     "test": "genie test"

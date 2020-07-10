@@ -137,7 +137,7 @@ render = css.sheet
 
 build = (sheet) ->
   r = new CSSStyleSheet
-  r.replaceSync toString css.sheet
+  r.replaceSync render sheet
   r
 
 export {
