@@ -16,7 +16,7 @@
   "main": "build/src/index.js",
   "main:coffee": "src/index.coffee",
   "files": [
-    "build/src"
+    "build/src",
     "src"
   ],
   "scripts": {
