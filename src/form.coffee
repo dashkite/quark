@@ -13,12 +13,12 @@ form = pipeWith lookup
 
   responsive: pipe [
     d.width "stretch"
+    d.maxWidth hrem 108
     d.height "stretch"
     f.rows
     f.wrap
     d.rowGap hrem 2
     d.columnGap hrem 4
-    d.maxWidth hrem 108
   ]
 
   header: select "> header", [
@@ -51,7 +51,9 @@ form = pipeWith lookup
 
   section: select "section", [
     f.columns
-    f.stretch
+    f.flex
+      basis: 0
+      grow: 1
     d.minWidth hrem 36
     d.maxWidth hrem 96
 
@@ -62,11 +64,14 @@ form = pipeWith lookup
     ]
   ]
 
-  label: select "label p", [
+  label: select "label", [
     reset [ "block" ]
-    t.type "label"
-    t.bold
     d.margin bottom: hrem 1
+
+    select "& > p", [
+      t.type "label"
+      t.bold
+    ]
   ]
 
   input: select "input[type='text'], select", [
@@ -78,9 +83,14 @@ form = pipeWith lookup
     d.padding hrem 1.5
     # TODO adjust text styles
     t.type "field"
-    # TODO can't do this correctly in quark yet
-    # &:disabled
-    #   colors kite-gray lightest-kite-gray
+    select "&:disabled", [
+      color "black-50"
+      background "silver"
+    ]
+    select "&:focus", [
+      outline "none"
+      borders [ "black" ]
+    ]
   ]
 
   url:  select "[t.type='url']", [ set "word-break", "break-all" ]
@@ -93,11 +103,11 @@ form = pipeWith lookup
     d.margin botom: hrem 1
     borders [ "round", "silver" ]
     d.padding hrem 1.5
-    # TODO adjust text styles
     t.type "field"
-    # TODO can't do this correctly in quark yet
-    # &:disabled
-    #   colors kite-gray lightest-kite-gray
+    select "&:disabled", [
+      color "black-50"
+      background "silver"
+    ]
   ]
 
   button: select "button", [

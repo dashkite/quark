@@ -48,13 +48,13 @@ type = lookup
 
   "extra large caption": pipe [ plain, sans, text (hrem 5), 3/4 ]
   "large caption": pipe [ plain, sans, text (hrem 4), 3/4 ]
-  "caption": pipe [ plain, sans, text (hrem 3), 3/4 ]
+  "caption": pipe [ plain, sans, text (qrem 5), 4/5 ]
   "small caption": pipe [ plain, sans, text (hrem 2), 3/4 ]
   "extra small caption": pipe [ plain, sans, text (hrem 1), 4/5 ]
 
   "extra large label": pipe [ plain, sans, text (hrem 5), 4/5 ]
   "large label": pipe [ plain, sans, text (hrem 4), 4/5 ]
-  "label": pipe [ plain, sans, text (hrem 3), 3/4 ]
+  "label": pipe [ plain, sans, text (qrem 5), 4/5 ]
   "small label": pipe [ plain, sans, text (hrem 3), 2/3 ]
   "extra small label": pipe [ plain, sans, text (hrem 2), 4/5 ]
 

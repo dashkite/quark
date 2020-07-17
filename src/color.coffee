@@ -83,4 +83,4 @@ background = pipe [
   set "background"
 ]
 
-export {color, background}
+export {colors, color, background}

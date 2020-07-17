@@ -1,8 +1,13 @@
 import {pipe, pipeWith} from "@pandastrike/garden"
 import {set, lookup} from "./core"
 import {rem, px, pct} from "./units"
+import {colors} from "./color"
 
-borders = pipeWith lookup
+_colors = {}
+for name, value of colors
+  _colors[name] = set "border-color", value
+
+borders = pipeWith lookup {
 
   all: _bordersAll = pipe [
     set "border-style", "solid"
@@ -41,7 +46,8 @@ borders = pipeWith lookup
     set "border-width", "0"
   ]
 
-  # TODO allow any color in colors
-  silver: set "border-color", "silver"
+  _colors...
+
+}
 
 export {borders}

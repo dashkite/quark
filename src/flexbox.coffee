@@ -1,6 +1,7 @@
 import {pipe} from "@pandastrike/garden"
 import {set} from "./core"
 import {display} from "./dimension"
+import {pct} from "./units"
 
 rows = display "flex"
 
@@ -17,7 +18,7 @@ alignItems = set "align-items"
 
 flex = set "flex"
 
-stretch = flex 1
+stretch = flex grow: 1, basis: pct 100
 
 export {
   rows
