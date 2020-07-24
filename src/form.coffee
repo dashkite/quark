@@ -7,7 +7,18 @@ import * as d from "./dimension"
 import * as t from "./typography"
 import * as f from "./flexbox"
 import {borders} from "./borders"
-import {cursor, outline} from "./misc"
+import {cursor, outline, opacity} from "./misc"
+
+disabled = select "&:disabled", [
+  color "gray"
+  background "light-gray"
+  opacity 3/4
+]
+
+focus = select "&:focus", [
+  outline "none"
+  borders [ "black" ]
+]
 
 form = pipeWith lookup
 
@@ -74,23 +85,16 @@ form = pipeWith lookup
     ]
   ]
 
-  input: select "input[type='text'], select", [
+  input: select "input[type='text'], input:not([type]), select", [
     reset [ "block" ]
     d.width "stretch"
-    d.maxWidth "96hrem"
     set "margin-bottom", hrem 1
     borders [ "round", "silver" ]
     d.padding hrem 1.5
     # TODO adjust text styles
     t.type "field"
-    select "&:disabled", [
-      color "black-50"
-      background "silver"
-    ]
-    select "&:focus", [
-      outline "none"
-      borders [ "black" ]
-    ]
+    disabled
+    focus
   ]
 
   url:  select "[t.type='url']", [ set "word-break", "break-all" ]
@@ -99,15 +103,12 @@ form = pipeWith lookup
     reset [ "block" ]
     d.height hrem 8 * 3 # 8 lines
     d.width "stretch"
-    d.maxWidth hrem 96
     d.margin botom: hrem 1
     borders [ "round", "silver" ]
     d.padding hrem 1.5
     t.type "field"
-    select "&:disabled", [
-      color "black-50"
-      background "silver"
-    ]
+    focus
+    disabled
   ]
 
   button: select "button", [
@@ -126,14 +127,9 @@ form = pipeWith lookup
 
     cursor "auto"
 
-    select "&:focus", [
-      outline "none"
-    ]
+    focus
+    disabled
 
-    select "&:disabled", [
-      color "black-50"
-      background "silver"
-  ]
 ]
 
 export {form}

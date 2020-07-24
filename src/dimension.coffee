@@ -33,7 +33,7 @@ maxHeight = set "max-height"
 
 readable = pipe [
   width "stretch"
-  minWidth "20em"
+  minWidth "min-content"
   maxWidth "34em"
 ]
 
@@ -43,6 +43,8 @@ readable = pipe [
 rowGap = (size) -> select "> *", [ margin right: size ]
 
 columnGap = (size) -> select "> *", [ margin bottom: size ]
+
+overflow = set "overflow"
 
 export {
   display
@@ -57,4 +59,5 @@ export {
   readable
   rowGap
   columnGap
+  overflow
 }
