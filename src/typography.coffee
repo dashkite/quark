@@ -43,7 +43,7 @@ type = lookup
   "extra large copy": pipe [ plain, sans, text (hrem 5), 2/3 ]
   "large copy": pipe [ plain, sans, text (hrem 4), 2/3 ]
   "copy": pipe [ plain, sans, text (qrem 7), 2/3 ]
-  "small copy": pipe [ plain, sans, text (hrem 2), 3/4 ]
+  "small copy": pipe [ plain, sans, text (qrem 5), 3/4 ]
   "extra small copy": pipe [ plain, sans, text (hrem 1), 4/5 ]
 
   "extra large caption": pipe [ plain, sans, text (hrem 5), 3/4 ]

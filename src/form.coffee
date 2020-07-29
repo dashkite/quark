@@ -28,13 +28,14 @@ form = pipeWith lookup
     d.height "stretch"
     f.rows
     f.wrap
-    d.rowGap hrem 2
+    d.rowGap hrem 4
     d.columnGap hrem 4
   ]
 
   header: select "> header", [
     d.width "stretch"
     f.rows
+    f.alignItems "baseline"
     d.rowGap hrem 2
 
     select "nav", [
@@ -63,10 +64,10 @@ form = pipeWith lookup
   section: select "section", [
     f.columns
     f.flex
-      basis: 0
-      grow: 1
+      basis: hrem 48
+      shrink: 1
+      grow: 0
     d.minWidth hrem 36
-    d.maxWidth hrem 96
 
     # section within a section is a group of fields
     select "> section", [
