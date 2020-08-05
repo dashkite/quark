@@ -1,10 +1,10 @@
 import {curry} from "@pandastrike/garden"
 
-bind = (css) ->
-  if css.constructor == CSSStyleSheet
+_generate = (css) ->
+  if css instanceof CSSStyleSheet
     css
   else if css.apply?
-    bind css()
+    _generate css()
   else
     r = new CSSStyleSheet()
     r.replaceSync css.toString()
@@ -18,7 +18,7 @@ class Sheets
 
   set: (key, value) ->
     if value?
-      @sheets[key] = bind value
+      @sheets[key] = _generate value
       @apply()
     else
       @remove key
