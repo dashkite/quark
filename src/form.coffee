@@ -25,7 +25,6 @@ form = pipeWith lookup
   responsive: pipe [
     d.width "stretch"
     d.maxWidth hrem 108
-    d.height "stretch"
     f.rows
     f.wrap
     d.rowGap hrem 4
