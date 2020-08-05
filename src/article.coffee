@@ -10,7 +10,9 @@ block = (tag, fx = []) ->
   gx = [
     select "& #{tag}", [
       reset [ "block" ]
-      margin bottom: hrem 1
+      select "&:not(:last-child)", [
+        margin bottom: hrem 3
+      ]
       pipe fx
     ]
   ]
@@ -28,7 +30,7 @@ p = block "p"
 ul = block "ul", [ margin left: em 1 ]
 li = block "li", [ set "list-style", "disc outside" ]
 
-all = pipe [readable, h1, h2, h3, h4, h5, p, ul ]
+all = pipe [readable, h1, h2, h3, h4, h5, p, ul, li ]
 
 article = lookup {readable, h1, h2, h3, h4, h5, p, ul, li, all}
 
