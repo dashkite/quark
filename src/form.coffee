@@ -113,7 +113,7 @@ form = pipeWith lookup
 
   button: select "button", [
     f.rows
-    f.justifyContent "space-around"
+    f.justifyContent "center"
     f.alignItems "center"
     d.minWidth hrem 12
     d.padding hrem 1
