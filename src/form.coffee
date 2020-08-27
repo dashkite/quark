@@ -18,7 +18,7 @@ disabled = select "&:disabled", [
 
 focus = select "&:focus", [
   outline "none"
-  borders [ "black" ]
+  set "box-shadow", "0 0 0 3px #999"
 ]
 
 toggle = (selector) -> select selector, [
@@ -42,6 +42,7 @@ toggle = (selector) -> select selector, [
     background "black"
   ]
 
+  focus
   disabled
 
   select "&:disabled:checked", [
