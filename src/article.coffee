@@ -3,7 +3,7 @@ import {spush as push, spop as pop, speek as peek} from "@dashkite/katana"
 import {select, set, lookup} from "./core"
 import {type} from "./typography"
 import {hrem, qrem, em} from "./units"
-import {readable, margin, padding} from "./dimension"
+import {display, margin, padding, readable} from "./dimension"
 import {borders} from "./borders"
 import {reset} from "./reset"
 import {normalize} from "./normalize"
@@ -73,16 +73,16 @@ p = pipe [
 ul = pipe [
   select "ul", [
     block "medium"
-    type "copy"
     margin left: em 1
+    set "list-style", "disc outside"
   ]
 ]
 
 li = pipe [
   select "li", [
     block "small"
+    display "list-item"
     type "copy"
-    set "list-style", "disc outside"
   ]
 ]
 

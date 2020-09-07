@@ -32,7 +32,7 @@ minHeight = set "min-height"
 maxHeight = set "max-height"
 
 readable = pipe [
-  width "stretch"
+  width "40em"
   minWidth "min-content"
   maxWidth "40em"
 ]
