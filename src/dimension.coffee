@@ -34,7 +34,7 @@ maxHeight = set "max-height"
 readable = pipe [
   width "stretch"
   minWidth "min-content"
-  maxWidth "34em"
+  maxWidth "40em"
 ]
 
 # these will be replaced with row-gap and column-gap

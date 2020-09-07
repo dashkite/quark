@@ -2,35 +2,94 @@ import {tee, pipe, pipeWith} from "@pandastrike/garden"
 import {spush as push, spop as pop, speek as peek} from "@dashkite/katana"
 import {select, set, lookup} from "./core"
 import {type} from "./typography"
-import {hrem, em} from "./units"
-import {readable, margin} from "./dimension"
+import {hrem, qrem, em} from "./units"
+import {readable, margin, padding} from "./dimension"
+import {borders} from "./borders"
 import {reset} from "./reset"
+import {normalize} from "./normalize"
 
-block = (tag, fx = []) ->
-  gx = [
-    select "& #{tag}", [
-      reset [ "block" ]
-      select "&:not(:last-child)", [
-        margin bottom: hrem 3
-      ]
-      pipe fx
-    ]
+block = pipe [
+  reset [ "block" ]
+  select "&:not(:last-child)", [
+    margin bottom: hrem 3
   ]
-  if tag[0] == 'h'
-    gx.push select "& > * + #{tag}", [ margin top: hrem 3 ]
+]
 
-  pipe gx
+header = pipe [
+  select "header", [
+    margin bottom: hrem 5
+  ]
+]
 
-h1 = block "h1", [ type "extra large heading" ]
-h2 = block "h2", [ type "large heading" ]
-h3 = block "h3", [ type "heading" ]
-h4 = block "h4", [ type "small heading" ]
-h5 = block "h5", [ type "extra small heading" ]
-p = block "p"
-ul = block "ul", [ margin left: em 1 ]
-li = block "li", [ set "list-style", "disc outside" ]
+h1 = pipe [
+  select "h1", [
+    block
+    type "extra large heading"
+  ]
+]
 
-all = pipe [readable, h1, h2, h3, h4, h5, p, ul, li ]
+h2 = pipe [
+  select "h2", [
+    block
+    type "large heading"
+    select "&:not(:first-child)", [
+      margin top: hrem 5
+    ]
+    padding bottom: qrem 1
+    borders [ "bottom" ]
+  ]
+]
+
+h3 = pipe [
+  select "h3", [
+    block
+    type "heading"
+  ]
+]
+
+h4 = pipe [
+  select "h4", [
+    block
+    type "small heading"
+  ]
+]
+
+h5 = pipe [
+  select "h5", [
+    block
+    type "extra small heading"
+  ]
+]
+
+p = pipe [
+  select "p", [
+    block
+    type "copy"
+  ]
+]
+
+ul = pipe [
+  select "ul", [
+    block
+    type "copy"
+    margin left: em 1
+  ]
+]
+
+li = pipe [
+  select "li", [
+    block
+    type "copy"
+    set "list-style", "disc outside"
+  ]
+]
+
+all = pipe [
+  readable
+  header
+  h1, h2, h3, h4, h5, p, ul, li
+  normalize [ "links", "focus" ]
+]
 
 article = lookup {readable, h1, h2, h3, h4, h5, p, ul, li, all}
 

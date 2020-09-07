@@ -8,6 +8,8 @@ animation = set "animation"
 
 outline = set "outline"
 
+shadow = set "box-shadow"
+
 verticalAlign = set "vertical-align"
 
 important = (value) -> "#{value} !important"
@@ -17,6 +19,7 @@ export {
   opacity
   animation
   outline
+  shadow
   verticalAlign
   important
 }
