@@ -8,33 +8,35 @@ import {borders} from "./borders"
 import {reset} from "./reset"
 import {normalize} from "./normalize"
 
-block = pipe [
-  reset [ "block" ]
-  select "&:not(:last-child)", [
-    margin bottom: hrem 3
+block = (m) ->
+
+  pipe [
+    reset [ "block" ]
+    select "&:not(:last-child)", [
+      switch m
+        when "large" then margin bottom: hrem 5
+        when "medium" then margin bottom: hrem 4
+        when "small" then margin bottom: hrem 3
+    ]
   ]
-]
 
 header = pipe [
   select "header", [
-    margin bottom: hrem 5
+    block "large"
   ]
 ]
 
 h1 = pipe [
   select "h1", [
-    block
+    block "medium"
     type "extra large heading"
   ]
 ]
 
 h2 = pipe [
   select "h2", [
-    block
+    block "large"
     type "large heading"
-    select "&:not(:first-child)", [
-      margin top: hrem 5
-    ]
     padding bottom: qrem 1
     borders [ "bottom" ]
   ]
@@ -42,35 +44,35 @@ h2 = pipe [
 
 h3 = pipe [
   select "h3", [
-    block
+    block "small"
     type "heading"
   ]
 ]
 
 h4 = pipe [
   select "h4", [
-    block
+    block "small"
     type "small heading"
   ]
 ]
 
 h5 = pipe [
   select "h5", [
-    block
+    block "small"
     type "extra small heading"
   ]
 ]
 
 p = pipe [
   select "p", [
-    block
+    block "medium"
     type "copy"
   ]
 ]
 
 ul = pipe [
   select "ul", [
-    block
+    block "medium"
     type "copy"
     margin left: em 1
   ]
@@ -78,7 +80,7 @@ ul = pipe [
 
 li = pipe [
   select "li", [
-    block
+    block "small"
     type "copy"
     set "list-style", "disc outside"
   ]
