@@ -12,6 +12,7 @@ width = any [
   lookup
     stretch: pipe [
       set "width", "-webkit-fill-available"
+      set "width", "-moz-available"
       set "width", "stretch"
   ]
   set "width"
@@ -21,6 +22,7 @@ height = any [
   lookup
     stretch: pipe [
       set "height", "-webkit-fill-available"
+      set "width", "-moz-available"
       set "height", "stretch"
   ]
   set "height"

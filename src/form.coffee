@@ -140,6 +140,18 @@ form = pipeWith lookup
     disabled
   ]
 
+  search: select "input[type='search']", [
+    reset [ "block" ]
+    d.width "stretch"
+    set "margin-bottom", hrem 1
+    borders [ "round", "silver" ]
+    d.padding hrem 1.5
+    # TODO adjust text styles
+    t.type "field"
+    disabled
+    focus
+  ]
+
   select: select "select", [
     reset [ "block" ]
     d.width "stretch"
