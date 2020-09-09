@@ -7,6 +7,8 @@ _colors = {}
 for name, value of colors
   _colors[name] = set "border-color", value
 
+border = set "border"
+
 borders = pipeWith lookup {
 
   all: _bordersAll = pipe [
@@ -50,4 +52,4 @@ borders = pipeWith lookup {
 
 }
 
-export {borders}
+export {border, borders}
