@@ -53,6 +53,19 @@ media = curry (value, ax) ->
         rules.push rule
   ]
 
+supports = curry (value, ax) ->
+  pipe [
+    k.spush (parent) ->
+      query: value
+      selector: parent.selector
+      styles: []
+    k.speek unary k.stack pipe ax
+    k.read "supports"
+    k.smpop (styles, rule) ->
+      if rule.styles.length > 0
+        styles.push rule
+  ]
+
 keyframes = curry (value, ax) ->
   pipe [
     k.spush ->
@@ -96,6 +109,7 @@ css =
   sheet: (sheet) ->
     [
       (css.media sheet.media)
+      (css.supports sheet.supports)
       (css.keyframes sheet.keyframes)
       (css.styles sheet.styles)
     ]
@@ -106,6 +120,12 @@ css =
     media
       .map ({query, styles}) ->
         css.block "@media #{query}", css.styles styles
+      .join " "
+
+  supports: (supports) ->
+    supports
+      .map ({query, styles}) ->
+        css.block "@supports #{query}", css.styles styles
       .join " "
 
   keyframes: (keyframes) ->
@@ -144,6 +164,7 @@ export {
   sheet
   select
   media
+  supports
   keyframes
   keyframe
   from
