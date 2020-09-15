@@ -48,6 +48,21 @@ columnGap = (size) -> select "> *", [ margin bottom: size ]
 
 overflow = set "overflow"
 
+textOverflow = set "text-overflow"
+
+# This is weird stuff, but as of Sept 2020, it's covered by 98% of web using
+# only the WebKit prefix. Vulnerable to replacement.
+# https://css-tricks.com/line-clampin/#weird-webkit-flexbox-way
+lineClamp = (lines, max) ->
+  pipe [
+    display "-webkit-box"
+    set "-webkit-line-clamp", lines
+    set "-webkit-box-orient", "vertical"
+    overflow "hidden"
+    textOverflow "ellipsis"
+  ]
+
+
 export {
   display
   margin
@@ -62,4 +77,6 @@ export {
   rowGap
   columnGap
   overflow
+  textOverflow
+  lineClamp
 }
