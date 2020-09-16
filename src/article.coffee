@@ -92,7 +92,7 @@ all = pipe [
   readable
   header
   h1, h2, h3, h4, h5, p, ul, li
-  normalize [ "links", "focus" ]
+  normalize [ "links" ]
 ]
 
 article = lookup {readable, h1, h2, h3, h4, h5, p, ul, li, all}

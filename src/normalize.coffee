@@ -22,17 +22,12 @@ normalize = pipeWith c.lookup
 
     c.select "a:focus", [
       m.outline "none"
-      c.set "box-shadow", "0 0 0 2px currentColor"
+      m.shadow "0 0 0 1px currentColor"
     ]
 
     c.select "p > a, p > a:hover, p > a:visited", [
       d.display "inline"
     ]
-  ]
-
-  focus: c.select ":focus", [
-    m.outline "none"
-    m.shadow "0 0 0 1px #333"
   ]
 
 export {normalize}
