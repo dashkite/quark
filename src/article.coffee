@@ -14,15 +14,16 @@ block = (m) ->
     reset [ "block" ]
     select "&:not(:last-child)", [
       switch m
-        when "large" then margin bottom: hrem 5
-        when "medium" then margin bottom: hrem 4
-        when "small" then margin bottom: hrem 3
+        when "extra large" then margin bottom: hrem 5
+        when "large" then margin bottom: hrem 4
+        when "medium" then margin bottom: hrem 3
+        when "small" then margin bottom: hrem 2
     ]
   ]
 
 header = pipe [
   select "header", [
-    block "large"
+    block "extra large"
   ]
 ]
 
@@ -35,10 +36,11 @@ h1 = pipe [
 
 h2 = pipe [
   select "h2", [
-    block "large"
+    block "medium"
     type "large heading"
     padding bottom: qrem 1
     borders [ "bottom" ]
+    set "border-color", "inherit"
   ]
 ]
 
