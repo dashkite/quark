@@ -7,7 +7,7 @@ import * as d from "./dimension"
 import * as t from "./typography"
 import * as f from "./flexbox"
 import {borders} from "./borders"
-import {cursor, outline, opacity, verticalAlign} from "./misc"
+import {cursor, outline, shadow, opacity, verticalAlign} from "./misc"
 
 disabled = select "&:disabled", [
   color "gray"
@@ -18,7 +18,7 @@ disabled = select "&:disabled", [
 
 focus = select "&:focus", [
   outline "none"
-  set "box-shadow", "0 0 0 2px currentColor"
+  shadow "0 0 0 2px currentColor"
 ]
 
 toggle = (selector) -> select selector, [
