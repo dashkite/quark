@@ -55,7 +55,7 @@ do ->
       test "stretch", ->
         verify
           quark: q.sheet [ q.select "main", [ q.width "stretch" ] ]
-          css: "main { width: -webkit-fill-available; width: stretch; }"
+          css: "main { width: -webkit-fill-available; width: -moz-available; width: stretch; }"
 
     ]
 
@@ -85,8 +85,8 @@ do ->
           css: "main {
             font-family: sans-serif;
             font-weight: bold;
-            line-height: 2.5rem;
-            font-size: calc(2.5rem * 0.8);
+            line-height: 2.25rem;
+            font-size: calc(2.25rem * 0.85);
           }"
 
       test "readable"

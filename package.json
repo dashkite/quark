@@ -1,6 +1,6 @@
 {
   "name": "@dashkite/quark",
-  "version": "0.4.2",
+  "version": "1.0.1",
   "description": "Combinators for generating CSS",
   "keywords": [],
   "homepage": "https://github.com/dashkite/quark#readme",
@@ -23,8 +23,9 @@
     "test": "genie test"
   },
   "dependencies": {
-    "@dashkite/katana": "^0.3.1",
-    "@pandastrike/garden": "^8.0.0-alpha.1"
+    "@dashkite/katana": "^0.3.2",
+    "@dashkite/stylist": "^0.0.3",
+    "@pandastrike/garden": "^8.0.1"
   },
   "devDependencies": {
     "@dashkite/brick": "0.0.3",

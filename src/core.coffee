@@ -1,5 +1,6 @@
 import {identity, unary, curry, flip, pipe, tee} from "@pandastrike/garden"
 import * as k from "@dashkite/katana"
+import {build as _build} from "@dashkite/stylist"
 import {getter} from "./helpers"
 
 lookup = curry flip getter
@@ -22,6 +23,7 @@ sheet = (ax) ->
   f
     imports: []
     namespaces: []
+    fonts: []
     media: []
     supports: []
     keyframes: []
@@ -40,6 +42,18 @@ select = curry (value, ax) ->
         styles.push rule
   ]
 
+fonts = curry (ax) ->
+  pipe [
+    k.spush (parent) ->
+      selector: parent.selector
+      properties: []
+    k.speek unary k.stack pipe ax
+    k.read "fonts"
+    k.smpop (rules, rule) ->
+      if rule.properties.length > 0
+        rules.push rule
+  ]
+
 media = curry (value, ax) ->
   pipe [
     k.spush (parent) ->
@@ -51,6 +65,19 @@ media = curry (value, ax) ->
     k.smpop (rules, rule) ->
       if rule.styles.length > 0
         rules.push rule
+  ]
+
+supports = curry (value, ax) ->
+  pipe [
+    k.spush (parent) ->
+      query: value
+      selector: parent.selector
+      styles: []
+    k.speek unary k.stack pipe ax
+    k.read "supports"
+    k.smpop (styles, rule) ->
+      if rule.styles.length > 0
+        styles.push rule
   ]
 
 keyframes = curry (value, ax) ->
@@ -95,17 +122,31 @@ css =
 
   sheet: (sheet) ->
     [
+      (css.fonts sheet.fonts)
       (css.media sheet.media)
+      (css.supports sheet.supports)
       (css.keyframes sheet.keyframes)
       (css.styles sheet.styles)
     ]
       .filter identity
       .join " "
 
+  fonts: (fonts) ->
+    fonts
+      .map ({properties}) ->
+        css.block "@font-face", css.properties properties
+      .join " "
+
   media: (media) ->
     media
       .map ({query, styles}) ->
         css.block "@media #{query}", css.styles styles
+      .join " "
+
+  supports: (supports) ->
+    supports
+      .map ({query, styles}) ->
+        css.block "@supports #{query}", css.styles styles
       .join " "
 
   keyframes: (keyframes) ->
@@ -135,15 +176,14 @@ css =
 
 render = css.sheet
 
-build = (sheet) ->
-  r = new CSSStyleSheet
-  r.replaceSync render sheet
-  r
+build = (sheet) -> _build render sheet
 
 export {
   sheet
   select
+  fonts
   media
+  supports
   keyframes
   keyframe
   from
