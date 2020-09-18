@@ -12,6 +12,8 @@ compose = (parent, child) ->
     .map (parent) ->
       if child.includes "&"
         child.replace /\&/g, -> parent
+      else if parent == ""
+        child
       else
         "#{parent} #{child}"
     .join ", "
