@@ -7,5 +7,6 @@ hrem = (value) -> "#{value / 2}rem"
 qrem = (value) -> "#{value / 4}rem"
 vw = (value) -> "#{value}vw"
 vh = (value) -> "#{value}vh"
+deg = (value) -> "#{value}deg"
 
-export {px, pct, em, ch, rem, hrem, qrem, vw, vh}
+export {px, pct, em, ch, rem, hrem, qrem, vw, vh, deg}
