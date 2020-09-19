@@ -8,30 +8,51 @@ import * as d from "./dimension"
 import * as m from "./misc"
 import * as u from "./units"
 
+typographicAnchor = c.select "a", [
+
+  c.select "&:focus", [
+    m.outline "none"
+    m.shadow "none"
+    c.set "border-radius", 0
+    b.border
+      left: "none"
+      right: "none"
+      top: "1px dashed"
+      bottom: "1px dashed"
+    d.padding
+      top: u.qrem 1
+      bottom: u.qrem 1
+  ]
+
+  c.select "&, &:hover, &:visited", [
+    d.display "inline"
+] ]
+
 normalize = pipeWith c.lookup
 
   links: pipe [
     c.select "& a, & a:hover, & a:visited", [
       d.display "inline-block"
-      d.padding
-        top: u.qrem 1
-        bottom: u.qrem 1
       t.plain
       t.underline
       k.color "inherit"
     ]
 
-    c.select "a:focus", [
+    c.select "& a:focus", [
       m.outline "none"
-      b.border
-        top: "1px dashed"
-        bottom: "1px dashed"
+      c.set "border-radius", u.hrem 1
+      m.shadow "0 0 0 1px currentColor"
     ]
 
-    c.select "& p, & ul", [
-      c.select "& a", [
-        c.select "&, &:hover, &:visited", [
-          d.display "inline"
-  ] ] ] ]
+    # WARNING: this selector has been in Chrome since 2016, but is not implemented by non-Chromium browsers.
+    c.select ":host-context", [
+      c.select "&(p), &(li), &(blockquote)", [
+        typographicAnchor
+    ] ]
+
+    c.select "& p, & li, & blockquote", [
+      typographicAnchor
+    ]
+  ]
 
 export {normalize}

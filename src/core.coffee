@@ -6,17 +6,17 @@ import {getter} from "./helpers"
 lookup = curry flip getter
 
 compose = (parent, child) ->
-  if !parent?
-    child
-  else
-    parent
-      .split /,\s*/
-      .map (parent) ->
-        if child.includes "&"
-          child.replace /\&/g, -> parent
-        else
-          "#{parent} #{child}"
-      .join ", "
+  parent ?= ""
+  parent
+    .split /,\s*/
+    .map (parent) ->
+      if child.includes "&"
+        child.replace /\&/g, -> parent
+      else if parent == ""
+        child
+      else
+        "#{parent} #{child}"
+    .join ", "
 
 sheet = (ax) ->
   f = tee k.stack pipe ax
