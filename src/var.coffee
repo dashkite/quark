@@ -1,12 +1,11 @@
+import {pipe} from "@pandastrike/garden"
 import {set} from "./core"
 
-_set = (name, value) -> set "--#{name}", value
+setvar = (object) -> pipe (set "--#{name}", value for name, value of object)
 
-setvar = (object) -> _set name, value for name, value of object
-
-_var = (name) -> "var(--#{name})"
+getvar = (name) -> "var(--#{name})"
 
 export {
   setvar
-  _var as var
+  getvar
 }

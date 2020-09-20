@@ -118,6 +118,8 @@ set = curry (name, value) ->
       else
         rule.properties.push [ name, value ]
 
+compound = (rules) -> rules.join ", "
+
 css =
 
   sheet: (sheet) ->
@@ -189,6 +191,7 @@ export {
   from
   to
   set
+  compound
   lookup
   render
   build
