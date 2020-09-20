@@ -1,6 +1,6 @@
 {
   "name": "@dashkite/quark",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "Combinators for generating CSS",
   "keywords": [],
   "homepage": "https://github.com/dashkite/quark#readme",
