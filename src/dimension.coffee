@@ -50,6 +50,8 @@ overflow = set "overflow"
 
 textOverflow = set "text-overflow"
 
+float = set "float"
+
 # This is weird stuff, but as of Sept 2020, it's covered by 98% of web using
 # only the WebKit prefix. Vulnerable to replacement.
 # https://css-tricks.com/line-clampin/#weird-webkit-flexbox-way
@@ -78,5 +80,6 @@ export {
   columnGap
   overflow
   textOverflow
+  float
   lineClamp
 }

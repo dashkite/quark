@@ -54,15 +54,26 @@ fonts = curry (ax) ->
         rules.push rule
   ]
 
+# TODO this now works with properties, but it's not
+#      very elegant and i'm loathe to use it elsewhere
+#      (which maybe only affects `supports`?)
 media = curry (value, ax) ->
   pipe [
     k.spush (parent) ->
       query: value
-      selector: parent.selector
       styles: []
-    k.speek unary k.stack pipe ax
+      selector: parent.selector
+      properties: []
+    pipe ax
     k.read "media"
     k.smpop (rules, rule) ->
+      if rule.properties.length > 0
+        rules.push
+          query: value
+          styles: [
+            selector: rule.selector
+            properties: rule.properties
+          ]
       if rule.styles.length > 0
         rules.push rule
   ]
