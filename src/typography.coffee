@@ -19,6 +19,8 @@ sans = set "font-family", "sans-serif"
 serif = set "font-family", "serif"
 monospace = set "font-family", "monospace"
 
+# use rhythmic sizing (line-height-step) when supported
+# https://developer.mozilla.org/en-US/docs/Web/CSS/line-height-step
 text = curry (lh, r) ->
   pipe [
     set "line-height", lh

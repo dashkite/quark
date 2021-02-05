@@ -1,13 +1,14 @@
 import {tee, pipe, pipeWith} from "@pandastrike/garden"
 import {spush as push, spop as pop, speek as peek} from "@dashkite/katana"
 import {select, media, set, lookup, sheet, render} from "./core"
+import {color, background} from "./color"
 import {type} from "./typography"
 import {pct, rem, hrem, qrem, em} from "./units"
 import {display, margin, padding, maxWidth, float, readable} from "./dimension"
 import {border, borders} from "./borders"
 import {reset} from "./reset"
 import {normalize} from "./normalize"
-import {important} from "./misc"
+import {opacity, important} from "./misc"
 
 block = (m) ->
 
@@ -128,6 +129,14 @@ h5 = pipe [
   ]
 ]
 
+h6 = pipe [
+  select "h6", [
+    block "small"
+    type "extra small heading"
+    opacity pct 60
+  ]
+]
+
 p = pipe [
   select "p", [
     block "medium"
@@ -148,6 +157,9 @@ li = pipe [
     block "small"
     display "list-item"
     type "copy"
+    select "& > ul > li", [
+      margin bottom: important 0
+    ]
   ]
 ]
 
@@ -161,11 +173,21 @@ bq = pipe [
   ]
 ]
 
+code = pipe [
+  select "code", [
+    display "inline-block"
+    padding qrem 0.5
+    background "var(--code-background, #eee)"
+    set "font-size", pct 80
+    set "font-family", "var(--code-font, monospace)"
+  ]
+]
+
 all = pipe [
   readable
   header, section
-  h1, h2, h3, h4, h5,
-  p, ul, li, bq,
+  h1, h2, h3, h4, h5, h6
+  p, ul, li, bq, code,
   aside, figure
   normalize [ "links" ]
 ]
@@ -173,8 +195,8 @@ all = pipe [
 article = pipeWith lookup {
   readable
   header, section
-  h1, h2, h3, h4, h5,
-  p, ul, li, bq,
+  h1, h2, h3, h4, h5, h6
+  p, ul, li, bq, code,
   aside, figure
   left, right
   "aside left": select "aside", [ left ]
