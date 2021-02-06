@@ -44,13 +44,15 @@ normalize = pipeWith c.lookup
       m.shadow "0 0 0 1px currentColor"
     ]
 
-    # WARNING: this selector has been in Chrome since 2016, but is not implemented by non-Chromium browsers.
+    # WARNING: this selector has been in Chrome since 2016,
+    # but is not implemented by non-Chromium browsers.
     c.select ":host-context", [
-      c.select "&(p), &(h1), &(h2), &(h3), &(h4), &(h5), &(h6), &(li), &(blockquote)", [
+      c.select "&(p), &(h1), &(h2), &(h3), &(h4),
+        &(h5), &(h6), &(li), &(blockquote), &(td), &(th)", [
         typographicAnchor
     ] ]
 
-    c.select "& p, & li, & blockquote", [
+    c.select "& p, & li, & blockquote, & td, & th", [
       typographicAnchor
     ]
   ]
