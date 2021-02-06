@@ -103,7 +103,7 @@ form = pipeWith lookup
       basis: hrem 48
       shrink: 1
       grow: 0
-    d.minWidth hrem 36
+    d.minWidth hrem 24
 
     # section within a section is a group of fields
     select "> section", [

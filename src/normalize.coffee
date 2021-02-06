@@ -46,7 +46,7 @@ normalize = pipeWith c.lookup
 
     # WARNING: this selector has been in Chrome since 2016, but is not implemented by non-Chromium browsers.
     c.select ":host-context", [
-      c.select "&(p), &(li), &(blockquote)", [
+      c.select "&(p), &(h1), &(h2), &(h3), &(h4), &(h5), &(h6), &(li), &(blockquote)", [
         typographicAnchor
     ] ]
 

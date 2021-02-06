@@ -34,7 +34,7 @@ type = lookup
   "large heading": pipe [ sans, bold, text (qrem 9), 0.85 ]
   "heading": pipe [ sans, bold, text (qrem 7), 0.85 ]
   "small heading": pipe [ sans, bold, text (hrem 5), 4/5 ]
-  "extra small heading": pipe [ sans, bold, text (hrem 3), 2/3 ]
+  "extra small heading": pipe [ sans, bold, text (hrem 3), 5/9 ]
 
   "extra large body": pipe [ plain, serif, text (hrem 5), 2/3 ]
   "large body": pipe [ plain, serif, text (hrem 4), 2/3 ]
