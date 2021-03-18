@@ -26,7 +26,7 @@ verify = ({quark, css}) ->
 
 do ->
 
-  print await test "Neutrino", [
+  print await test "Quark", [
 
     test "core", [
 
@@ -47,60 +47,60 @@ do ->
           quark: q.sheet [ q.select "main", [ q.width "90%" ] ]
           css: "main { width: 90%; }"
 
-      test "minWidth", ->
-        verify
-          quark: q.sheet [ q.select "main", [ q.minWidth "90%" ] ]
-          css: "main { min-width: 90%; }"
-
-      test "stretch", ->
-        verify
-          quark: q.sheet [ q.select "main", [ q.width "stretch" ] ]
-          css: "main { width: -webkit-fill-available; width: -moz-available; width: stretch; }"
-
-    ]
-
-    test "colors", [
-
-      # TODO test fallback to browser colors?
-
-      test "color", ->
-        verify
-          quark: q.sheet [ q.select "main", [ q.color "dark-blue" ] ]
-          css: "main { color: #00449e; }"
-
-      test "background"
+      # test "minWidth", ->
+      #   verify
+      #     quark: q.sheet [ q.select "main", [ q.minWidth "90%" ] ]
+      #     css: "main { min-width: 90%; }"
+      #
+      # test "stretch", ->
+      #   verify
+      #     quark: q.sheet [ q.select "main", [ q.width "stretch" ] ]
+      #     css: "main { width: -webkit-fill-available; width: -moz-available; width: stretch; }"
 
     ]
 
-    test "typography", [
+    # test "colors", [
+    #
+    #   # TODO test fallback to browser colors?
+    #
+    #   test "color", ->
+    #     verify
+    #       quark: q.sheet [ q.select "main", [ q.color "dark-blue" ] ]
+    #       css: "main { color: #00449e; }"
+    #
+    #   test "background"
+    #
+    # ]
 
-      test "text", ->
-        verify
-          quark: q.sheet [ q.select "main", [ q.text "6rem", "2/3" ] ]
-          css: "main { line-height: 6rem; font-size: calc(6rem * 2/3); }"
+    # test "typography", [
+    #
+    #   test "text", ->
+    #     verify
+    #       quark: q.sheet [ q.select "main", [ q.text "6rem", "2/3" ] ]
+    #       css: "main { line-height: 6rem; font-size: calc(6rem * 2/3); }"
+    #
+    #   test "type", ->
+    #     verify
+    #       quark: q.sheet [ q.select "main", [ q.type "large heading" ] ]
+    #       css: "main {
+    #         font-family: sans-serif;
+    #         font-weight: bold;
+    #         line-height: 2.25rem;
+    #         font-size: calc(2.25rem * 0.85);
+    #       }"
+    #
+    #   test "readable"
+    #
+    # ]
 
-      test "type", ->
-        verify
-          quark: q.sheet [ q.select "main", [ q.type "large heading" ] ]
-          css: "main {
-            font-family: sans-serif;
-            font-weight: bold;
-            line-height: 2.25rem;
-            font-size: calc(2.25rem * 0.85);
-          }"
-
-      test "readable"
-
-    ]
-
-    test "borders", ->
-      verify
-        quark: q.sheet [ q.select "main", [ q.borders [ "round" ] ] ]
-        css: "main {
-          border-style: solid;
-          border-width: 1px;
-          border-radius: 0.5rem;
-        }"
+    # test "borders", ->
+    #   verify
+    #     quark: q.sheet [ q.select "main", [ q.borders [ "round" ] ] ]
+    #     css: "main {
+    #       border-style: solid;
+    #       border-width: 1px;
+    #       border-radius: 0.5rem;
+    #     }"
 
     test "flexbox", [
 
@@ -121,58 +121,58 @@ do ->
 
     ]
 
-    test "forms", ->
-      q.render q.sheet [
-        q.select "form", [
-          q.form [ "header", "section", "input" ]
-        ]]
+    # test "forms", ->
+    #   q.render q.sheet [
+    #     q.select "form", [
+    #       q.form [ "header", "section", "input" ]
+    #     ]]
 
 
-    test "tables"
-
-    test "code"
-
-    test "resets", [
-
-      test "block", ->
-        verify
-          quark: q.sheet [ q.select "main", [ q.reset [ "block" ] ]]
-          css: "
-            main {
-              box-sizing: border-box;
-              display: block;
-              margin: 0;
-              padding: 0;
-              border: none;
-              font-family: inherit;
-              font-size: inherit;
-              line-height: inherit;
-            }"
-
-      test "lists"
-
-    ]
-
-    test "normalize", [
-
-      test "h1"
-
-      test "p"
-
-      test "ul"
-
-    ]
-
-    test "article", [
-
-      test "h1"
-
-      test "p"
-
-      test "ul"
-
-    ]
-
+    # test "tables"
+    #
+    # test "code"
+    #
+    # test "resets", [
+    #
+    #   test "block", ->
+    #     verify
+    #       quark: q.sheet [ q.select "main", [ q.reset [ "block" ] ]]
+    #       css: "
+    #         main {
+    #           box-sizing: border-box;
+    #           display: block;
+    #           margin: 0;
+    #           padding: 0;
+    #           border: none;
+    #           font-family: inherit;
+    #           font-size: inherit;
+    #           line-height: inherit;
+    #         }"
+    #
+    #   test "lists"
+    #
+    # ]
+    #
+    # test "normalize", [
+    #
+    #   test "h1"
+    #
+    #   test "p"
+    #
+    #   test "ul"
+    #
+    # ]
+    #
+    # test "article", [
+    #
+    #   test "h1"
+    #
+    #   test "p"
+    #
+    #   test "ul"
+    #
+    # ]
+    #
     test "selector munging", [
 
       test "&.", ->
@@ -242,6 +242,33 @@ do ->
           css: "
           p {
             margin-bottom: 1rem;
+          }
+          "
+    ]
+
+    test "parsing", [
+
+      test "single rule", ->
+        verify
+          quark: q.sheet [ q.select "p", [ q.q "inset 1rem" ] ]
+          css: "
+          p {
+            top: 1rem;
+            right: 1rem;
+            bottom: 1rem;
+            left: 1rem;
+          }
+          "
+      test "compound rule", ->
+        verify
+          quark: q.sheet [ q.select "p", [ q.q "inline-block, inset 1rem" ] ]
+          css: "
+          p {
+            display: inline-block;
+            top: 1rem;
+            right: 1rem;
+            bottom: 1rem;
+            left: 1rem;
           }
           "
     ]

@@ -1,0 +1,12 @@
+import {r} from "../registry"
+import {set} from "../core"
+
+r["overscroll-auto"] = set "overscroll-behavior", "auto"
+r["overscroll-contain"] = set "overscroll-behavior", "contain"
+r["overscroll-none"] = set "overscroll-behavior", "none"
+r["overscroll-y-auto"] = set "overscroll-behavior-y", "auto"
+r["overscroll-y-contain"] = set "overscroll-behavior-y", "contain"
+r["overscroll-y-none"] = set "overscroll-behavior-y", "none"
+r["overscroll-x-auto"] = set "overscroll-behavior-x", "auto"
+r["overscroll-x-contain"] = set "overscroll-behavior-x", "contain"
+r["overscroll-x-none"] = set "overscroll-behavior-x", "none"
