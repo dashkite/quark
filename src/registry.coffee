@@ -2,6 +2,7 @@ import {pipe, pipeWith} from "@pandastrike/garden"
 import * as g from "panda-grammar"
 import {set} from "./core"
 import * as _r from "./properties"
+import {colors} from "./colors"
 
 condition = (p, c) ->
   (s) -> if (m = p s)? && (c m) then m
@@ -21,8 +22,20 @@ isOperator = ({value}) -> r[value]?
 
 getOperator = ({value}) -> r[value]
 
-# for now
-operand = word
+# TODO add support for virtual measures
+measure = g.re /^[\w\.]+/
+
+colorLiteral = g.re /^\#[a-f0-9]{3,6}/
+
+isColorName = ({value}) -> colors[value]?
+
+getColorName = ({value}) -> colors[value]
+
+colorName = g.rule (condition word, isColorName), getColorName
+
+color = g.any colorName, colorLiteral
+
+operand = g.any color, measure, word
 
 operands =  g.list g.ws, operand
 

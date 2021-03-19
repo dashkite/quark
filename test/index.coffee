@@ -289,7 +289,35 @@ do ->
               border-bottom-left-radius: 0.25rem;
             }
           "
+
+      test "color substitution", ->
+        verify
+          quark: q.sheet [ q.select "p", [ q.q "color indigo-300" ] ]
+          css: "
+            p {
+              color: #a5b4fc;
+            }
+          "
+
+      test "color literal", ->
+        verify
+          quark: q.sheet [ q.select "p", [ q.q "color #a5b4fc" ] ]
+          css: "
+            p {
+              color: #a5b4fc;
+            }
+          "
+
+      test "color name", ->
+        verify
+          quark: q.sheet [ q.select "p", [ q.q "color olive" ] ]
+          css: "
+            p {
+              color: olive;
+            }
+          "
     ]
   ]
+
 
   process.exit if success then 0 else 1
