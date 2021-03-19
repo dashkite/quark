@@ -1,7 +1,7 @@
 import {pipe, pipeWith} from "@pandastrike/garden"
 import * as g from "panda-grammar"
-import {lookup} from "./core"
-import * as r from "./properties"
+import {set} from "./core"
+import * as _r from "./properties"
 
 condition = (p, c) ->
   (s) -> if (m = p s)? && (c m) then m
@@ -36,5 +36,12 @@ rule = g.rule (g.all operator, optional (g.all g.ws, operands)), ({value}) ->
 rules = g.rule (g.list (g.re /^,\s+/), rule), ({value}) -> pipe value
 
 q = g.grammar rules
+
+r = new Proxy _r,
+  get: (target, name, receiver) ->
+    if target[name]?
+      target[name]
+    else
+      set name
 
 export {r, q}

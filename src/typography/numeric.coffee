@@ -1,0 +1,12 @@
+import {r} from "../registry"
+import {set} from "../core"
+
+r["normal-nums"] = set "font-variant-numeric", "normal"
+r["ordinal"] = set "font-variant-numeric", "ordinal"
+r["slashed-zero"] = set "font-variant-numeric", "slashed-zero"
+r["lining-nums"] = set "font-variant-numeric", "lining-nums"
+r["oldstyle-nums"] = set "font-variant-numeric", "oldstyle-nums"
+r["proportional-nums"] = set "font-variant-numeric", "proportional-nums"
+r["tabular-nums"] = set "font-variant-numeric", "tabular-nums"
+r["diagonal-fractions"] = set "font-variant-numeric", "diagonal-fractions"
+r["stacked-fractions"] = set "font-variant-numeric", "stacked-fractions"

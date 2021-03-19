@@ -271,7 +271,14 @@ do ->
             left: 1rem;
           }
           "
-    ]
+      test "z-index rule", ->
+        verify
+          quark: q.sheet [ q.select "p", [ q.q "z 10" ] ]
+          css: "
+          p {
+            z-index: 10;
+          }
+          "    ]
   ]
 
   process.exit if success then 0 else 1

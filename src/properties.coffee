@@ -2,11 +2,24 @@ import {curry, pipe} from "@pandastrike/garden"
 import {set} from "./core"
 
 display = set "display"
-width = set "width"
-height = set "height"
-margin = set "margin"
-padding = set "padding"
-border = set "border"
+
+width = (units) ->
+  set "width",
+    switch units
+      when "full" then "100%"
+      when "screen" then "100vw"
+      when "min" then "min-content"
+      when "max" then "max-content"
+      else units
+
+height = (units) ->
+  set "height",
+    switch units
+      when "full" then "100%"
+      when "screen" then "100vh"
+      when "min" then "min-content"
+      when "max" then "max-content"
+      else units
 
 block = display "block"
 inline = display "inline"
@@ -21,34 +34,12 @@ absolute = position "absolute"
 relative = position "relative"
 sticky = position "sticky"
 
-top = set "top"
-right = set "right"
-bottom = set "bottom"
-left = set "left"
-
-overflow = set "overflow"
-float = set "float"
-clear = set "clear"
+visible = set "visibility", "visible"
+invisible = set "visibility", "hidden"
 
 fit = set "object-fit"
 
-rows = display "flex"
-columns = pipe [
-  display "flex"
-  set "flex-direction", "column"
-]
-wrap = set "flex-wrap", "wrap"
-
-cursor = set "cursor"
-opacity = set "opacity"
-animation = set "animation"
-outline = set "outline"
 shadow = set "box-shadow"
-valign = set "vertical-align"
-important = (value) -> "#{value} !important"
-
-fill = set "fill"
-stroke = set "stroke"
 
 italic = set "font-style", "italic"
 bold = set "font-weight", "bold"
@@ -57,21 +48,10 @@ strike = set "text-decoration", "line-through"
 capitalize = set "text-transform", "capitalize"
 uppercase = set "text-transform", "uppercase"
 
-# use rhythmic sizing (line-height-step) when supported
-# https://developer.mozilla.org/en-US/docs/Web/CSS/line-height-step
-text = curry (lh, r) ->
-  pipe [
-    set "line-height", lh
-    set "font-size", "calc(#{lh} * #{r})"
-  ]
-
 export {
   display
-  width
   height
-  margin
-  padding
-  border
+  width
   block
   inline
   table
@@ -83,31 +63,13 @@ export {
   absolute
   relative
   sticky
-  top
-  right
-  bottom
-  left
-  overflow
+  visible
+  invisible
   fit
-  float
-  clear
-  rows
-  columns
-  wrap
-  cursor
-  opacity
-  animation
-  outline
-  shadow
-  valign
-  important
-  fill
-  stroke
   italic
   bold
   underline
   strike
   capitalize
   uppercase
-  text
 }
