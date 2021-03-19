@@ -324,6 +324,16 @@ do ->
               margin: 0.25rem;
             }
           "
+
+      test "fractional units", ->
+        console.log q.q "width 1/4vw"
+        verify
+          quark: q.sheet [ q.select "p", [ q.q "width 1/4vw" ] ]
+          css: "
+            p {
+              width: 0.25vw;
+            }
+          "
     ]
   ]
 

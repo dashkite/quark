@@ -1,9 +1,23 @@
 import {r} from "./registry"
 import {set} from "./core"
-import {width, height} from "./properties"
 
-r.w = width
-r.h = height
+r.width = (units) ->
+  set "width",
+    switch units
+      when "full" then "100%"
+      when "screen" then "100vw"
+      when "min" then "min-content"
+      when "max" then "max-content"
+      else units
+
+r.height = (units) ->
+  set "height",
+    switch units
+      when "full" then "100%"
+      when "screen" then "100vh"
+      when "min" then "min-content"
+      when "max" then "max-content"
+      else units
 
 r["min-width"] = (units) ->
   set "min-width",
