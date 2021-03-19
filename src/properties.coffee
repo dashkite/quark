@@ -3,24 +3,6 @@ import {set} from "./core"
 
 display = set "display"
 
-width = (units) ->
-  set "width",
-    switch units
-      when "full" then "100%"
-      when "screen" then "100vw"
-      when "min" then "min-content"
-      when "max" then "max-content"
-      else units
-
-height = (units) ->
-  set "height",
-    switch units
-      when "full" then "100%"
-      when "screen" then "100vh"
-      when "min" then "min-content"
-      when "max" then "max-content"
-      else units
-
 block = display "block"
 inline = display "inline"
 table = display "table"
@@ -50,8 +32,6 @@ uppercase = set "text-transform", "uppercase"
 
 export {
   display
-  height
-  width
   block
   inline
   table

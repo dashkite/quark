@@ -31,7 +31,7 @@ operator = g.rule (condition word, isOperator), getOperator
 rule = g.rule (g.all operator, optional (g.all g.ws, operands)), ({value}) ->
   [ f, ax ] = value
   # skip ws
-  if ax? then (f ax[1..]...) else f
+  if ax? then (f ax[1]...) else f
 
 rules = g.rule (g.list (g.re /^,\s+/), rule), ({value}) -> pipe value
 

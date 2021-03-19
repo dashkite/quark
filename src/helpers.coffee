@@ -8,5 +8,5 @@ any = (fx) ->
   (x) ->
     for f from fx
       if (r = f x)? then return r
-
+  
 export {getter, first, last, any}

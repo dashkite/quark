@@ -2,9 +2,9 @@ import {r} from "../registry"
 import {set} from "../core"
 
 r["grid-flow-row"] = set "grid-auto-flow", "row"
-r["grid-flow-col"] = set "grid-auto-flow", "column"
+r["grid-flow-column"] = set "grid-auto-flow", "column"
 r["grid-flow-row-dense"] = set "grid-auto-flow", "row dense"
-r["grid-flow-col-dense"] = set "grid-auto-flow", "column dense"
+r["grid-flow-column-dense"] = set "grid-auto-flow", "column dense"
 
 r["grid-columns-auto"] = set "grid-auto-columns", "auto"
 r["grid-columns-min"] = set "grid-auto-columns", "min-content"

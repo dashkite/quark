@@ -44,7 +44,7 @@ do ->
 
       test "width", ->
         verify
-          quark: q.sheet [ q.select "main", [ q.width "90%" ] ]
+          quark: q.sheet [ q.select "main", [ q.r.width "90%" ] ]
           css: "main { width: 90%; }"
 
       # test "minWidth", ->
@@ -180,8 +180,8 @@ do ->
           quark: q.sheet [
             q.select "img", [
               q.select "&.avatar", [
-                q.height  q.hrem 6
-                q.width  q.hrem 6
+                q.r.height  q.hrem 6
+                q.r.width  q.hrem 6
               ] ] ]
           css: "img.avatar { height: 3rem; width: 3rem; }"
 
@@ -240,9 +240,9 @@ do ->
             ]
           ]
           css: "
-          p {
-            margin-bottom: 1rem;
-          }
+            p {
+              margin-bottom: 1rem;
+            }
           "
     ]
 
@@ -261,33 +261,35 @@ do ->
         verify
           quark: q.sheet [ q.select "p", [ q.q "inset 1rem" ] ]
           css: "
-          p {
-            top: 1rem;
-            right: 1rem;
-            bottom: 1rem;
-            left: 1rem;
-          }
+            p {
+              top: 1rem;
+              right: 1rem;
+              bottom: 1rem;
+              left: 1rem;
+            }
           "
       test "compound rule", ->
         verify
           quark: q.sheet [ q.select "p", [ q.q "inline-block, inset 1rem" ] ]
           css: "
-          p {
-            display: inline-block;
-            top: 1rem;
-            right: 1rem;
-            bottom: 1rem;
-            left: 1rem;
-          }
+            p {
+              display: inline-block;
+              top: 1rem;
+              right: 1rem;
+              bottom: 1rem;
+              left: 1rem;
+            }
           "
-      test "z-index rule", ->
+      test "radius", ->
         verify
-          quark: q.sheet [ q.select "p", [ q.q "z 10" ] ]
+          quark: q.sheet [ q.select "p", [ q.q "radius sm l" ] ]
           css: "
-          p {
-            z-index: 10;
-          }
-          "    ]
+            p {
+              border-top-left-radius: 0.25rem;
+              border-bottom-left-radius: 0.25rem;
+            }
+          "
+    ]
   ]
 
   process.exit if success then 0 else 1
