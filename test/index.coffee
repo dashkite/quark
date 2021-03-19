@@ -326,7 +326,6 @@ do ->
           "
 
       test "fractional units", ->
-        console.log q.q "width 1/4vw"
         verify
           quark: q.sheet [ q.select "p", [ q.q "width 1/4vw" ] ]
           css: "
@@ -334,6 +333,72 @@ do ->
               width: 0.25vw;
             }
           "
+
+      test "examples", [
+
+        test "p 1rem, border gray-200, radius sm", ->
+          verify
+            quark: q.sheet [
+              q.select "p", [ q.q "p 1rem, border gray-200, radius sm" ] ]
+            css: "
+              p {
+                padding: 1rem;
+                border: #e4e4e7;
+                border-radius: 0.25rem;
+              }
+            "
+        test "rows, align-items center,
+          mb 1r, pb 1r, bb gray-200", ->
+          verify
+            quark: q.sheet [
+              q.select "p", [
+                q.q "rows, align-items center,
+                  mb 1r, pb 1r, bb gray-200" ] ]
+            css: "
+              p {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin-bottom: 1rem;
+                padding-bottom: 1rem;
+                border-bottom: #e4e4e7;
+              }
+            "
+        test "width 8qr, fit contain, mr 1r", ->
+          verify
+            quark: q.sheet [
+              q.select "p", [
+                q.q "width 8qr, fit contain, mr 1r" ] ]
+            css: "
+              p {
+                width: 2rem;
+                object-fit: contain;
+                margin-right: 1rem;
+              }
+            "
+
+        test "mb 1rem, text xl, leading tight", ->
+          verify
+            quark: q.sheet [
+              q.select "p", [
+                q.q "mb 1rem, text xl, leading tight" ] ]
+            css: "
+              p {
+                margin-bottom: 1rem;
+                line-height: 1.75rem;
+                font-size: 1.25rem;
+                line-height: 1.375;
+              }
+            "
+
+        test "fit contain, max-height 1/4vh", ->
+          verify
+            quark: q.sheet [
+              q.select "p", [
+                q.q "fit contain, max-height 1/4vh" ] ]
+            css: "p { object-fit: contain; max-height: 0.25vh; }"
+      ]
+
     ]
   ]
 

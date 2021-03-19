@@ -1,3 +1,4 @@
+import {pipe} from "@pandastrike/garden"
 import {r} from "../registry"
 import {set} from "../core"
 
@@ -20,7 +21,9 @@ sizes =
 # https://developer.mozilla.org/en-US/docs/Web/CSS/line-height-step
 text = (args...) ->
   switch args.length
-    when 1 then text sizes[size]...
+    when 1
+      [ code ] = args
+      text sizes[ code ]...
     else
       [ fs, lh ] = args
       pipe [

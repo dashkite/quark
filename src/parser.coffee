@@ -29,8 +29,11 @@ fraction = g.rule (g.all (g.re /^\d+/),
 scalar = g.any fraction, (g.re /^[\d\.]+/)
 
 conversions =
+  r: (units) -> [ units, "rem" ]
   qrem: (units) -> [ ((Number.parseFloat units) / 4), "rem" ]
+  qr: (units) -> conversions.qrem units
   hrem: (units) -> [ ((Number.parseFloat units) / 2), "rem" ]
+  hr: (units) -> conversions.hrem units
 
 measure = g.rule (g.all scalar, (g.re /^[\w]+/)), ({value}) ->
   [ number, units ] = value
