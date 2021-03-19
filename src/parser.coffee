@@ -21,8 +21,16 @@ isOperator = ({value}) -> r[value]?
 
 getOperator = ({value}) -> r[value]
 
+conversions =
+  qrem: (units) -> [ ((Number.parseFloat units) / 4), "rem" ]
+
 # TODO add support for virtual measures
-measure = g.re /^[\w\.]+/
+measure = g.rule (g.all (g.re /^[\d\.]+/), (g.re /^[\w]+/)), ({value}) ->
+  [ number, units ] = value
+  if (conversion = conversions[units])?
+    [ number, units ] = conversion number
+  "#{number}#{units}"
+
 
 colorLiteral = g.re /^\#[a-f0-9]{3,6}/
 

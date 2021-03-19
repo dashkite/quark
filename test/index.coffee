@@ -316,6 +316,14 @@ do ->
               color: olive;
             }
           "
+      test "unit conversion", ->
+        verify
+          quark: q.sheet [ q.select "p", [ q.q "m 1qrem" ] ]
+          css: "
+            p {
+              margin: 0.25rem;
+            }
+          "
     ]
   ]
 
