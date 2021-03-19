@@ -1,5 +1,5 @@
-import {r} from "../registry"
-import {set} from "../core"
+import {r} from "./registry"
+import {set} from "./core"
 
 r.p = set "padding"
 r.px = (units) -> set "padding", left: units, right: units

@@ -10,7 +10,3 @@ r["place"] = (placement) ->
       when "around" then "space-around"
       when "evenly" then "space-evenly"
       else placement
-
-r["place-items"] = set "place-items"
-
-r["place-self"] = set "place-self"

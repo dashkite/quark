@@ -1,6 +1,9 @@
 import {pipe} from "@pandastrike/garden"
 import {r} from "../registry"
-import {position, top, bottom, left, right} from "../properties"
+import {set} from "../core"
+import {position} from "../properties"
+
+{top, bottom, left, right} = r
 
 r["static"] = position "static"
 
@@ -23,3 +26,5 @@ r["inset-y"] = (units) ->
     top units
     bottom units
   ]
+
+r["z"] = set "z-index"

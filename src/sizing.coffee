@@ -1,6 +1,6 @@
-import {r} from "../registry"
-import {set} from "../core"
-import {width, height} from "../properties"
+import {r} from "./registry"
+import {set} from "./core"
+import {width, height} from "./properties"
 
 r.w = width
 r.h = height

@@ -12,6 +12,3 @@ r["grid-column-span"] = (n) ->
     when "auto" then set "grid-column", "auto"
     when "full" then set "grid-column", "1 / -1"
     else set "grid-column", "span #{n} / span #{n}"
-
-r["grid-column-start"] = set "grid-column-start"
-r["grid-column-end"] = set "grid-column-end"

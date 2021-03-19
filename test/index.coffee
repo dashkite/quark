@@ -106,18 +106,18 @@ do ->
 
       test "rows", ->
         verify
-          quark: q.sheet [ q.select "main", [ q.rows ] ]
-          css: "main { display: flex; }"
+          quark: q.sheet [ q.select "main", [ q.r.rows ] ]
+          css: "main { display: flex; flex-direction: row; }"
 
       test "columns", ->
         verify
-          quark: q.sheet [ q.select "main", [ q.columns ] ]
+          quark: q.sheet [ q.select "main", [ q.r.columns ] ]
           css: "main { display: flex; flex-direction: column; }"
 
-      test "wrap", ->
-        verify
-          quark: q.sheet [ q.select "main", [ q.rows, q.wrap ] ]
-          css: "main { display: flex; flex-wrap: wrap; }"
+      # test "wrap", ->
+      #   verify
+      #     quark: q.sheet [ q.select "main", [ q.r.flex, q.r["flex-wrap"] ] ]
+      #     css: "main { display: flex; flex-wrap: wrap; }"
 
     ]
 
@@ -220,8 +220,8 @@ do ->
         verify
           quark: q.sheet [
             q.keyframes "fade", [
-              q.from [ q.opacity 0 ]
-              q.to [ q.opacity 1 ]
+              q.from [ q.r.opacity 0 ]
+              q.to [ q.r.opacity 1 ]
             ]
           ]
           css: "
@@ -236,7 +236,7 @@ do ->
         verify
           quark: q.sheet [
             q.select "p", [
-              q.margin bottom: q.hrem 2
+              q.r.margin bottom: q.hrem 2
             ]
           ]
           css: "
@@ -247,6 +247,15 @@ do ->
     ]
 
     test "parsing", [
+
+      test "implicit rule", ->
+        verify
+          quark: q.sheet [ q.select "p", [ q.q "justify-items 2rem" ] ]
+          css: "
+            p {
+              justify-items: 2rem;
+            }
+          "
 
       test "single rule", ->
         verify
