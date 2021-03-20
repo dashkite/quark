@@ -399,6 +399,25 @@ do ->
             css: "p { object-fit: contain; max-height: 0.25vh; }"
       ]
 
+      # test "quark parser", ->
+      #   console.log q.quark """
+      #         p % text base, mb 1r
+      #           img % fit contain, max-height 1/4vh
+      #       """
+        # verify
+        #   quark: q.sheet [
+        #     q.quark """
+        #       p % text base, mb 1r
+        #         img % fit contain, max-height 1/4vh
+        #     """
+        #   ]
+        #   css: "
+        #     p {
+        #     }
+        #     p img {
+        #     }
+        #   "
+
     ]
   ]
 

@@ -1,7 +1,7 @@
 import {pipe} from "@pandastrike/garden"
 import * as g from "panda-grammar"
-import {r} from "./registry"
-import {colors} from "./colors"
+import {r} from "../registry"
+import {colors} from "../colors"
 
 condition = (p, c) ->
   (s) -> if (m = p s)? && (c m) then m
