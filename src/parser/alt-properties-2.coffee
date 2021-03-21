@@ -1,55 +1,57 @@
 import {pipe} from "@pandastrike/garden"
-# import * as p from "parjs"
-# import * as c from "parjs/combinators"
+import * as p from "@dashkite/parse"
 import {r} from "../registry"
 import {colors} from "../colors"
 
-ws = g.re /^\s+/
+spread = (f) -> (ax) -> f ax...
 
-word = g.re /^[\w+\-]+/
+symbol = p.re /^[\w+\-]+/, "symbol"
 
-integer = g.all [
-  g.re /^\d+/
-  g.map (value) -> Number.parseInt value, 10
+integer = p.pipe [
+  p.match p.re /^\d+/, "digit"
+  p.map (value) -> Number.parseInt value, 10
 ]
 
-float = g.all [
-  g.re /^\d+\.?\d*/
-  g.map (text) -> Number.parseFloat text
+float = p.pipe [
+  p.match p.re /^\d+\.?\d*/, "decimal"
+  p.map (text) -> Number.parseFloat text
 ]
 
-colorLiteral = g.re /^\#[a-f0-9]{3,6}/
+colorLiteral = p.re /^\#[a-f0-9]{3,6}/, "color literal"
 
 isColorName = (name) -> colors[name]?
 
 getColorName = (name) -> colors[name]
 
-colorName = g.all [
-  word
-  g.test isColorName
-  g.map getColorName
+colorName = p.pipe [
+  p.match symbol
+  p.test "color name", isColorName
+  p.map getColorName
 ]
 
-color = g.any [
+color = p.any [
   colorName
   colorLiteral
 ]
 
-fraction = g.all [
-  integer
-  g.skip "/"
-  integer
-  g.map (value) ->
+fraction = p.pipe [
+  p.all [
+    integer
+    p.skip "/"
+    integer
+  ]
+  p.map (value) ->
     [ numerator, denominator ] = value
     numerator / denominator
 ]
 
-scalar = g.any [
+scalar = p.any [
   fraction
   float
 ]
 
-unit = g.re /[\w]+/
+
+unit = p.re /[\w]+/, "unit"
 
 conversions =
   r: (units) -> [ units, "rem" ]
@@ -63,47 +65,61 @@ convert = (number, units) ->
     [ number, units ] = conversion number
   "#{number}#{units}"
 
-measure = g.all [
-  scalar
-  unit
-  g.map spread convert
+measure = p.pipe [
+  p.all [
+    scalar
+    unit
+  ]
+  p.map spread convert
 ]
 
-operand = g.any [
+
+operand = p.any [
   color
   measure
-  word
+  symbol
 ]
 
-operands = g.list ws, operand
+operands = p.list p.ws, operand
 
 getOperator = (name) -> r[name]
 
-operator = g.all [
-  word
-  g.map getOperator
+operator = p.pipe [
+  p.match symbol
+  p.map getOperator
 ]
 
-apply = ([f, args]) -> if args.length == 0 then f else f args...
+apply = (f, args) -> if !args? then f else f args...
 
-property = g.all [
-  operator
-  g.skip ws
-  operands
-  g.map spread apply
+property = p.pipe [
+  p.all [
+    operator
+    # TODO this part seems clunky
+    p.optional p.pipe [
+      p.all [
+        p.skip p.ws
+        operands
+      ]
+      p.map ([operands]) -> operands
+    ]
+  ]
+  p.map spread apply
 ]
 
-comma = g.all [
-  g.trim ws
-  g.text ","
-  g.trim ws
+comma = p.all [
+  p.trim p.ws
+  p.text ","
+  p.trim p.ws
 ]
 
-properties = g.all [
-  g.trim ws
-  g.list comma, property
-  g.map pipe
-  g.result
+properties = p.pipe [
+  p.all [
+    p.trim p.ws
+    p.list comma, property
+  ]
+  p.map spread pipe
 ]
+
+q = p.parser properties
 
 export {q}

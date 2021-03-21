@@ -27,7 +27,7 @@
     "@dashkite/stylist": "0.0.4",
     "@pandastrike/garden": "^8.0.1",
     "panda-grammar": "^2.0.1",
-    "parjs": "^0.12.7"
+    "@dashkite/parse": "^0.0.0"
   },
   "devDependencies": {
     "@dashkite/brick": "0.0.3",
