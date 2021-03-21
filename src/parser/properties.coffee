@@ -1,32 +1,57 @@
 import {pipe} from "@pandastrike/garden"
-import * as g from "panda-grammar"
+import * as p from "@dashkite/parse"
 import {r} from "../registry"
 import {colors} from "../colors"
 
-condition = (p, c) ->
-  (s) -> if (m = p s)? && (c m) then m
+spread = (f) -> (ax) -> f ax...
 
-word = g.re /^[\w\-]+/
+symbol = p.re /^[\w+\-]+/, "symbol"
 
-optional = (p) ->
-  (s) ->
-    if (m = p s)?
-      m
-    else
-      rest: s
+integer = p.pipe [
+  p.match p.re /^\d+/, "digit"
+  p.map (value) -> Number.parseInt value, 10
+]
 
-second = (a) -> a[1]
+float = p.pipe [
+  p.match p.re /^\d+\.?\d*/, "decimal"
+  p.map (text) -> Number.parseFloat text
+]
 
-isOperator = ({value}) -> r[value]?
+colorLiteral = p.re /^\#[a-f0-9]{3,6}/, "color literal"
 
-getOperator = ({value}) -> r[value]
+isColorName = (name) -> colors[name]?
 
-fraction = g.rule (g.all (g.re /^\d+/),
-  (g.string "/"), (g.re /^\d+/)), ({value}) ->
-    [ numerator, _, denominator ] = value
-    (numerator / denominator).toString()
+getColorName = (name) -> colors[name]
 
-scalar = g.any fraction, (g.re /^[\d\.]+/)
+colorName = p.pipe [
+  p.match symbol
+  p.test "color name", isColorName
+  p.map getColorName
+]
+
+color = p.any [
+  colorName
+  colorLiteral
+]
+
+fraction = p.pipe [
+  p.all [
+    integer
+    p.skip "/"
+    integer
+  ]
+  p.map (value) ->
+    [ numerator, denominator ] = value
+    numerator / denominator
+]
+
+scalar = p.any [
+  fraction
+  float
+]
+
+
+unit = p.re /[\w]+/, "unit"
 
 conversions =
   r: (units) -> [ units, "rem" ]
@@ -35,35 +60,65 @@ conversions =
   hrem: (units) -> [ ((Number.parseFloat units) / 2), "rem" ]
   hr: (units) -> conversions.hrem units
 
-measure = g.rule (g.all scalar, (g.re /^[\w]+/)), ({value}) ->
-  [ number, units ] = value
+convert = (number, units) ->
   if (conversion = conversions[units])?
     [ number, units ] = conversion number
   "#{number}#{units}"
 
-colorLiteral = g.re /^\#[a-f0-9]{3,6}/
+measure = p.pipe [
+  p.all [
+    scalar
+    unit
+  ]
+  p.map spread convert
+]
 
-isColorName = ({value}) -> colors[value]?
+operand = p.any [
+  color
+  measure
+  symbol
+]
 
-getColorName = ({value}) -> colors[value]
+operands = p.list p.ws, operand
 
-colorName = g.rule (condition word, isColorName), getColorName
+getOperator = (name) -> r[name]
 
-color = g.any colorName, colorLiteral
+operator = p.pipe [
+  p.match symbol
+  p.map getOperator
+]
 
-operand = g.any color, measure, word
+apply = (f, args) -> if !args? then f else f args...
 
-operands =  g.list g.ws, operand
+property = p.pipe [
+  p.all [
+    operator
+    # TODO this part seems clunky
+    p.optional p.pipe [
+      p.all [
+        p.skip p.ws
+        operands
+      ]
+      p.map ([operands]) -> operands
+    ]
+  ]
+  p.map spread apply
+]
 
-operator = g.rule (condition word, isOperator), getOperator
+comma = p.all [
+  p.trim p.ws
+  p.text ","
+  p.trim p.ws
+]
 
-rule = g.rule (g.all operator, optional (g.all g.ws, operands)), ({value}) ->
-  [ f, ax ] = value
-  # skip ws
-  if ax? then (f ax[1]...) else f
+properties = p.pipe [
+  p.all [
+    p.trim p.ws
+    p.list comma, property
+  ]
+  p.map spread pipe
+]
 
-rules = g.rule (g.list (g.re /^,\s+/), rule), ({value}) -> pipe value
-
-q = g.grammar rules
+q = p.parser properties
 
 export {q}
