@@ -1,62 +1,49 @@
 import {pipe} from "@pandastrike/garden"
-import * as g from "panda-grammar"
-import {q as properties} from "./properties"
+import * as p from "@dashkite/parse"
+import * as r from "./properties"
+# import {render, sheet, select as $} from "../core"
+import * as q from "../core"
 
-log = (p) ->
-  (s) ->
-    console.log "input:", s
-    r = p s
-    console.log "output:", r
-    r
+bol = p.skip p.pipe [
+  p.get "indent", []
+  p.apply p.all
+]
 
-memoize = (p) ->
-  cache = {}
-  (s) -> cache[s] ?= p s
+block = (f, g) -> p.push "indent", f, g
 
-#
-# beginning/end of line parsing
-#
+pdelim = p.re /^\s*%\s*/, "%"
 
-[ bol, indent ] = do (lead = []) ->
+pclause = p.first p.all [
+  p.skip pdelim
+  r.properties
+]
 
-  [
+selector = p.pipe [
+  p.re /^[^%\n]+/, "selector"
+  p.map (s) -> s.trim()
+]
 
-    (s) ->
-      p = g.all lead...
-      if (m = p s)?
-        {rest} = m
-        {rest}
+indent = p.text "  "
 
-    (q, p) ->
-      (s) ->
-        lead.push q
-        m = p s
-        lead.pop()
-        m
-
+sclause = p.pipe [
+  p.all [
+    bol
+    selector
+    pclause
+    p.skip p.eol
+    p.optional block indent, p.forward -> sclauses
   ]
+  p.map ([s, p, k]) ->
+    q.select s, [ p, k... ]
+]
 
-eof = (s) -> if s == "" then rest: ""
+sclauses = p.many sclause
 
-eol = g.any (g.string "\n"), eof
+rules = p.pipe [
+  sclauses
+  p.map (r) -> q.render q.sheet r
+]
 
-blank = g.all bol, eol
+parse = p.parser rules
 
-propertiesDelimiter = g.re /^\s*%\s*/
-
-propertiesClause = g.all propertiesDelimiter, properties
-
-selector = g.re /^[\w\s\-\>\+\*]+/
-
-rule = g.rule (g.all bol, (indent (g.string "  "),
-  (g.all selector, (g.optional propertiesClause),
-    (g.optional g.forward -> rules)))), ({value}) ->
-      [ s, px, rx ] = value[1]
-      console.log s, px, rx
-      value
-
-rules = g.list eol, rule
-
-quark = g.grammar rules
-
-export {quark}
+export {parse}

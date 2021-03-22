@@ -399,27 +399,18 @@ do ->
             css: "p { object-fit: contain; max-height: 0.25vh; }"
       ]
 
-      # test "quark parser", ->
-      #   console.log q.quark """
-      #         p % text base, mb 1r
-      #           img % fit contain, max-height 1/4vh
-      #       """
-        # verify
-        #   quark: q.sheet [
-        #     q.quark """
-        #       p % text base, mb 1r
-        #         img % fit contain, max-height 1/4vh
-        #     """
-        #   ]
-        #   css: "
-        #     p {
-        #     }
-        #     p img {
-        #     }
-        #   "
+      test "quark parser", ->
+        assert.equal "
+          p .byline { font-weight: bold; }
+          p { margin-bottom: 2rem; border: 1px; }
+          h1 { line-height: 1.75rem; font-size: 1.25rem; }
+          ", q.parse """
+            p % mb 2rem, border 1px
+              .byline % bold
+            h1 % text xl
+            """
 
     ]
   ]
-
 
   process.exit if success then 0 else 1

@@ -121,4 +121,4 @@ properties = p.pipe [
 
 q = p.parser properties
 
-export {q}
+export {q, properties}
