@@ -8,12 +8,12 @@ spread = (f) -> (ax) -> f ax...
 symbol = p.re /^[\w+\-]+/, "symbol"
 
 integer = p.pipe [
-  p.match p.re /^\d+/, "digit"
+  p.re /^\d+/, "digit"
   p.map (value) -> Number.parseInt value, 10
 ]
 
 float = p.pipe [
-  p.match p.re /^\d+\.?\d*/, "decimal"
+  p.re /^\d+\.?\d*/, "decimal"
   p.map (text) -> Number.parseFloat text
 ]
 

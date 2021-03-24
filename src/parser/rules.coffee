@@ -14,9 +14,9 @@ block = (f, g) -> p.push "indent", f, g
 pdelim = p.re /^\s*%\s*/, "%"
 
 pclause = p.first p.all [
-  p.skip pdelim
-  r.properties
-]
+    p.skip pdelim
+    r.properties
+  ]
 
 selector = p.pipe [
   p.re /^[^%\n]+/, "selector"
@@ -25,16 +25,38 @@ selector = p.pipe [
 
 indent = p.text "  "
 
-sclause = p.pipe [
+eol = p.any [
   p.all [
-    bol
-    selector
-    pclause
-    p.skip p.eol
-    p.optional block indent, p.forward -> sclauses
+    p.text "//"
+    p.re /.*/
+    p.eol
   ]
-  p.map ([s, p, k]) ->
-    q.select s, [ p, k... ]
+  p.eol
+]
+
+empty = p.all [
+  p.trim p.ws
+  eol
+]
+
+nested = block indent, p.forward -> sclauses
+
+sclause = p.pipe [
+  p.log p.all [
+    p.trim p.many empty
+    bol
+    p.assign "result", "selector", selector
+    p.assign "result", "properties", p.optional pclause
+    p.skip p.eol
+    p.assign "result", "nested", p.optional nested
+  ]
+  p.get "result"
+  p.map (value) ->
+    value.nested ?= []
+    q.select value.selector,
+      if value.properties?
+        [ value.properties, value.nested... ]
+      else value.nested
 ]
 
 sclauses = p.many sclause

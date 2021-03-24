@@ -399,16 +399,139 @@ do ->
             css: "p { object-fit: contain; max-height: 0.25vh; }"
       ]
 
-      test "quark parser", ->
-        assert.equal "
-          p .byline { font-weight: bold; }
-          p { margin-bottom: 2rem; border: 1px; }
-          h1 { line-height: 1.75rem; font-size: 1.25rem; }
-          ", q.parse """
-            p % mb 2rem, border 1px
-              .byline % bold
-            h1 % text xl
-            """
+      test "quark parser", [
+
+        test "simple stylesheet with nested rule", ->
+
+          assert.equal "
+            p .byline { font-weight: bold; }
+            p { margin-bottom: 2rem; border: 1px; }
+            h1 { line-height: 1.75rem; font-size: 1.25rem; }
+            ", q.parse """
+              p % mb 2rem, border 1px
+                .byline % bold
+              h1 % text xl
+              """
+
+        test "simple stylesheet with blank lines", ->
+          assert.equal "
+            p .byline { font-weight: bold; }
+            p { margin-bottom: 2rem; border: 1px; }
+            h1 { line-height: 1.75rem; font-size: 1.25rem; }
+            ", q.parse """
+              p % mb 2rem, border 1px
+                .byline % bold
+
+              h1 % text xl
+              """
+
+        test "simple stylesheet with comments", ->
+          assert.equal "
+            p .byline { font-weight: bold; }
+            p { margin-bottom: 2rem; border: 1px; }
+            h1 { line-height: 1.75rem; font-size: 1.25rem; }
+            ", q.parse """
+              p % mb 2rem, border 1px
+                .byline % bold
+              // make heading a bit larger
+              h1 % text xl
+              """
+
+        test "simple stylesheet, select with no properties", ->
+          assert.equal "
+            p .byline { font-weight: bold; }
+            h1 { line-height: 1.75rem; font-size: 1.25rem; }
+            ", q.parse """
+              p
+                .byline % bold
+              h1 % text xl
+              """
+
+        test "more complex stylesheet", ->
+          assert.equal (q.parse """
+            :host([data-preset='card'])
+              article % p 1rem, border gray-200, radius sm
+                header % rows, align-items center, mb 1r, pb 1rem, border-bottom gray-200
+                  .publisher % rows, align-items center
+                    img % width 8qrem, fit contain, mr 1rem
+                  .headline % columns
+                    h2 % mb 1rem, text xl, leading tight
+                  .byline
+                    p % text sm, leading tighter, mr 1rem
+                      .author % inline-block, mr 1rem, bold
+                section % overflow auto
+                  p % text base, leading tighter, mb 4rem
+                    & > img % fit contain, max-height 1/4vh
+                  aside
+                    img % width full, fit contain
+            """),
+              "
+              :host([data-preset='card']) article header .publisher img {
+                   width: 2rem;
+                   object-fit: contain;
+                   margin-right: 1rem;
+              }
+               :host([data-preset='card']) article header .publisher {
+                   display: flex;
+                   flex-direction: row;
+                   align-items: center;
+              }
+               :host([data-preset='card']) article header .headline h2 {
+                   margin-bottom: 1rem;
+                   line-height: 1.75rem;
+                   font-size: 1.25rem;
+                   line-height: 1.375;
+              }
+               :host([data-preset='card']) article header .headline {
+                   display: flex;
+                   flex-direction: column;
+              }
+               :host([data-preset='card']) article header .byline p .author {
+                   display: inline-block;
+                   margin-right: 1rem;
+                   font-weight: bold;
+              }
+               :host([data-preset='card']) article header .byline p {
+                   line-height: 1.25rem;
+                   font-size: 0.875rem;
+                   line-height: 1.25;
+                   margin-right: 1rem;
+              }
+               :host([data-preset='card']) article header {
+                   display: flex;
+                   flex-direction: row;
+                   align-items: center;
+                   margin-bottom: 1rem;
+                   padding-bottom: 1rem;
+                   border-bottom: #e4e4e7;
+              }
+               :host([data-preset='card']) article section p > img {
+                   object-fit: contain;
+                   max-height: 0.25vh;
+              }
+               :host([data-preset='card']) article section p {
+                   line-height: 1.5rem;
+                   font-size: 1rem;
+                   line-height: 1.25;
+                   margin-bottom: 4rem;
+              }
+               :host([data-preset='card']) article section aside img {
+                   width: 100%;
+                   object-fit: contain;
+              }
+               :host([data-preset='card']) article section {
+                   overflow: auto;
+              }
+               :host([data-preset='card']) article {
+                   padding: 1rem;
+                   border: #e4e4e7;
+                   border-radius: 0.25rem;
+              }
+              "
+
+
+      ]
+
 
     ]
   ]
