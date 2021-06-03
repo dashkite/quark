@@ -4,6 +4,9 @@ import print from "@dashkite/amen-console"
 colors = require "colors"
 Diff = require "diff"
 
+import * as m from "@dashkite/mimic"
+import browse from "@dashkite/genie-presets/browse"
+
 import {tee, pipe} from "@dashkite/joy/function"
 import * as q from "../src"
 import {color} from "./theme"
@@ -529,11 +532,20 @@ do ->
               }
               "
 
-
       ]
 
 
     ]
+
+    await do browse ({browser, port}) ->
+
+      await test
+        description: "loads in browser"
+        wait: false
+        m.launch browser, [
+          m.page
+          m.goto "http://localhost:#{port}/"
+        ]
   ]
 
   process.exit if success then 0 else 1

@@ -1,4 +1,3 @@
-import {width} from "../properties"
 import {r} from "../registry"
 
 # TODO not quite sure what to do with this one...
