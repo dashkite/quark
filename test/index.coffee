@@ -537,15 +537,15 @@ do ->
 
     ]
 
-    await do browse ({browser, port}) ->
-
-      await test
-        description: "loads in browser"
-        wait: false
-        m.launch browser, [
+    test
+      description: "loads in browser"
+      wait: false
+      browse ({browser, port}) ->
+        do m.launch browser, [
           m.page
           m.goto "http://localhost:#{port}/"
         ]
+
   ]
 
   process.exit if success then 0 else 1

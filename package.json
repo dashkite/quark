@@ -30,7 +30,7 @@
   "dependencies": {
     "@dashkite/joy": "^0.3.7",
     "@dashkite/katana": "^0.4.8",
-    "@dashkite/parse": "^0.3.0"
+    "@dashkite/parse": "file:../parse"
   },
   "devDependencies": {
     "@dashkite/amen": "^0.1.2",
