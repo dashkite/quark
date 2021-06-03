@@ -23,18 +23,19 @@
     "test": "genie test"
   },
   "dependencies": {
-    "@dashkite/katana": "^0.3.2",
-    "@dashkite/stylist": "0.0.4",
+    "@dashkite/katana": "^0.4.8",
+    "@dashkite/parse": "^0.3.0",
+    "@dashkite/stylist": "0.0.6",
     "@pandastrike/garden": "^8.0.1",
-    "panda-grammar": "^2.0.1",
-    "@dashkite/parse": "^0.0.0"
+    "panda-grammar": "^2.1.2"
   },
   "devDependencies": {
-    "@dashkite/brick": "0.0.3",
-    "@dashkite/genie": "0.0.1",
+    "@dashkite/brick": "0.2.0",
+    "@dashkite/genie": "^0.5.2",
+    "@dashkite/genie-presets": "^0.2.2",
     "amen": "^3.0.0",
     "colors": "^1.4.0",
-    "diff": "^4.0.2",
+    "diff": "^5.0.0",
     "panda-garden": "^5.0.0",
     "source-map-support": "^0.5.19"
   }
