@@ -13,27 +13,33 @@
   },
   "license": "SEE LICENSE IN LICENSE.md",
   "author": "",
-  "main": "build/src/index.js",
-  "main:coffee": "src/index.coffee",
+  "exports": {
+    ".": {
+      "node": "./build/node/src/index.js",
+      "browser": "./build/browser/src/index.js"
+    }
+  },
+  "main": "build/node/src/index.js",
   "files": [
-    "build/src",
-    "src"
+    "build/node/src",
+    "build/browser/src"
   ],
   "scripts": {
     "test": "genie test"
   },
   "dependencies": {
+    "@dashkite/joy": "^0.3.7",
     "@dashkite/katana": "^0.4.8",
     "@dashkite/parse": "^0.3.0",
-    "@dashkite/stylist": "0.0.6",
-    "@pandastrike/garden": "^8.0.1",
     "panda-grammar": "^2.1.2"
   },
   "devDependencies": {
+    "@dashkite/amen": "^0.1.2",
+    "@dashkite/amen-console": "^0.0.1",
+    "@dashkite/assert": "^0.1.2",
     "@dashkite/brick": "0.2.0",
     "@dashkite/genie": "^0.5.2",
     "@dashkite/genie-presets": "^0.2.2",
-    "amen": "^3.0.0",
     "colors": "^1.4.0",
     "diff": "^5.0.0",
     "panda-garden": "^5.0.0",

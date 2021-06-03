@@ -1,4 +1,4 @@
-import {tee, pipe, pipeWith} from "@pandastrike/garden"
+import {tee, pipe, pipeWith} from "@dashkite/joy/function"
 import {spush as push, spop as pop, speek as peek} from "@dashkite/katana"
 import {select, media, set, lookup, sheet, render} from "./core"
 import {color, background} from "./color"

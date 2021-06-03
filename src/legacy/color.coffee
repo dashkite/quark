@@ -1,4 +1,4 @@
-import {identity, pipe} from "@pandastrike/garden"
+import {identity, pipe} from "@dashkite/joy/function"
 import {any} from "./helpers"
 import {set, lookup} from "./core"
 

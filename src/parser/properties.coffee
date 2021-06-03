@@ -1,4 +1,4 @@
-import {pipe} from "@pandastrike/garden"
+import {pipe} from "@dashkite/joy/function"
 import * as p from "@dashkite/parse"
 import {r} from "../registry"
 import {colors} from "../colors"

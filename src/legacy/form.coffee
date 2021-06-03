@@ -1,4 +1,4 @@
-import {pipe, pipeWith} from "@pandastrike/garden"
+import {pipe, pipeWith} from "@dashkite/joy/function"
 import {select, set, lookup, supports} from "./core"
 import {reset} from "./reset"
 import {hrem, pct} from "./units"

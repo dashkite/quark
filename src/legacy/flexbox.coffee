@@ -1,4 +1,4 @@
-import {pipe} from "@pandastrike/garden"
+import {pipe} from "@dashkite/joy/function"
 import {set} from "./core"
 import {display} from "./dimension"
 import {pct} from "./units"

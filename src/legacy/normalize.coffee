@@ -1,4 +1,4 @@
-import {pipeWith, pipe} from "@pandastrike/garden"
+import {pipeWith, pipe} from "@dashkite/joy/function"
 import {reset} from "./reset"
 import * as c from "./core"
 import * as k from "./color"

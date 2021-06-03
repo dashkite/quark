@@ -1,4 +1,4 @@
-import {curry} from "@pandastrike/garden"
+import {curry} from "@dashkite/joy/function"
 
 first = (ax) -> ax[0]
 last = (ax) -> ax[ax.length - 1]

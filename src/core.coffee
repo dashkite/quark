@@ -1,6 +1,13 @@
-import {identity, unary, curry, flip, pipe, tee} from "@pandastrike/garden"
-import * as k from "@dashkite/katana"
-import {build as _build} from "@dashkite/stylist"
+import {
+  identity
+  unary
+  curry
+  flip
+  pipe
+  tee
+} from "@dashkite/joy/function"
+
+import * as k from "@dashkite/katana/sync"
 import {getter} from "./helpers"
 
 lookup = curry flip getter
@@ -19,7 +26,10 @@ compose = (parent, child) ->
     .join ", "
 
 sheet = (ax) ->
-  f = tee k.stack pipe ax
+  f = tee pipe [
+    k.read "styles"
+    pipe ax
+  ]
   f
     imports: []
     namespaces: []
@@ -32,24 +42,24 @@ sheet = (ax) ->
 
 select = curry (value, ax) ->
   pipe [
-    k.spush (parent) ->
+    k.push (parent) ->
       selector: compose parent.selector, value
       properties: []
     pipe ax
     k.read "styles"
-    k.smpop (styles, rule) ->
+    k.mpop (styles, rule) ->
       if rule.properties.length > 0
         styles.push rule
   ]
 
 fonts = curry (ax) ->
   pipe [
-    k.spush (parent) ->
+    k.push (parent) ->
       selector: parent.selector
       properties: []
-    k.speek unary k.stack pipe ax
+    k.peek pipe ax
     k.read "fonts"
-    k.smpop (rules, rule) ->
+    k.mpop (rules, rule) ->
       if rule.properties.length > 0
         rules.push rule
   ]
@@ -59,14 +69,14 @@ fonts = curry (ax) ->
 #      (which maybe only affects `supports`?)
 media = curry (value, ax) ->
   pipe [
-    k.spush (parent) ->
+    k.push (parent) ->
       query: value
       styles: []
       selector: parent.selector
       properties: []
     pipe ax
     k.read "media"
-    k.smpop (rules, rule) ->
+    k.mpop (rules, rule) ->
       if rule.properties.length > 0
         rules.push
           query: value
@@ -80,37 +90,37 @@ media = curry (value, ax) ->
 
 supports = curry (value, ax) ->
   pipe [
-    k.spush (parent) ->
+    k.push (parent) ->
       query: value
       selector: parent.selector
       styles: []
-    k.speek unary k.stack pipe ax
+    k.peek pipe ax
     k.read "supports"
-    k.smpop (styles, rule) ->
+    k.mpop (styles, rule) ->
       if rule.styles.length > 0
         styles.push rule
   ]
 
 keyframes = curry (value, ax) ->
   pipe [
-    k.spush ->
+    k.push ->
       name: value
       steps: []
-    k.speek unary k.stack pipe ax
+    k.peek pipe ax
     k.read "keyframes"
-    k.smpop (rules, rule) ->
+    k.mpop (rules, rule) ->
       if rule.steps.length > 0
         rules.push rule
   ]
 
 keyframe = curry (value, ax) ->
   pipe [
-    k.spush ->
+    k.push ->
       name: value
       properties: []
     pipe ax
     k.read "steps"
-    k.smpop (steps, step) ->
+    k.mpop (steps, step) ->
       if step.properties.length > 0
         steps.push step
   ]
@@ -120,7 +130,7 @@ from = keyframe "from"
 to = keyframe "to"
 
 set = curry (name, value) ->
-  k.speek (rule) ->
+  k.peek (rule) ->
     switch value.constructor
       when Object
         Object.entries value
@@ -189,8 +199,6 @@ css =
 
 render = css.sheet
 
-build = (sheet) -> _build render sheet
-
 export {
   sheet
   select
@@ -205,5 +213,4 @@ export {
   compound
   lookup
   render
-  build
 }

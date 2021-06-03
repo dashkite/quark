@@ -1,4 +1,4 @@
-import {pipe} from "@pandastrike/garden"
+import {pipe} from "@dashkite/joy/function"
 import * as p from "@dashkite/parse"
 import * as r from "./properties"
 # import {render, sheet, select as $} from "../core"
@@ -42,7 +42,7 @@ empty = p.all [
 nested = block indent, p.forward -> sclauses
 
 sclause = p.pipe [
-  p.log p.all [
+  p.all [
     p.trim p.many empty
     bol
     p.assign "result", "selector", selector

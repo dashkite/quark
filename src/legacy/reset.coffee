@@ -1,4 +1,4 @@
-import {pipe, pipeWith} from "@pandastrike/garden"
+import {pipe, pipeWith} from "@dashkite/joy/function"
 import {select, set, lookup} from "./core"
 import {display, margin, padding} from "./dimension"
 

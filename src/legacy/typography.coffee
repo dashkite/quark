@@ -1,4 +1,4 @@
-import {pipe, curry} from "@pandastrike/garden"
+import {pipe, curry} from "@dashkite/joy/function"
 import {set, lookup} from "./core"
 import {qrem, hrem, rem} from "./units"
 

@@ -1,4 +1,4 @@
-import {pipe} from "@pandastrike/garden"
+import {pipe} from "@dashkite/joy/function"
 import {select, set, lookup} from "./core"
 import {first, last, any, getter} from "./helpers"
 

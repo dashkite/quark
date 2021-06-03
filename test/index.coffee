@@ -1,10 +1,10 @@
-import assert from "assert"
-import {print, test, success} from "amen"
-import "source-map-support/register"
+import assert from "@dashkite/assert"
+import {test, success} from "@dashkite/amen"
+import print from "@dashkite/amen-console"
 colors = require "colors"
 Diff = require "diff"
 
-import {tee, pipe} from "@pandastrike/garden"
+import {tee, pipe} from "@dashkite/joy/function"
 import * as q from "../src"
 import {color} from "./theme"
 
