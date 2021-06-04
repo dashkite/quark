@@ -26,3 +26,5 @@ presets:
     import-map:
       '@dashkite/amen': latest
       '@dashkite/assert': latest
+  browser:
+    fallback: ./build/browser/test/index.html
