@@ -20,7 +20,8 @@
     "src"
   ],
   "scripts": {
-    "test": "genie test"
+    "test": "genie test",
+    "build": "genie build"
   },
   "dependencies": {
     "@dashkite/katana": "^0.3.2",
