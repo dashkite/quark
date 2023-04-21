@@ -23,7 +23,9 @@ Property =
 
   make: ( key, value ) -> { key, value }
 
-  var: ( name, value ) -> { key: "--#{name}", value }
+  set: ( name, value ) -> { key: "--#{ name }", value }
+
+  get: ( name ) -> "var(--#{ name })"
 
   render: ({ indent }) ->
     indent = ' '.repeat indent
@@ -47,12 +49,32 @@ Rule =
   make: ( selector, properties ) ->
     { selector, properties }
 
+  initialize: ({ selector, parent }) ->
+    parent ?= ""
+    parent
+      .split /,\s*/
+      .map (parent) ->
+        if selector.includes "&"
+          selector.replace /\&/g, -> parent
+        else if parent == ""
+          selector
+        else
+          "#{ parent } #{ selector }"
+      .join ", "
+
+
   render: ({ selector, properties }) ->
     """
       #{ selector } {
       #{ Properties.render indent: 2, properties }
       }
     """
+
+Rules =
+
+  append: ( rules, rule ) ->
+    if rule.properties.length > 0
+      rules.push rule
 
 Sheet = 
 
@@ -65,6 +87,7 @@ export {
   Property
   Properties
   Rule
+  Rules
   Sheet
   Units
 }
