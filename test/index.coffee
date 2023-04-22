@@ -70,6 +70,30 @@ do ->
           quark: Q.sheet [ Q.select "main", [ Q.width Units.pct 90 ] ]
           css: "main { width: 90%; }"
 
+      test "compound values", ->
+        verify
+          quark: Q.sheet [
+            Q.select "main", [
+              Q.margin
+                top: Units.rem 1
+                left: Units.hrem 1
+            ]
+          ]
+          css: "main { 
+            margin-top: 1rem;
+            margin-left: 0.5rem;
+          }"
+
+      test "compound properties", ->
+        verify
+          quark: Q.sheet [
+            Q.select "main", [
+              Q.max.width Units.rem 16
+            ]
+          ]
+          css: "main { 
+            max-width: 16rem;
+          }"
     ]
   ]
 

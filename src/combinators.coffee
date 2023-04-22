@@ -44,9 +44,9 @@ select = Fn.curry ( selector, fx ) ->
 set = Fn.curry (name, value) ->
   K.peek ( rule ) ->
     if Type.isObject value
-      for suffix, value of value
+      for suffix, _value of value
         Properties.append rule.properties,
-          Property.make "#{name}-#{suffix}", value
+          Property.make "#{name}-#{suffix}", _value
     else
       Properties.append rule.properties,
         Property.make name, value

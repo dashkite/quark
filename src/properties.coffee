@@ -33,6 +33,8 @@ padding = set "padding"
 
 margin = set "margin"
 
+border = set "border"
+
 fit = set "object-fit"
 
 shadow = set "box-shadow"
@@ -67,6 +69,9 @@ export {
   height
   max
   min
+  margin
+  padding
+  border
   fit
   italic
   bold
