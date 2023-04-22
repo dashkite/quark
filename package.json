@@ -29,8 +29,7 @@
     "build": "genie build"
   },
   "dependencies": {
-    "@dashkite/joy": "^0.3.16",
-    "diff": "^5.1.0"
+    "@dashkite/joy": "^0.3.16"
   },
   "devDependencies": {
     "@dashkite/amen": "^0.2.0",
@@ -38,6 +37,6 @@
     "@dashkite/assert": "^0.1.4",
     "@dashkite/genie": "^0.5.11",
     "@dashkite/genie-presets": "^0.6.4",
-    "colors": "^1.4.0"
+    "prettier": "^2.8.7"
   }
 }

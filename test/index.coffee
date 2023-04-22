@@ -2,73 +2,73 @@ import assert from "@dashkite/assert"
 import {test, success} from "@dashkite/amen"
 import print from "@dashkite/amen-console"
 
-import Diff from "diff"
-import colors from "colors"
-
 import * as Fn from "@dashkite/joy/function"
+import * as prettier from "prettier"
 
-diffCSS = ( expected, actual ) ->
-  do ({ color } = {}, message = "") ->
-    for {added, removed, value} in (Diff.diffCss expected, actual)
-      color = if added? then "green" else if removed? then "red" else "gray"
-      message += (colors[color] value)
-    message
+format = ( css ) ->
+  # for some reason prettier adds a newline at the end
+  ( prettier.format css, parser: "css" ).trim()
 
 verify = ({ quark, css }) ->
-  expected = css
-  actual = do Q.render quark
+  expected = format css
+  actual = format do Q.render quark
   try
     assert.equal expected, actual
   catch error
-    console.error "CSS mismatch, diff:", diffCSS expected, actual
+    console.error "CSS mismatch:", { actual, expected }
     throw error
 
 # MUT
-import {
-  Property
-  Properties
-  Rule
-} from "../src/toolkit"
+import * as Q from "../src"
 
-import * as Q from "../src/core"
+{ Property, Properties, Rule, Units } = Q
+
 
 do ->
 
   print await test "Quark", [
 
-    test "basic CSS", [
+    test "sheets", [
 
       test "property", ->
         property = Property.make "color", "green"
-        render = Property.render indent: 0
-        assert.equal "color: green;",  render property
+        assert.equal "color: green;", Property.render property
 
       test "properties", ->
-        assert.equal """
-          color: green;
-          padding: 1rem;
-          """, Properties.render indent: 0, [
+        assert.equal "color: green; padding: 1rem;", 
+          Properties.render [
             Property.make "color", "green"
             Property.make "padding", "1rem"
           ]
 
       test "rule", ->
-        assert.equal """
-          article {
-            color: green;
-            padding: 1rem;
-          }
-          """, Rule.render Rule.make "article", [
-          Property.make "color", "green"
-          Property.make "padding", "1rem"
-        ]
+        assert.equal "article { color: green; padding: 1rem; }", 
+          Rule.render Rule.make
+            selector: "article", 
+            properties: [
+              Property.make "color", "green"
+              Property.make "padding", "1rem"
+            ]
     ]
 
-    test "level 2", [
-      test "set", ->
+    test "combinators", [
+      test "sheet / select / set", ->
         verify
           quark: Q.sheet [ Q.select "main", [ Q.set "display", "block" ] ]
-          css: "main { display: block; }"
+          css: """
+            main {
+              display: block;
+            }
+          """
+
+    ]
+
+    test "properties", [
+
+      test "width", ->
+        verify
+          quark: Q.sheet [ Q.select "main", [ Q.width Units.pct 90 ] ]
+          css: "main { width: 90%; }"
 
     ]
   ]
