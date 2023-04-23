@@ -2,7 +2,20 @@ import * as Fn from "@dashkite/joy/function"
 import * as Type from "@dashkite/joy/type"
 import * as It from "@dashkite/joy/iterable"
 import * as K from "@dashkite/katana/sync"
-import { Property, Properties, Rule, Rules, MetaRule } from "./sheets"
+import {
+  Property
+  Properties
+  Rules
+  FontRule
+  FontRules
+  MediaRule
+  MediaRules
+  SupportsRule
+  SupportsRules
+  KeyFramesRule
+  KeyFramesRules
+  StyleRule
+} from "./sheets"
 
 join = It.join " "
 
@@ -27,20 +40,6 @@ initialize = ->
   styles: []
   page: []
 
-sheet = ( fx ) ->
-  Fn.pipe [
-    initialize
-    Fn.pipe fx
-  ]
-
-select = Fn.curry ( selector, fx ) ->
-  Fn.pipe [
-    K.push ( parent ) -> Rule.make { selector, parent }
-    Fn.pipe fx
-    K.read "styles"
-    K.mpop Rules.append
-  ]
-
 set = Fn.curry (name, value) ->
   K.peek ( rule ) ->
     if Type.isObject value
@@ -51,6 +50,60 @@ set = Fn.curry (name, value) ->
       Properties.append rule.properties,
         Property.make name, value
 
+fonts = Fn.curry ( fx ) ->
+  Fn.pipe [
+    K.push ( parent ) -> FontRule.make parent
+    Fn.pipe fx
+    K.read "fonts"
+    K.mpop FontRules.append
+  ]
+
+media = Fn.curry ( query, fx ) ->
+  Fn.pipe [
+    # 'save' styles for later
+    K.read "styles"
+    K.push ( parent ) -> MediaRule.make { parent, query }
+    # save the media query as the current selector context
+    K.write "context"
+    Fn.pipe fx
+    K.read "media"
+    K.mpop MediaRules.append
+    # restore styles as the context
+    K.write "context"
+  ]
+# 
+# supports = Fn.curry ( query, fx ) ->
+#   Fn.pipe [
+#     K.push ( parent ) -> SupportsRule.make { parent, query }
+#     Fn.pipe fx
+#     K.read "styles"
+#     K.mpop SupportsRule.append
+#   ]
+
+# keyframes = Fn.curry ( name, fx ) ->
+#   Fn.pipe [
+#     K.push ( parent ) -> KeyFramesRule.make { parent, name }
+#     Fn.pipe fx
+#     K.read "styles"
+#     K.mpop KeyFramesRule.append
+#   ]
+
+select = Fn.curry ( selector, fx ) ->
+  Fn.pipe [
+    K.push ( parent ) -> StyleRule.make { selector, parent }
+    Fn.pipe fx
+    K.read "context"
+    K.mpop Rules.append
+  ]
+
+sheet = ( fx ) ->
+  Fn.pipe [
+    initialize
+    K.read "styles"
+    K.write "context"
+    Fn.pipe fx
+  ]
+
 render = ( f ) ->
 
   Fn.pipe [
@@ -59,35 +112,33 @@ render = ( f ) ->
     clear
 
     K.read "fonts"
-    K.poke ( fonts ) ->
-      for { properties } in fonts
-        Rule.render Rule.make { selector: "@font-face", properties }
+    K.poke ( rules ) ->
+      for rule in rules
+        FontRule.render rule
     K.poke join
 
     K.read "media"
-    K.poke ( media ) ->
-      for { query, rules } in media
-        MetaRule.render MetaRule.make { selector: "@media #{ query }", rules }
+    K.poke ( rules ) ->
+      for rule in rules
+        MediaRule.render rule
     K.poke join
 
-    K.read "supports"
-    K.poke ( supports ) ->
-      for { query, rules } in supports
-        MetaRule.render MetaRule.make { selector: "@supports #{ query }", rules }
-    K.poke join
+    # K.read "supports"
+    # K.poke ( rules ) ->
+    #   for rule in rules
+    #     SupportsRule.render rule
+    # K.poke join
 
-    K.read "keyframes"
-    K.poke ( keyframes ) ->
-      for { name, steps } in keyframes
-        join do ->
-          for { selector, properties } in steps
-            Rule.render Rule.make { selector, properties }
-    K.poke join
+    # K.read "keyframes"
+    # K.poke ( rules ) ->
+    #   for rule in rules
+    #     KeyFramesRule.render rule
+    # K.poke join
 
     K.read "styles"
-    K.poke ( styles ) ->
-      for { selector, properties } in styles
-        Rule.render Rule.make { selector, properties }
+    K.poke ( rules ) ->
+      for rule in rules
+        StyleRule.render rule 
     K.poke join
 
     stack
@@ -100,8 +151,10 @@ render = ( f ) ->
   ]
 
 export { 
-  select
-  set
   sheet
+  set
+  fonts
+  media
+  select
   render
 }

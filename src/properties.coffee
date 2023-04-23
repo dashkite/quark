@@ -39,12 +39,16 @@ fit = set "object-fit"
 
 shadow = set "box-shadow"
 
+font = set "font"
+
 italic = set "font-style", "italic"
 bold = set "font-weight", "bold"
 underline = set "text-decoration", "underline"
 strike = set "text-decoration", "line-through"
 capitalize = set "text-transform", "capitalize"
 uppercase = set "text-transform", "uppercase"
+
+src = set "src"
 
 custom =
   set: ( name, value ) -> set "--#{ name }", value
@@ -73,11 +77,13 @@ export {
   padding
   border
   fit
+  font
   italic
   bold
   underline
   strike
   capitalize
   uppercase
+  src
   custom
 }

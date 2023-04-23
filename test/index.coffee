@@ -3,11 +3,11 @@ import {test, success} from "@dashkite/amen"
 import print from "@dashkite/amen-console"
 
 import * as Fn from "@dashkite/joy/function"
-import * as prettier from "prettier"
+import * as Prettier from "prettier"
 
 format = ( css ) ->
   # for some reason prettier adds a newline at the end
-  ( prettier.format css, parser: "css" ).trim()
+  ( Prettier.format css, parser: "css" ).trim()
 
 verify = ({ quark, css }) ->
   expected = format css
@@ -21,7 +21,7 @@ verify = ({ quark, css }) ->
 # MUT
 import * as Q from "../src"
 
-{ Property, Properties, Rule, Units } = Q
+{ Property, Properties, StyleRule, Units, Functions } = Q
 
 
 do ->
@@ -43,7 +43,7 @@ do ->
 
       test "rule", ->
         assert.equal "article { color: green; padding: 1rem; }", 
-          Rule.render Rule.make
+          StyleRule.render StyleRule.make
             selector: "article", 
             properties: [
               Property.make "color", "green"
@@ -52,6 +52,7 @@ do ->
     ]
 
     test "combinators", [
+
       test "sheet / select / set", ->
         verify
           quark: Q.sheet [ Q.select "main", [ Q.set "display", "block" ] ]
@@ -94,6 +95,72 @@ do ->
           css: "main { 
             max-width: 16rem;
           }"
+    ]
+
+    test "nesting", [
+
+      test "&.", ->
+        verify
+          quark: Q.sheet [
+            Q.select "img", [
+              Q.select "&.avatar", [
+                Q.height  Units.hrem 6
+                Q.width  Units.hrem 6
+              ] ] ]
+          css: "img.avatar { height: 3rem; width: 3rem; }"
+
+      test "&:", ->
+        verify
+          quark: Q.sheet [
+            Q.select "input", [
+              Q.select "&:focus", [
+                Q.border color: "blue"
+              ] ] ]
+          css: "input:focus { border-color: blue; }"
+
+
+    ]
+
+    test "@-rules", [
+
+      test "@font-family", ->
+
+        verify
+          quark: Q.sheet [
+            Q.fonts [
+              Q.font
+                family: "Geo"
+                style: "normal"
+              Q.src Functions.url "fonts/geo_sans_light/GensansLight.ttf"
+            ]
+          ]
+          css: """
+            @font-face {
+              font-family: Geo;
+              font-style: normal;
+              src: url("fonts/geo_sans_light/GensansLight.ttf");
+            }
+          """
+
+      test "@media", ->
+
+        verify
+          quark: Q.sheet [
+            Q.media "print", [
+              Q.select "#header, #footer", [
+                Q.hidden
+              ]
+            ]
+          ]
+          css: """
+            @media print {
+              #header,
+              #footer {
+                display: none;
+              }
+            }          
+          """
+
     ]
   ]
 

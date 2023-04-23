@@ -1,7 +1,13 @@
+import * as Fn from "@dashkite/joy/function"
+import { generic } from "@dashkite/joy/generic"
+import * as Type from "@dashkite/joy/type"
 import * as It from "@dashkite/joy/iterable"
 
 suffix = ( s ) ->
   ( text ) -> "#{ text }#{ s }"
+
+block = ( identifier, list ) -> 
+  "#{ identifier } { #{ list } }"
 
 Units =
 
@@ -29,6 +35,13 @@ Units =
 
   deg: suffix "deg"
 
+Functions =
+
+  url: ( text ) ->
+    """
+      url("#{ text }")
+    """
+
 Property =
 
   make: ( key, value ) -> { key, value }
@@ -41,12 +54,6 @@ Property =
 
 Properties =
 
-  empty: -> []
-
-  make: ( dictionary ) ->
-    for key, value of dictionary
-      Property.make key, value
-
   append: ( properties, property ) -> 
     properties.push property
 
@@ -57,10 +64,75 @@ Properties =
 
 Rule =
 
+  render: ({ selector, properties }) ->
+    block selector, Properties.render properties
+
+Rules =
+
+  append: do ->
+    _append = generic name: "append"
+    generic _append, Type.isArray, Type.isObject, ( rules, rule ) ->
+      rules.push rule if rule.properties.length > 0
+    generic _append, Type.isObject, Type.isObject, ( { rules }, rule ) ->
+      _append rules, rule
+    Fn.binary _append
+
+  render: ( rules ) -> Rule.render rule for rule in rules    
+
+FontRule =
+
+  make: -> { properties: [] }
+
+  render: ({ properties }) ->
+    block "@font-face",
+      Properties.render properties
+
+FontRules =
+
+  append: Rules.append
+
+MediaRule =
+
+  make: ({ parent, query }) ->
+    # TODO if parent is a media query itself, compose the queries
+    { query, rules: [] }
+
+  render: ({ query, rules }) ->
+    block "@media #{ query }",
+      Rules.render rules
+
+MediaRules =
+
+  append: ( media, context ) ->
+    if context.rules.length > 0
+      media.push context
+
+# SupportsRule =
+
+#   make: ({ parent, query }) ->
+
+#   render:
+
+# SupportsRules =
+
+#   append:
+
+# KeyFramesRule =
+
+#   make: ({ parent, name }) ->
+
+#   render:
+
+# KeyFramesRules =
+
+#   append:
+
+StyleRule =
+
   make: ({ selector, parent, properties }) ->
     properties ?= []
-    if parent?
-      parents = parent.split /,\s*/
+    if parent?.selector?
+      parents = parent.selector.split /,\s*/
       selector = It.join ", ",
         if selector.includes "&"
           for parent in parents
@@ -73,21 +145,6 @@ Rule =
   render: ({ selector, properties }) ->
     "#{ selector } { #{ Properties.render properties } }"
 
-MetaRule =
-
-  make: ({ selector, rules }) ->
-    { selector, rules }
-
-  render: ({ selector, rules }) ->
-    "#{ selector } { #{ Rules.render rules } }"
-
-
-
-Rules =
-
-  append: ( rules, rule ) ->
-    if rule.properties.length > 0
-      rules.push rule
 
 Sheet = 
 
@@ -99,9 +156,13 @@ Sheet =
 export {
   Property
   Properties
-  Rule
   Rules
-  MetaRule
+  FontRule
+  FontRules
+  MediaRule
+  MediaRules
+  StyleRule
   Sheet
   Units
+  Functions
 }
