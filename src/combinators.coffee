@@ -15,6 +15,7 @@ import {
   KeyFramesRule
   KeyFramesRules
   StyleRule
+  StyleRules
 } from "./sheets"
 
 join = It.join " "
@@ -112,16 +113,10 @@ render = ( f ) ->
     clear
 
     K.read "fonts"
-    K.poke ( rules ) ->
-      for rule in rules
-        FontRule.render rule
-    K.poke join
+    K.poke FontRules.render
 
     K.read "media"
-    K.poke ( rules ) ->
-      for rule in rules
-        MediaRule.render rule
-    K.poke join
+    K.poke MediaRules.render
 
     # K.read "supports"
     # K.poke ( rules ) ->
@@ -136,10 +131,7 @@ render = ( f ) ->
     # K.poke join
 
     K.read "styles"
-    K.poke ( rules ) ->
-      for rule in rules
-        StyleRule.render rule 
-    K.poke join
+    K.poke StyleRules.render
 
     stack
     K.poke Fn.pipe [

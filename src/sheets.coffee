@@ -9,6 +9,19 @@ suffix = ( s ) ->
 block = ( identifier, list ) -> 
   "#{ identifier } { #{ list } }"
 
+make = ( type, properties ) ->
+  Object.assign ( new type ), properties
+
+hasRules = ( value ) -> value.rules?
+
+append = generic name: "append"
+
+generic append, Type.isArray, Type.isDefined, ( rules, rule ) ->
+  rules.push rule if rule.properties.length > 0
+
+generic append, hasRules, Type.isDefined, ({ rules }, rule ) ->
+  append rules, rule
+
 Units =
 
   du: ( n ) -> Units.px n * 320
@@ -42,70 +55,76 @@ Functions =
       url("#{ text }")
     """
 
-Property =
+class Property
 
-  make: ( key, value ) -> { key, value }
+  @make: ( key, value ) -> make @, { key, value }
 
-  set: ( name, value ) -> { key: "--#{ name }", value }
+  @set: ( name, value ) -> { key: "--#{ name }", value }
 
-  get: ( name ) -> "var(--#{ name })"
+  @get: ( name ) -> "var(--#{ name })"
 
-  render: ({ key, value }) -> "#{ key }: #{ value };"
+  @render: ({ key, value }) -> "#{ key }: #{ value };"
 
-Properties =
+class Properties
 
-  append: ( properties, property ) -> 
+  @append: ( properties, property ) -> 
     properties.push property
 
-  render: ( properties ) ->
+  @render: ( properties ) ->
     It.join " ",
       for property in properties
         Property.render property
 
-Rule =
+class Rule
 
-  render: ({ selector, properties }) ->
+  @render: ({ selector, properties }) ->
     block selector, Properties.render properties
 
-Rules =
+class Rules
 
-  append: do ->
-    _append = generic name: "append"
-    generic _append, Type.isArray, Type.isObject, ( rules, rule ) ->
-      rules.push rule if rule.properties.length > 0
-    generic _append, Type.isObject, Type.isObject, ( { rules }, rule ) ->
-      _append rules, rule
-    Fn.binary _append
+  @append: Fn.binary append
 
-  render: ( rules ) -> Rule.render rule for rule in rules    
+  @render: ( rules ) ->
+    It.join " ",
+      ( Rule.render rule for rule in rules )
 
-FontRule =
+class FontRule extends Rule
 
-  make: -> { properties: [] }
+  @make: -> make @, { properties: [] }
 
-  render: ({ properties }) ->
+  @render: ({ properties }) ->
     block "@font-face",
       Properties.render properties
 
-FontRules =
+class FontRules
 
-  append: Rules.append
+  @append: Rules.append
 
-MediaRule =
+  @render: ( rules ) ->
+    It.join " ",
+      ( FontRule.render rule for rule in rules )
 
-  make: ({ parent, query }) ->
+class MediaRule extends Rule
+
+  @make: ({ parent, query }) ->
     # TODO if parent is a media query itself, compose the queries
-    { query, rules: [] }
+    make @, { query, rules: [] }
+    # { query, rules: [] }
 
-  render: ({ query, rules }) ->
+  @render: ({ query, rules }) ->
     block "@media #{ query }",
       Rules.render rules
 
-MediaRules =
+class MediaRules
 
-  append: ( media, context ) ->
+  @append: ( media, context ) ->
     if context.rules.length > 0
       media.push context
+  
+  @render: ( rules ) ->
+    It.join " ",
+      ( MediaRule.render rule for rule in rules )
+
 
 # SupportsRule =
 
@@ -127,9 +146,9 @@ MediaRules =
 
 #   append:
 
-StyleRule =
+class StyleRule
 
-  make: ({ selector, parent, properties }) ->
+  @make: ({ selector, parent, properties }) ->
     properties ?= []
     if parent?.selector?
       parents = parent.selector.split /,\s*/
@@ -140,11 +159,17 @@ StyleRule =
         else
           for parent in parents
             "#{ parent } #{ selector }"
-    { selector, properties }
+    make @, { selector, properties }
 
-  render: ({ selector, properties }) ->
-    "#{ selector } { #{ Properties.render properties } }"
+  @render: ({ selector, properties }) ->
+    block selector,
+      Properties.render properties
 
+class StyleRules
+
+  @render: ( rules ) ->
+    It.join " ",
+      ( StyleRule.render rule for rule in rules )
 
 Sheet = 
 
@@ -162,6 +187,7 @@ export {
   MediaRule
   MediaRules
   StyleRule
+  StyleRules
   Sheet
   Units
   Functions
