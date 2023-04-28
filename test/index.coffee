@@ -21,7 +21,7 @@ verify = ({ quark, css }) ->
 # MUT
 import * as Q from "../src"
 
-{ Property, Properties, StyleRule, Units, Functions } = Q
+{ Property, Properties, Style, Units, Functions } = Q
 
 
 do ->
@@ -35,25 +35,26 @@ do ->
         assert.equal "color: green;", Property.render property
 
       test "properties", ->
-        assert.equal "color: green; padding: 1rem;", 
-          Properties.render [
-            Property.make "color", "green"
-            Property.make "padding", "1rem"
-          ]
+        assert.equal "padding-top: 2rem; padding-left: 1rem;", 
+          Properties.render Properties.from "padding", 
+            top: Units.rem 2
+            left: Units.rem 1
+
 
       test "rule", ->
-        assert.equal "article { color: green; padding: 1rem; }", 
-          StyleRule.render StyleRule.make
-            selector: "article", 
-            properties: [
-              Property.make "color", "green"
-              Property.make "padding", "1rem"
-            ]
+        rule = Style.Rule.make "article"
+        Style.Rule.append rule,
+          Properties.from "padding", 
+            top: Units.rem 2
+            left: Units.rem 1
+        assert.equal "article { padding-top: 2rem; padding-left: 1rem; }", 
+          Style.Rule.render rule
+
     ]
 
     test "combinators", [
 
-      test "sheet / select / set", ->
+      test "basic", ->
         verify
           quark: Q.sheet [ Q.select "main", [ Q.set "display", "block" ] ]
           css: """

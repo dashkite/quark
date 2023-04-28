@@ -1,107 +1,61 @@
 import * as Fn from "@dashkite/joy/function"
+import { generic } from "@dashkite/joy/generic"
 import * as Type from "@dashkite/joy/type"
+import * as Obj from "@dashkite/joy/object"
 import * as It from "@dashkite/joy/iterable"
 import * as K from "@dashkite/katana/sync"
+
 import {
   Property
   Properties
-  Rules
-  FontRule
-  FontRules
-  MediaRule
-  MediaRules
-  SupportsRule
-  SupportsRules
-  KeyFramesRule
-  KeyFramesRules
-  StyleRule
-  StyleRules
+  Font
+  Media
+  Style
+  Sheet
 } from "./sheets"
 
-join = It.join " "
+import { Node } from "./node"
 
-# TODO this should be in Katana
-clear = Fn.tee ( daisho ) -> daisho.stack = []
+import { log } from "./helpers"
 
-# TODO this *is* in Katana but doesn't copy the stack
-#      so it ends up including itself :/
-stack = Fn.tee ( daisho ) -> daisho.stack.unshift structuredClone daisho.stack
+_set = generic name: "set"
 
-log = ( label ) ->
-  Fn.tee ( daisho ) ->
-    console.log label, daisho.stack
-
-initialize = ->
-  imports: []
-  namespaces: []
-  fonts: []
-  media: []
-  supports: []
-  keyframes: []
-  styles: []
-  page: []
-
-set = Fn.curry (name, value) ->
-  K.peek ( rule ) ->
-    if Type.isObject value
-      for suffix, _value of value
-        Properties.append rule.properties,
-          Property.make "#{name}-#{suffix}", _value
-    else
-      Properties.append rule.properties,
-        Property.make name, value
-
-fonts = Fn.curry ( fx ) ->
+generic _set, Type.isString, Type.isString, ( name, value ) ->
   Fn.pipe [
-    K.push ( parent ) -> FontRule.make parent
-    Fn.pipe fx
-    K.read "fonts"
-    K.mpop FontRules.append
+    K.push Fn.wrap value
+    K.poke Property.make name
+    K.poke ( value, parent ) -> { value, parent }
+    K.poke Node.make
+    K.pop Node.attach
   ]
 
-media = Fn.curry ( query, fx ) ->
+generic _set, Type.isString, Type.isObject, ( name, value ) ->
   Fn.pipe [
-    # 'save' styles for later
-    K.read "styles"
-    K.push ( parent ) -> MediaRule.make { parent, query }
-    # save the media query as the current selector context
-    K.write "context"
-    Fn.pipe fx
-    K.read "media"
-    K.mpop MediaRules.append
-    # restore styles as the context
-    K.write "context"
+    K.push Fn.wrap value
+    K.poke Properties.from name
+    K.poke ( value, parent ) -> { value, parent }
+    K.poke Node.make
+    K.pop Node.attach
   ]
-# 
-# supports = Fn.curry ( query, fx ) ->
-#   Fn.pipe [
-#     K.push ( parent ) -> SupportsRule.make { parent, query }
-#     Fn.pipe fx
-#     K.read "styles"
-#     K.mpop SupportsRule.append
-#   ]
 
-# keyframes = Fn.curry ( name, fx ) ->
-#   Fn.pipe [
-#     K.push ( parent ) -> KeyFramesRule.make { parent, name }
-#     Fn.pipe fx
-#     K.read "styles"
-#     K.mpop KeyFramesRule.append
-#   ]
+set = Fn.curry Fn.binary _set
 
 select = Fn.curry ( selector, fx ) ->
   Fn.pipe [
-    K.push ( parent ) -> StyleRule.make { selector, parent }
+    K.push Fn.wrap selector
+    K.poke Style.Rule.make
+    K.poke ( value, parent ) -> { value, parent }
+    K.poke Node.make
     Fn.pipe fx
-    K.read "context"
-    K.mpop Rules.append
+    K.pop Node.attach
   ]
+
+initialize = -> [ Node.make value: Sheet.make() ]
 
 sheet = ( fx ) ->
   Fn.pipe [
     initialize
-    K.read "styles"
-    K.write "context"
+    K.write "sheet"
     Fn.pipe fx
   ]
 
@@ -109,37 +63,31 @@ render = ( f ) ->
 
   Fn.pipe [
 
-    f
-    clear
-
-    K.read "fonts"
-    K.poke FontRules.render
-
-    K.read "media"
-    K.poke MediaRules.render
-
-    # K.read "supports"
-    # K.poke ( rules ) ->
-    #   for rule in rules
-    #     SupportsRule.render rule
-    # K.poke join
-
-    # K.read "keyframes"
-    # K.poke ( rules ) ->
-    #   for rule in rules
-    #     KeyFramesRule.render rule
-    # K.poke join
-
-    K.read "styles"
-    K.poke StyleRules.render
-
-    stack
-    K.poke Fn.pipe [
-      It.select ( text ) -> text != ""
-      join
-    ]
+    f    
+    K.read "sheet"
+    K.poke Node.get
+    K.poke Sheet.render
     K.get
 
+  ]
+
+fonts = Fn.curry ( fx ) ->
+  Fn.pipe [
+    K.push Font.Rule.make
+    K.poke ( value, parent ) -> { value, parent }
+    K.poke Node.make
+    Fn.pipe fx
+    K.pop Node.attach
+  ]
+
+media = Fn.curry ( query, fx ) ->
+  Fn.pipe [
+    K.push Fn.wrap query
+    K.poke Media.Scope.make
+    K.poke ( value, parent ) -> { value, parent }
+    K.poke Node.make 
+    Fn.pipe fx
+    K.pop Node.attach
   ]
 
 export { 
