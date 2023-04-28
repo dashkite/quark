@@ -13,6 +13,7 @@ import {
   Font
   Media
   Keyframes
+  Supports
 } from "./sheets"
 
 import { Node } from "./node"
@@ -91,10 +92,23 @@ media = Fn.curry ( query, fx ) ->
     K.pop Node.attach
   ]
 
+# TODO customize for Keyframe rules?
+keyframe = select
+
 keyframes = Fn.curry ( name, fx ) ->
   Fn.pipe [
     K.push Fn.wrap name
     K.poke Keyframes.Scope.make
+    K.poke ( value, parent ) -> { value, parent }
+    K.poke Node.make 
+    Fn.pipe fx
+    K.pop Node.attach
+  ]
+
+supports = Fn.curry ( query, fx ) ->
+  Fn.pipe [
+    K.push Fn.wrap query
+    K.poke Supports.Scope.make
     K.poke ( value, parent ) -> { value, parent }
     K.poke Node.make 
     Fn.pipe fx
@@ -108,5 +122,7 @@ export {
   render
   fonts
   media
+  keyframe
   keyframes
+  supports
 }

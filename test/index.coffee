@@ -167,12 +167,12 @@ do ->
         verify
           quark: Q.sheet [
             Q.keyframes "pulse", [
-              Q.select "0%", [ Q.opacity 0 ]
-              Q.select "20%", [ Q.opacity 0.2 ]
-              Q.select "40%", [ Q.opacity 0.4 ]
-              Q.select "60%", [ Q.opacity 0.6 ]
-              Q.select "80%", [ Q.opacity 0.8 ]
-              Q.select "100%", [ Q.opacity 1 ]
+              Q.keyframe "0%", [ Q.transparent ]
+              Q.keyframe "20%", [ Q.opacity 0.2 ]
+              Q.keyframe "40%", [ Q.opacity 0.4 ]
+              Q.keyframe "60%", [ Q.opacity 0.6 ]
+              Q.keyframe "80%", [ Q.opacity 0.8 ]
+              Q.keyframe "100%", [ Q.opaque ]
             ]
           ]
           css: """
@@ -194,6 +194,24 @@ do ->
               }
               100% {
                 opacity: 1;
+              }
+            }
+          """
+
+      test "@supports", ->
+
+        verify
+          quark: Q.sheet [
+            Q.supports "(display: flex)", [
+              Q.select "div", [
+                Q.display "flex"
+              ]
+            ]
+          ]
+          css: """
+            @supports (display: flex) {
+              div {
+                display: flex;
               }
             }
           """

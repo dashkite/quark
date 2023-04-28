@@ -26,11 +26,7 @@ class Node
 
   @get: ({ value }) -> value
 
-attach = generic
-  name: "attach"
-  # default: ( args... ) -> 
-  #   console.error attach: args
-  #   console.error Node.contains Style.Rule, args[0]
+attach = generic name: "attach"
 
 # add a value to a sheet
 generic attach, ( Node.contains Sheet ), Type.isDefined, ( node, value ) ->
