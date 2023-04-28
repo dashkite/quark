@@ -4,13 +4,12 @@ import * as Type from "@dashkite/joy/type"
 import * as It from "@dashkite/joy/iterable"
 import { make, isNotEmpty } from "../helpers"
 import { Rules } from "./rule"
+import { Style } from "./style"
 import { Font } from "./font"
 import { Media } from "./media"
-import { Style } from "./style"
+import { Keyframes } from "./keyframes"
 
-append = generic
-  name: "append"
-  default: ( args... ) -> console.error append: args
+append = generic name: "append"
 
 class Sheet extends Rules
 
@@ -21,6 +20,7 @@ class Sheet extends Rules
     # namespaces: []
     fonts: Font.Rules.make()
     media: Media.Scopes.make()
+    keyframes: Keyframes.Scopes.make()
     # supports: SupportsRules.make()
     # keyframes: []
     styles: Style.Rules.make()
@@ -37,11 +37,14 @@ class Sheet extends Rules
 generic append, Sheet.isType, Style.Rule.isType, ( sheet, rule ) ->
   Style.Rules.append sheet.styles, rule
 
+generic append, Sheet.isType, Font.Rule.isType, ( sheet, rule ) ->
+  Font.Rules.append sheet.fonts, rule
+
 generic append, Sheet.isType, Media.Scope.isType, ( sheet, scope ) ->
   Media.Scopes.append sheet.media, scope
 
-generic append, Sheet.isType, Font.Rule.isType, ( sheet, rule ) ->
-  Font.Rules.append sheet.fonts, rule
+generic append, Sheet.isType, Keyframes.Scope.isType, ( sheet, keyframes ) ->
+  Keyframes.Scopes.append sheet.keyframes, keyframes
 
 export {
   Sheet

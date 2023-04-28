@@ -8,10 +8,7 @@ import { make } from "../helpers"
 block = ( identifier, list ) -> 
   "#{ identifier } { #{ list } }"
 
-append = generic 
-  name: "append"
-  default: ( args... ) ->
-    console.error append: args
+append = generic name: "append"
 
 class Rule
 

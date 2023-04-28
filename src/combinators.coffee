@@ -8,10 +8,11 @@ import * as K from "@dashkite/katana/sync"
 import {
   Property
   Properties
-  Font
-  Media
   Style
   Sheet
+  Font
+  Media
+  Keyframes
 } from "./sheets"
 
 import { Node } from "./node"
@@ -20,7 +21,7 @@ import { log } from "./helpers"
 
 _set = generic name: "set"
 
-generic _set, Type.isString, Type.isString, ( name, value ) ->
+generic _set, Type.isString, Type.isDefined, ( name, value ) ->
   Fn.pipe [
     K.push Fn.wrap value
     K.poke Property.make name
@@ -90,11 +91,22 @@ media = Fn.curry ( query, fx ) ->
     K.pop Node.attach
   ]
 
+keyframes = Fn.curry ( name, fx ) ->
+  Fn.pipe [
+    K.push Fn.wrap name
+    K.poke Keyframes.Scope.make
+    K.poke ( value, parent ) -> { value, parent }
+    K.poke Node.make 
+    Fn.pipe fx
+    K.pop Node.attach
+  ]
+
 export { 
   sheet
   set
-  fonts
-  media
   select
   render
+  fonts
+  media
+  keyframes
 }

@@ -162,6 +162,41 @@ do ->
             }          
           """
 
+      test "@keyframes", ->
+
+        verify
+          quark: Q.sheet [
+            Q.keyframes "pulse", [
+              Q.select "0%", [ Q.opacity 0 ]
+              Q.select "20%", [ Q.opacity 0.2 ]
+              Q.select "40%", [ Q.opacity 0.4 ]
+              Q.select "60%", [ Q.opacity 0.6 ]
+              Q.select "80%", [ Q.opacity 0.8 ]
+              Q.select "100%", [ Q.opacity 1 ]
+            ]
+          ]
+          css: """
+            @keyframes pulse {
+              0% {
+                opacity: 0;
+              }
+              20% {
+                opacity: 0.2;
+              }
+              40% {
+                opacity: 0.4;
+              }
+              60% {
+                opacity: 0.6;
+              }
+              80% {
+                opacity: 0.8;
+              }
+              100% {
+                opacity: 1;
+              }
+            }
+          """
     ]
   ]
 

@@ -15,8 +15,13 @@ absolute = position "absolute"
 relative = position "relative"
 sticky = position "sticky"
 
-visible = set "visibility", "visible"
-invisible = set "visibility", "hidden"
+visibility = set "visibility"
+visible = visibility "visible"
+invisible = visibility "hidden"
+
+opacity = set "opacity"
+transparent = opacity 0
+opaque = opacity 1
 
 width = set "width"
 height = set "height"
@@ -67,8 +72,12 @@ export {
   absolute
   relative
   sticky
+  visibility
   visible
   invisible
+  opacity
+  transparent
+  opaque
   width
   height
   max

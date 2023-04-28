@@ -5,11 +5,7 @@ import * as It from "@dashkite/joy/iterable"
 import { make } from "../helpers"
 import { Rule, Rules } from "./rule"
 
-append = generic 
-  name: "append"
-  default: ( args... ) ->
-    console.error append: args
-
+append = generic name: "append"
 
 class Scope
   

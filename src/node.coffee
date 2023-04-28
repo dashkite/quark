@@ -59,7 +59,7 @@ generic attach, ( Node.contains Scope ), Scope.isKind, ( node, scope ) ->
 
 # for media scope, compose the queries, and pass it up the tree
 generic attach, ( Node.contains Media.Scope ), Media.Scope.isType, ( node, scope ) ->
-  scope.query = Media.Query.compose node.parent.value.query, scope.query
+  scope.query = Media.Query.compose node.value.query, scope.query
   attach node.parent, scope
 
 export { Node }

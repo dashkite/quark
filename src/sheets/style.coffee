@@ -12,7 +12,8 @@ class Style.Rule extends Rule
   @isType: Type.isType @
 
   @make: make @, ( selector ) ->
-    { selector, properties: Properties.make() }
+    rule = Rule.initialize()
+    { rule..., selector }
 
   @render: ({ selector, properties }) ->
     block selector,
