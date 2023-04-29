@@ -14,6 +14,7 @@ import {
   Media
   Keyframes
   Supports
+  Layer
 } from "./sheets"
 
 import { Node } from "./node"
@@ -115,6 +116,16 @@ supports = Fn.curry ( query, fx ) ->
     K.pop Node.attach
   ]
 
+layer = Fn.curry ( query, fx ) ->
+  Fn.pipe [
+    K.push Fn.wrap query
+    K.poke Layer.Scope.make
+    K.poke ( value, parent ) -> { value, parent }
+    K.poke Node.make 
+    Fn.pipe fx
+    K.pop Node.attach
+  ]
+
 export { 
   sheet
   set
@@ -125,4 +136,5 @@ export {
   keyframe
   keyframes
   supports
+  layer
 }

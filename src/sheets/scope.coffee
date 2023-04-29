@@ -39,7 +39,7 @@ generic append, Scope.isKind, Rule.isKind, ( scope, rule ) ->
   Rules.append scope.rules, rule
 
 generic append, Scopes.isKind, Scope.isKind, ( scopes, scope ) ->
-  scopes.list.push scope unless Scope.isEmpty scope
+  scopes.list.push scope unless scope.constructor.isEmpty scope
 
 export {
   Scope

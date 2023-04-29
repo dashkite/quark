@@ -7,11 +7,12 @@ import {
   Property
   Properties
   Rule
+  Selector
+  Sheet
   Scope
   Media
+  Layer
   Style
-  Sheet
-  Selector
 } from "./sheets"
 
 class Node
@@ -57,5 +58,9 @@ generic attach, ( Node.contains Scope ), Scope.isKind, ( node, scope ) ->
 generic attach, ( Node.contains Media.Scope ), Media.Scope.isType, ( node, scope ) ->
   scope.query = Media.Query.compose node.value.query, scope.query
   attach node.parent, scope
+
+# for layer scope, just add the nested scope to the parent
+generic attach, ( Node.contains Layer.Scope ), Layer.Scope.isType, ( node, scope ) ->
+  Layer.Scope.append node.value, scope
 
 export { Node }

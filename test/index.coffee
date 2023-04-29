@@ -124,7 +124,9 @@ do ->
 
     test "@-rules", [
 
-      test "@font-family", ->
+      test "@import"
+
+      test "@font-face", ->
 
         verify
           quark: Q.sheet [
@@ -215,6 +217,70 @@ do ->
               }
             }
           """
+
+      test "@layer", [
+
+        test "named", ->
+
+          verify
+            quark: Q.sheet [
+              Q.layer "article", [
+                Q.select "p", [
+                  Q.margin block: Units.rem 1
+                ]
+              ]
+            ]
+            css: """
+              @layer article {
+                p {
+                  margin-block: 1rem;
+                }
+              }          
+              """
+        test "anonymous"
+
+        test "nested", ->
+
+          verify
+            quark: Q.sheet [
+              Q.layer "framework", [
+                Q.layer "article", [
+                  Q.select "p", [
+                    Q.margin block: Units.rem 1
+                  ]
+                ]
+              ]
+            ]
+            css: """
+              @layer framework {
+                @layer article {
+                  p {
+                    margin-block: 1rem;
+                  }
+                }
+              }
+              """
+
+      ]
+
+      test "@container"
+
+      test "@property"
+
+      test "@charset"
+
+      test "@color-profile"
+
+      test "@counter-style"
+
+      test "@font-feature-values"
+
+      test "@font-palette-values"
+
+      test "@page"
+
+      test "@namespace"
+
     ]
   ]
 

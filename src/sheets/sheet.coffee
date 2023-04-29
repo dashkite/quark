@@ -9,6 +9,7 @@ import { Font } from "./font"
 import { Media } from "./media"
 import { Keyframes } from "./keyframes"
 import { Supports } from "./supports"
+import { Layer } from "./layer"
 
 append = generic name: "append"
 
@@ -23,7 +24,7 @@ class Sheet extends Rules
     media: Media.Scopes.make()
     keyframes: Keyframes.Scopes.make()
     supports: Supports.Scopes.make()
-    # keyframes: []
+    layers: Layer.Scopes.make()
     styles: Style.Rules.make()
   # page: []
 
@@ -49,6 +50,9 @@ generic append, Sheet.isType, Keyframes.Scope.isType, ( sheet, keyframes ) ->
 
 generic append, Sheet.isType, Supports.Scope.isType, ( sheet, supports ) ->
   Supports.Scopes.append sheet.supports, supports
+
+generic append, Sheet.isType, Layer.Scope.isType, ( sheet, layer ) ->
+  Layer.Scopes.append sheet.layers, layer
 
 export {
   Sheet
