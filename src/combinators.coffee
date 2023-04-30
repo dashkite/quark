@@ -23,23 +23,29 @@ import { log } from "./helpers"
 
 _set = generic name: "set"
 
-generic _set, Type.isString, Type.isDefined, ( name, value ) ->
-  Fn.pipe [
-    K.push Fn.wrap value
-    K.poke Property.make name
-    K.poke ( value, parent ) -> { value, parent }
-    K.poke Node.make
-    K.pop Node.attach
-  ]
+generic _set,
+  Type.isString, 
+  Type.isDefined,
+  ( name, value ) ->
+    Fn.pipe [
+      K.push Fn.wrap [ name, value ]
+      K.poke Property.from
+      K.poke ( value, parent ) -> { value, parent }
+      K.poke Node.make
+      K.pop Node.attach
+    ]
 
-generic _set, Type.isString, Type.isObject, ( name, value ) ->
-  Fn.pipe [
-    K.push Fn.wrap value
-    K.poke Properties.from name
-    K.poke ( value, parent ) -> { value, parent }
-    K.poke Node.make
-    K.pop Node.attach
-  ]
+generic _set,
+  Type.isString,
+  Type.isObject,
+  ( name, value ) ->
+    Fn.pipe [
+      K.push Fn.wrap [ name ]: value
+      K.poke Properties.from
+      K.poke ( value, parent ) -> { value, parent }
+      K.poke Node.make
+      K.pop Node.attach
+    ]
 
 set = Fn.curry Fn.binary _set
 

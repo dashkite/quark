@@ -1,23 +1,13 @@
-import * as Fn from "@dashkite/joy/function"
-import { generic } from "@dashkite/joy/generic"
-import * as Type from "@dashkite/joy/type"
-import * as Meta from "@dashkite/joy/metaclass"
 import * as It from "@dashkite/joy/iterable"
-import { make } from "../helpers"
-import { Rule, Rules } from "./rule"
-
-append = generic name: "append"
+import { getters } from "../helpers"
+import { Rules } from "./rule"
 
 class Scope
   
-  Meta.mixin @::, [
-
-    Meta.getters
-      isEmpty: -> @rules.isEmpty
-
-  ]
-
   @initialize: -> rules: Rules.make()
+
+  getters @,
+    isEmpty: -> @rules.isEmpty
 
   append: ( rule ) -> @rules.append rule
 
@@ -25,16 +15,12 @@ class Scope
 
 class Scopes
 
-  Meta.mixin @::, [
-
-    Meta.getters
-      isEmpty: -> @list.length == 0
-
-  ]
-
   @initialize: -> list: []
 
-  @make: make @, @initialize
+  @make: -> Object.assign ( new Scopes ), @initialize()
+
+  getters @,
+    isEmpty: -> @list.length == 0
 
   append: ( scope ) -> @list.push scope
 

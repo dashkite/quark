@@ -1,9 +1,11 @@
 import * as Fn from "@dashkite/joy/function"
+import * as Meta from "@dashkite/joy/metaclass"
 import * as It from "@dashkite/joy/iterable"
 
-make = ( type, initializer ) ->
-  Fn.curry Fn.arity initializer.length,
-    ( args... ) -> Object.assign ( new type ), initializer args...
+getters = ( type, dictionary ) ->
+  Meta.mixin type::, [
+    Meta.getters dictionary
+  ]
 
 block = ( identifier, list ) ->
   content = It.join " ", ( item.render() for item in list )
@@ -22,7 +24,7 @@ log = ( label ) ->
 
 
 export {
-  make
+  getters
   block
   clear
   stack

@@ -1,35 +1,48 @@
+import * as Fn from "@dashkite/joy/function"
+import { generic } from "@dashkite/joy/generic"
 import * as Type from "@dashkite/joy/type"
 import * as It from "@dashkite/joy/iterable"
-import * as Meta from "@dashkite/joy/metaclass"
-import { make } from "../helpers"
+import { getters } from "../helpers"
 
 class Property
 
-  @make: make @, ( key, value ) -> { key, value }
+  @make: do ({ f } = {}) ->
 
-  @set: ( name, value ) -> { key: "--#{ name }", value }
+    f = generic name: "Property.make"
+
+    generic f,
+      ( Type.isObject ),
+      ({ name, value }) -> 
+        Object.assign ( new Property ), { name, value }
+
+    generic f,
+      ( Type.isString ),
+      ( Type.isDefined ),
+      ( name, value ) -> f { name, value }
+
+    f
+
+  @from: ([ name, value ]) -> Property.make { name, value }
+
+  @set: ( name, value ) -> { name: "--#{ name }", value }
 
   @get: ( name ) -> "var(--#{ name })"
 
-  render: -> "#{ @key }: #{ @value };"
+  render: -> "#{ @name }: #{ @value };"
 
 class Properties
 
-  @isType: Type.isType @
+  @make: -> Object.assign ( new Properties ), list: []
 
-  @make: make @, -> list: []
-  
-  @from: make @, ( prefix, values ) -> 
-    list: 
+  @from: ( object ) ->
+    list = []
+    for prefix, values of object 
       for suffix, value of values
-        Property.make "#{prefix}-#{suffix}", value
+        list.push Property.make { name: "#{prefix}-#{suffix}", value }
+    Object.assign ( new Properties ), { list }
 
-  Meta.mixin @::, [
-
-    Meta.getters
-      isEmpty: -> @list.length == 0
-
-  ]
+  getters @,
+    isEmpty: -> @list.length == 0
 
   append: ( property ) -> @list.push property
 

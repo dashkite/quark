@@ -37,16 +37,18 @@ do ->
 
       test "properties", ->
         assert.equal "padding-top: 2rem; padding-left: 1rem;", 
-          render Properties.from "padding", 
-            top: Units.rem 2
-            left: Units.rem 1
+          render Properties.from
+            padding: 
+              top: Units.rem 2
+              left: Units.rem 1
 
 
       test "rule", ->
         rule = Style.Rule.make "article"
-        rule.append Properties.from "padding", 
-          top: Units.rem 2
-          left: Units.rem 1
+        rule.append Properties.from
+          padding: 
+            top: Units.rem 2
+            left: Units.rem 1
         assert.equal "article { padding-top: 2rem; padding-left: 1rem; }", 
         render rule
 
@@ -169,12 +171,12 @@ do ->
         verify
           quark: Q.sheet [
             Q.keyframes "pulse", [
-              Q.keyframe "0%", [ Q.transparent ]
-              Q.keyframe "20%", [ Q.opacity 0.2 ]
-              Q.keyframe "40%", [ Q.opacity 0.4 ]
-              Q.keyframe "60%", [ Q.opacity 0.6 ]
-              Q.keyframe "80%", [ Q.opacity 0.8 ]
-              Q.keyframe "100%", [ Q.opaque ]
+              Q.keyframe ( Units.pct 0 ), [ Q.transparent ]
+              Q.keyframe ( Units.pct 20 ), [ Q.opacity 0.2 ]
+              Q.keyframe ( Units.pct 40 ), [ Q.opacity 0.4 ]
+              Q.keyframe ( Units.pct 60 ), [ Q.opacity 0.6 ]
+              Q.keyframe ( Units.pct 80 ), [ Q.opacity 0.8 ]
+              Q.keyframe ( Units.pct 100 ), [ Q.opaque ]
             ]
           ]
           css: """

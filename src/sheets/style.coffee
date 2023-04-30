@@ -1,20 +1,20 @@
-import * as Type from "@dashkite/joy/type"
-import * as It from "@dashkite/joy/iterable"
-import { make, block } from "../helpers"
-import { Properties } from "./property"
+import * as Fn from "@dashkite/joy/function"
+import * as Meta from "@dashkite/joy/metaclass"
 import { Rule, Rules } from "./rule"
-import { Font } from "./font"
 
 Style = {}
 
 class Style.Rule extends Rule
 
-  @make: make @, ( selector ) ->
-    rule = Rule.initialize()
-    { rule..., selector }
+  @make: ( selector ) ->
+    Object.assign ( new Style.Rule ),
+      Rule.initialize(),
+      { selector }
 
 class Style.Rules extends Rules
 
-  @make: make @, Rules.initialize
+  @make: ->
+    Object.assign ( new Style.Rules ),
+      Rules.initialize()
 
 export { Style }
