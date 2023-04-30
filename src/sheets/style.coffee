@@ -9,22 +9,12 @@ Style = {}
 
 class Style.Rule extends Rule
 
-  @isType: Type.isType @
-
   @make: make @, ( selector ) ->
     rule = Rule.initialize()
     { rule..., selector }
 
-  @render: ({ selector, properties }) ->
-    block selector,
-      Properties.render properties
-
 class Style.Rules extends Rules
 
   @make: make @, Rules.initialize
-
-  @render: ( rules ) ->
-    It.join " ",
-      ( Style.Rule.render rule for rule in rules.list )
 
 export { Style }

@@ -1,13 +1,13 @@
 import * as Fn from "@dashkite/joy/function"
+import * as It from "@dashkite/joy/iterable"
 
-make = Fn.curry ( type, initializer ) ->
+make = ( type, initializer ) ->
   Fn.curry Fn.arity initializer.length,
     ( args... ) -> Object.assign ( new type ), initializer args...
 
-block = ( identifier, list ) -> 
-  "#{ identifier } { #{ list } }"
-
-isNotEmpty = ( text ) -> text != " "
+block = ( identifier, list ) ->
+  content = It.join " ", ( item.render() for item in list )
+  "#{ identifier } { #{ content } }"
 
 # TODO this should be in Katana
 clear = Fn.tee ( daisho ) -> daisho.stack = []
@@ -24,7 +24,6 @@ log = ( label ) ->
 export {
   make
   block
-  isNotEmpty
   clear
   stack
   log

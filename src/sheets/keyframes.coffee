@@ -8,22 +8,16 @@ Keyframes = {}
 
 class Keyframes.Scope extends Scope
 
-  @isType: Type.isType @
-
   @make: make @, ( name ) ->
     scope = Scope.initialize()
     { scope..., name }
   
-  @render: ({ name, rules }) ->
-    block "@keyframes #{ name }", Rules.render rules
+  render: ->
+    block "@keyframes #{ @name }", [ @rules ]
 
 class Keyframes.Scopes extends Scopes
 
   @make: make @, Scopes.initialize
-
-  @render: ( scopes ) ->
-    It.join " ",
-      ( Keyframes.Scope.render scope for scope in scopes.list )
 
 export {
   Keyframes

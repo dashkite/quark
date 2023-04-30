@@ -2,7 +2,7 @@ import * as Fn from "@dashkite/joy/function"
 import { generic } from "@dashkite/joy/generic"
 import * as Type from "@dashkite/joy/type"
 import * as It from "@dashkite/joy/iterable"
-import { make, isNotEmpty } from "../helpers"
+import { make } from "../helpers"
 import { Rules } from "./rule"
 import { Style } from "./style"
 import { Font } from "./font"
@@ -13,46 +13,47 @@ import { Layer } from "./layer"
 
 append = generic name: "append"
 
+# used to instantiate an instance
+properties =
+  fonts: Font.Rules
+  media: Media.Scopes
+  keyframes: Keyframes.Scopes
+  supports: Supports.Scopes
+  layers: Layer.Scopes
+  styles: Style.Rules
+
+# reverse lookup to get property from type
+types = new Map [
+  [ Font.Rule, "fonts" ]
+  [ Media.Scope, "media" ]
+  [ Keyframes.Scope, "keyframes" ]
+  [ Supports.Scope, "supports" ]
+  [ Layer.Scope, "layers" ]
+  [ Style.Rule, "styles" ]
+]
+
 class Sheet extends Rules
 
-  @isType: Type.isType @
+  @getKey: ( value ) -> types.get value.constructor
 
   @make: make @, ->
-    # imports: []
-    # namespaces: []
-    fonts: Font.Rules.make()
-    media: Media.Scopes.make()
-    keyframes: Keyframes.Scopes.make()
-    supports: Supports.Scopes.make()
-    layers: Layer.Scopes.make()
-    styles: Style.Rules.make()
-  # page: []
+    result = {}
+    for key, type of properties
+      result[ key ] = type.make()
+    result
 
-  @append: Fn.curry Fn.binary append
+  @append: ( sheet, value ) -> sheet.append value
+
+  @render: ( sheet ) -> sheet.render()
+
+  append: ( value ) -> 
+    @[ @constructor.getKey value ].append value
     
-  @render: ( sheet ) -> 
+  render: ->
     It.join " ",
-      It.select isNotEmpty,
-        for value in Object.values sheet
-          value.constructor.render value
+      for value in Object.values @ when !( value.isEmpty )
+        value.render()
 
-generic append, Sheet.isType, Style.Rule.isType, ( sheet, rule ) ->
-  Style.Rules.append sheet.styles, rule
-
-generic append, Sheet.isType, Font.Rule.isType, ( sheet, rule ) ->
-  Font.Rules.append sheet.fonts, rule
-
-generic append, Sheet.isType, Media.Scope.isType, ( sheet, scope ) ->
-  Media.Scopes.append sheet.media, scope
-
-generic append, Sheet.isType, Keyframes.Scope.isType, ( sheet, keyframes ) ->
-  Keyframes.Scopes.append sheet.keyframes, keyframes
-
-generic append, Sheet.isType, Supports.Scope.isType, ( sheet, supports ) ->
-  Supports.Scopes.append sheet.supports, supports
-
-generic append, Sheet.isType, Layer.Scope.isType, ( sheet, layer ) ->
-  Layer.Scopes.append sheet.layers, layer
 
 export {
   Sheet

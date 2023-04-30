@@ -1,6 +1,7 @@
 import * as Fn from "@dashkite/joy/function"
 import { generic } from "@dashkite/joy/generic"
 import * as Type from "@dashkite/joy/type"
+import * as Meta from "@dashkite/joy/metaclass"
 import * as It from "@dashkite/joy/iterable"
 import { make } from "../helpers"
 import { Rule, Rules } from "./rule"
@@ -9,37 +10,35 @@ append = generic name: "append"
 
 class Scope
   
-  @isKind: Type.isKind @
+  Meta.mixin @::, [
 
-  @isEmpty: ( scope ) -> Rules.isEmpty scope.rules
+    Meta.getters
+      isEmpty: -> @rules.isEmpty
+
+  ]
 
   @initialize: -> rules: Rules.make()
 
-  @append: Fn.curry Fn.binary append
+  append: ( rule ) -> @rules.append rule
 
-  @render: ( scope ) -> Rules.render scope.rules
+  render: -> @rules.render()
 
 class Scopes
 
-  @isKind: Type.isKind @
+  Meta.mixin @::, [
 
-  @isEmpty: ( scope ) -> scope.list.length == 0
+    Meta.getters
+      isEmpty: -> @list.length == 0
+
+  ]
 
   @initialize: -> list: []
 
   @make: make @, @initialize
 
-  @append: Fn.curry Fn.binary append
+  append: ( scope ) -> @list.push scope
 
-  @render: ( scopes ) ->
-    It.join " ",
-      ( Scope.render scope for scope in scopes.list )
-
-generic append, Scope.isKind, Rule.isKind, ( scope, rule ) ->
-  Rules.append scope.rules, rule
-
-generic append, Scopes.isKind, Scope.isKind, ( scopes, scope ) ->
-  scopes.list.push scope unless scope.constructor.isEmpty scope
+  render: -> It.join " ", ( scope.render() for scope in @list )
 
 export {
   Scope

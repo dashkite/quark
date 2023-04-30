@@ -23,6 +23,7 @@ import * as Q from "../src"
 
 { Property, Properties, Style, Units, Functions } = Q
 
+render = ( value ) -> value.render()
 
 do ->
 
@@ -32,23 +33,22 @@ do ->
 
       test "property", ->
         property = Property.make "color", "green"
-        assert.equal "color: green;", Property.render property
+        assert.equal "color: green;", render property
 
       test "properties", ->
         assert.equal "padding-top: 2rem; padding-left: 1rem;", 
-          Properties.render Properties.from "padding", 
+          render Properties.from "padding", 
             top: Units.rem 2
             left: Units.rem 1
 
 
       test "rule", ->
         rule = Style.Rule.make "article"
-        Style.Rule.append rule,
-          Properties.from "padding", 
-            top: Units.rem 2
-            left: Units.rem 1
+        rule.append Properties.from "padding", 
+          top: Units.rem 2
+          left: Units.rem 1
         assert.equal "article { padding-top: 2rem; padding-left: 1rem; }", 
-          Style.Rule.render rule
+        render rule
 
     ]
 

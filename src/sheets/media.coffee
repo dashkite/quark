@@ -8,22 +8,15 @@ Media = {}
 
 class Media.Scope extends Scope
 
-  @isType: Type.isType @
-
   @make: make @, ( query ) ->
     scope = Scope.initialize()
     { scope..., query }
   
-  @render: ({ query, rules }) ->
-    block "@media #{ query }", Rules.render rules
+  render: -> block "@media #{ @query }", [ @rules ]
 
 class Media.Scopes extends Scopes
 
   @make: make @, Scopes.initialize
-
-  @render: ( scopes ) ->
-    It.join " ",
-      ( Media.Scope.render scope for scope in scopes.list )
 
 class Media.Query
 

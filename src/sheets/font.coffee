@@ -8,21 +8,13 @@ Font = {}
 
 class Font.Rule extends Rule
 
-  @isType: Type.isType @
-
   @make: make @, Rule.initialize
 
-  @render: ({ properties }) ->
-    block "@font-face",
-      Properties.render properties
+  render: -> block "@font-face", [ @properties ]
 
 class Font.Rules extends Rules
 
   @make: make @, Rules.initialize
-
-  @render: ( rules ) ->
-    It.join " ",
-      ( Font.Rule.render rule for rule in rules.list )
 
 export {
   Font

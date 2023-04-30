@@ -1,10 +1,9 @@
 import * as Type from "@dashkite/joy/type"
 import * as It from "@dashkite/joy/iterable"
+import * as Meta from "@dashkite/joy/metaclass"
 import { make } from "../helpers"
 
 class Property
-
-  @isType: Type.isType @
 
   @make: make @, ( key, value ) -> { key, value }
 
@@ -12,13 +11,11 @@ class Property
 
   @get: ( name ) -> "var(--#{ name })"
 
-  @render: ({ key, value }) -> "#{ key }: #{ value };"
+  render: -> "#{ @key }: #{ @value };"
 
 class Properties
 
   @isType: Type.isType @
-
-  @isEmpty: ( properties ) -> properties.list.length == 0
 
   @make: make @, -> list: []
   
@@ -27,14 +24,18 @@ class Properties
       for suffix, value of values
         Property.make "#{prefix}-#{suffix}", value
 
-  @append: ( properties, property ) -> 
-    properties.list.push property
+  Meta.mixin @::, [
 
-  @render: ( properties ) ->
-    It.join " ",
-      for property in properties.list
-        Property.render property
+    Meta.getters
+      isEmpty: -> @list.length == 0
 
+  ]
+
+  append: ( property ) -> @list.push property
+
+  render: -> 
+    It.join " ", ( property.render() for property in @list )
+        
 export {
   Property
   Properties

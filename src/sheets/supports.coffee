@@ -8,22 +8,15 @@ Supports = {}
 
 class Supports.Scope extends Scope
 
-  @isType: Type.isType @
-
   @make: make @, ( query ) ->
     scope = Scope.initialize()
     { scope..., query }
   
-  @render: ({ query, rules }) ->
-    block "@supports #{ query }", Rules.render rules
+  render: -> block "@supports #{ @query }", [ @rules ]
 
 class Supports.Scopes extends Scopes
 
   @make: make @, Scopes.initialize
-
-  @render: ( scopes ) ->
-    It.join " ",
-      ( Supports.Scope.render scope for scope in scopes.list )
 
 class Supports.Query
 
