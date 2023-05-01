@@ -11,8 +11,9 @@ class Layer.Scope extends Scope
   @make: ( name ) ->
     Object.assign ( new Layer.Scope ), { name, content: [] }
 
+  # Layers can be empty, so effectively they're never empty
   getters @,
-    isEmpty: -> @content.length == 0
+    isEmpty: -> false
 
   append: ( value ) -> @content.push value
 

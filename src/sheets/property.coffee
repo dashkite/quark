@@ -34,6 +34,8 @@ class Properties
 
   @make: -> Object.assign ( new Properties ), list: []
 
+  # TODO check for whether the nested value is an object
+  #      so we can support non-hyphenated properties too
   @from: ( object ) ->
     list = []
     for prefix, values of object 

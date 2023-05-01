@@ -23,6 +23,8 @@ opacity = set "opacity"
 transparent = opacity 0
 opaque = opacity 1
 
+background = set "background"
+
 width = set "width"
 height = set "height"
 
@@ -78,6 +80,7 @@ export {
   opacity
   transparent
   opaque
+  background
   width
   height
   max

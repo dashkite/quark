@@ -11,6 +11,7 @@ import {
   Scope
   Media
   Layer
+  Container
   Style
 } from "./sheets"
 
@@ -57,6 +58,12 @@ generic attach,
 generic attach, 
   ( Node.contains Layer.Scope ),
   ( Type.isType Layer.Scope ), 
+  ( node, layer ) -> node.value.append layer
+
+# for container scope, attach to parent, overrides general scope handling
+generic attach, 
+  ( Node.contains Container.Scope ),
+  ( Type.isType Container.Scope ), 
   ( node, layer ) -> node.value.append layer
 
 export { Node }

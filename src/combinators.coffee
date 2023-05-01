@@ -15,6 +15,7 @@ import {
   Keyframes
   Supports
   Layer
+  Container
 } from "./sheets"
 
 import { Node } from "./node"
@@ -132,6 +133,16 @@ layer = Fn.curry ( query, fx ) ->
     K.pop Node.attach
   ]
 
+container = Fn.curry ( query, fx ) ->
+  Fn.pipe [
+    K.push Fn.wrap query
+    K.poke Container.Scope.make
+    K.poke ( value, parent ) -> { value, parent }
+    K.poke Node.make 
+    Fn.pipe fx
+    K.pop Node.attach
+  ]
+
 export { 
   sheet
   set
@@ -143,4 +154,5 @@ export {
   keyframes
   supports
   layer
+  container
 }

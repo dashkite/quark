@@ -33,7 +33,7 @@ do ->
 
       test "property", ->
         property = Property.make "color", "green"
-        assert.equal "color: green;", render property
+        assert.equal "color: green;", property.render()
 
       test "properties", ->
         assert.equal "padding-top: 2rem; padding-left: 1rem;", 
@@ -265,7 +265,68 @@ do ->
 
       ]
 
-      test "@container"
+      test "@container", [
+
+        test "anonymous", ->
+          verify
+            quark: Q.sheet [
+              Q.container "(width < 650px)", [
+                Q.select ".card", [
+                  Q.width Units.pct 50
+                  Q.background color: "gray"
+                  Q.font size: Units.em 1
+                ]
+              ]
+            ]
+            css: """
+              @container (width < 650px) {
+                .card {
+                  width: 50%;
+                  background-color: gray;
+                  font-size: 1em;
+                }
+              }        
+              """
+
+        test "named", ->
+          verify
+            quark: Q.sheet [
+              Q.container "summary (min-width: 400px)", [
+                Q.select ".card", [
+                  Q.font size: Units.em 1.5
+                ]
+              ]
+            ]
+            css: """
+              @container summary (min-width: 400px) {
+                .card {
+                  font-size: 1.5em;
+                }
+              }
+              """
+
+        test "nested", ->
+          verify
+            quark: Q.sheet [
+              Q.container "summary (min-width: 400px)", [
+                Q.container "(min-width: 800px)", [
+                  Q.select ".card", [
+                    Q.font size: Units.em 1.5
+                  ]
+                ]
+              ]
+            ]
+            css: """
+              @container summary (min-width: 400px) {
+                @container (min-width: 800px) {
+                  .card {
+                    font-size: 1.5em;
+                  }
+                }
+              }
+              """
+
+      ]
 
       test "@property"
 
