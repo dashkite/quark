@@ -54,12 +54,16 @@ We can now use these functions as in the animation above. And we can now use pul
 Q.select ":focus", [ pulse ]
 ```
 
+## Design Goals
+
 In principle, this is relatively simple. We do something quite similar do generate HTML. However, there are a couple of differences:
 
 - Quark is more functional in nature: we always return functions
 - Quark infers the correct CSS to generate based on the tree
 
 For example, nested style rules may use `&` to indicate how to generate a nested rule, similar to tools like Sass and Stylus. Eventually, these features may be unnecessary, as CSS adds them directly. Regardless, the semantics of CSS documents are more complex and nuanced than HTML documents. 
+
+## Domain Layer
 
 The three layer design is what makes it possible to support this complexity. The domain level is concerned simply with creating elements and stitching them together. For example, here is a property declaration:
 
@@ -91,6 +95,8 @@ We can also `render` rules, just as we can properties:
 assert.equal "article { padding-top: 2rem; padding-left: 1rem; }", rule.render()
 ```
 
+## Tree (Composition) Layer
+
 By itself, the domain level isn’t terribly useful since it would be extremely cumbersome to build up a CSS document this way. The tree layer encapsulates the logic for how elements are glued together.
 
 Nodes wrap elements as a *( parent, value )* pair. In addition, Nodes provide an `attach` method that combines two elements in a tree. The `attach` method delegates to a generic function that knows how to combine parents and values. The default implementation simply calls the parent’s `append` method with the given value. However, there are more sophisticated cases. For example, nested style rules must compose the selectors, which is implemented like so:
@@ -105,6 +111,8 @@ generic attach,
 ```
 
 We can thus transform an array of Nodes into a tree representing a CSS document.
+
+## Combinator Layer
 
 The last layer, the combinator layer, wraps the logic for building elements and wrapping them as Nodes. For example, this is the combinator for `select`:
 
@@ -129,5 +137,26 @@ A document (or fragment of CSS) is built up using Katana. Let’s walk through w
 5. We execute the CSS functions passed into the `select` functions, which will now have the Node we constructed in (4) as a parent.
 6. We call `attach` on the Node, which effectively merges it with the parent, and remove it from the stack.
 
-All the base combinators follow this pattern. From there, we build up new combinators in the convenience layer, such as `opaque` in the example above. Quark convenience combinators are expressly not prescriptive: they simply provide shorthand for common scenarios. Other modules may build further to provide prescriptive combinators, like our `flexdiv` combinator above. Quark’s job is simply provide the foundation for such modules.
+All the base combinators follow this pattern. From there, we build up new combinators in the convenience layer, such as `opaque` in the example above.
 
+## Convenience Layer
+
+Quark convenience combinators are expressly not prescriptive: they simply provide shorthand for common scenarios. Other modules may build further to provide prescriptive combinators, like our `flexdiv` combinator above. Quark’s job is simply provide the foundation for such modules.
+
+## What About QuarkScript?
+
+QuarkScript is a way of writing CSS based on the combinators available in Quark. It features a minimal syntax, with combinators able to consume tokens based on their arity. For example, we might write:
+
+```
+div -> display flex max-width 20rem font -size 4rem -family sans-serif
+```
+
+The real power of this approach lay in defining mnemonics, inspired by Tailwind’s approach to inline styles. For example, we can define `max-width 20rem` to be `max-w 20rem`. We can also allow shorthand for common units, like `r` for `rem`. We could thus shorten the above into something like:
+
+```
+div -> flex max-w 20r text-m sans
+```
+
+Since QuarkScript compiles into JavaScript, we could use QuarkScript to concisely encode prescriptive combinators, like those defined in our Universal CSS.
+
+We implemented an experimental version of QuarkScript. However, I’m not sure the benefit is compelling enough in the context of our current roadmap to justify continued development at this time. If and when we resume work on QuarkScript we should place it in a separate module in any event.

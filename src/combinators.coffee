@@ -16,6 +16,7 @@ import {
   Supports
   Layer
   Container
+  CustomProperty
 } from "./sheets"
 
 import { Node } from "./node"
@@ -143,6 +144,16 @@ container = Fn.curry ( query, fx ) ->
     K.pop Node.attach
   ]
 
+property = Fn.curry ( name, fx ) ->
+  Fn.pipe [
+    K.push Fn.wrap name
+    K.poke CustomProperty.Rule.make
+    K.poke ( value, parent ) -> { value, parent }
+    K.poke Node.make
+    Fn.pipe fx
+    K.pop Node.attach
+  ]
+
 export { 
   sheet
   set
@@ -155,4 +166,5 @@ export {
   supports
   layer
   container
+  property
 }

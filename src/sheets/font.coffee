@@ -8,7 +8,7 @@ Font = {}
 
 class Font.Rule extends Rule
   
-  @make: -> Object.assign ( new Font.Rule ), Rule.initialize()
+  @make: ( name ) -> Object.assign ( new Font.Rule ), Rule.initialize()
 
   render: -> block "@font-face", [ @properties ]
 

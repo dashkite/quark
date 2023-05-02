@@ -21,7 +21,7 @@ verify = ({ quark, css }) ->
 # MUT
 import * as Q from "../src"
 
-{ Property, Properties, Style, Units, Functions } = Q
+{ Property, Properties, Style, Units, Type, Function } = Q
 
 render = ( value ) -> value.render()
 
@@ -136,7 +136,7 @@ do ->
               Q.font
                 family: "Geo"
                 style: "normal"
-              Q.src Functions.url "fonts/geo_sans_light/GensansLight.ttf"
+              Q.src Function.url "fonts/geo_sans_light/GensansLight.ttf"
             ]
           ]
           css: """
@@ -306,6 +306,7 @@ do ->
               """
 
         test "nested", ->
+
           verify
             quark: Q.sheet [
               Q.container "summary (min-width: 400px)", [
@@ -316,6 +317,7 @@ do ->
                 ]
               ]
             ]
+            
             css: """
               @container summary (min-width: 400px) {
                 @container (min-width: 800px) {
@@ -328,7 +330,23 @@ do ->
 
       ]
 
-      test "@property"
+      test "@property", ->
+
+        verify
+          quark: Q.sheet [
+            Q.property "brand-color", [
+              Q.set "syntax", Type.text "<color>"
+              Q.set "inherits", "false"
+              Q.set "initial-value", "#c0ffee"
+            ]
+          ]
+          css: """
+            @property --brand-color {
+              syntax: "<color>";
+              inherits: false;
+              initial-value: #c0ffee;
+            }
+            """
 
       test "@charset"
 
