@@ -21,7 +21,7 @@ verify = ({ quark, css }) ->
 # MUT
 import * as Q from "../src"
 
-{ Property, Properties, Style, Units, Type, Function } = Q
+{ Property, Properties, Style, Units, Type, F } = Q
 
 render = ( value ) -> value.render()
 
@@ -98,6 +98,22 @@ do ->
           css: "main { 
             max-width: 16rem;
           }"
+
+      test "array values", ->
+        verify
+          quark: Q.sheet [
+            Q.select "main", [
+              Q.border
+                bottom: [
+                  Units.px 1
+                  "solid"
+                  F.var "primary-accent"
+                ]
+            ]
+          ]
+          css: "main {
+            border-bottom: 1px solid var(--primary-accent);
+          }"
     ]
 
     test "nesting", [
@@ -136,7 +152,7 @@ do ->
               Q.font
                 family: "Geo"
                 style: "normal"
-              Q.src Function.url "fonts/geo_sans_light/GensansLight.ttf"
+              Q.src F.url "fonts/geo_sans_light/GensansLight.ttf"
             ]
           ]
           css: """

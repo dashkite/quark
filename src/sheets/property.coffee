@@ -12,13 +12,17 @@ class Property
 
     generic f,
       ( Type.isObject ),
-      ({ name, value }) -> 
-        Object.assign ( new Property ), { name, value }
+      ({ name, value }) -> f name, value
 
     generic f,
       ( Type.isString ),
       ( Type.isDefined ),
-      ( name, value ) -> f { name, value }
+      ( name, value ) -> Object.assign ( new Property ), { name, value }
+
+    generic f,
+      ( Type.isString ),
+      ( Type.isArray ),
+      ( name, values ) -> f name, ( It.join " ", values )
 
     f
 
@@ -39,8 +43,11 @@ class Properties
   @from: ( object ) ->
     list = []
     for prefix, values of object 
-      for suffix, value of values
-        list.push Property.make { name: "#{prefix}-#{suffix}", value }
+      if Type.isObject object
+        for suffix, value of values
+          list.push Property.make { name: "#{prefix}-#{suffix}", value }
+      else
+        list.push Property.make { name: prefix, value }
     Object.assign ( new Properties ), { list }
 
   getters @,

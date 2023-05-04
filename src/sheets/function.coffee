@@ -1,13 +1,11 @@
-Function =
+F =
 
-  url: ( text ) ->
-    """
-      url("#{ text }")
-    """
+  url: ( text ) -> "url(\"#{ text }\")"
 
-  calc: ( expression ) ->
-    "calc(#{ expression })"
+  calc: ( expression ) -> "calc(#{ expression })"
+
+  var: ( name )  -> "var(--#{ name })"
 
 export {
-  Function
+  F
 }
