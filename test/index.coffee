@@ -92,7 +92,7 @@ do ->
         verify
           quark: Q.sheet [
             Q.select "main", [
-              Q.max.width Units.rem 16
+              Q.max width: Units.rem 16
             ]
           ]
           css: "main { 

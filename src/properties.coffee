@@ -28,13 +28,10 @@ background = set "background"
 width = set "width"
 height = set "height"
 
-max =
-  width: set "max-width"
-  height: set "max-height"
-
-min =
-  width: set "min-width"
-  height: set "min-height"
+# Intended to be used with object values
+# Ex: max width: pct 20
+max = set "max"
+min = set "min"
 
 padding = set "padding"
 
