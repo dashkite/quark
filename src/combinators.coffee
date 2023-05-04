@@ -154,6 +154,8 @@ property = Fn.curry ( name, fx ) ->
     K.pop Node.attach
   ]
 
+variable = ( name ) -> set "--#{ name }"
+
 export { 
   sheet
   set
@@ -167,4 +169,5 @@ export {
   layer
   container
   property
+  variable
 }

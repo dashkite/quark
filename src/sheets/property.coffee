@@ -28,10 +28,6 @@ class Property
 
   @from: ([ name, value ]) -> Property.make { name, value }
 
-  @set: ( name, value ) -> { name: "--#{ name }", value }
-
-  @get: ( name ) -> "var(--#{ name })"
-
   render: -> "#{ @name }: #{ @value };"
 
 class Properties
