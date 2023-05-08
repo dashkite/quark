@@ -114,6 +114,29 @@ do ->
           css: "main {
             border-bottom: 1px solid var(--primary-accent);
           }"
+      
+      test "function values", ->
+        verify
+          quark: Q.sheet [
+            Q.select "main", [
+              Q.padding
+                bottom: [
+                  F.min [
+                    Units.rem 1
+                    Units.vw 10
+                  ]
+                  "solid"
+                  F.var [
+                    "primary-accent"
+                    "silver"
+                  ]
+                ]
+            ]
+          ]
+          css: "main {
+            padding-bottom: min(1rem, 10vw) solid var(--primary-accent, silver);
+          }"
+        
     ]
 
     test "nesting", [

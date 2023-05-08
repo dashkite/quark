@@ -25,6 +25,20 @@ Units =
 
   vh: suffix "vh"
 
+  lvw: suffix "lvw"
+
+  lvh: suffix "lvh"
+
+  svw: suffix "svw"
+
+  svh: suffix "svh"
+
+  dvw: suffix "dvw"
+
+  dvh: suffix "dvh"
+
   deg: suffix "deg"
+
+  fr: suffix "fr"
 
 export { Units }

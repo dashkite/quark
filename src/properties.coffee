@@ -6,14 +6,21 @@ block = display "block"
 inline = display "inline"
 table = display "table"
 hidden = display "none"
-flex = display "flex"
-grid = display "grid"
+
+flex = set "flex"
+grid = set "grid"
+
+place = set "place"
+gap = set "gap"
+
 
 position = set "position"
 fixed = position "fixed"
 absolute = position "absolute"
 relative = position "relative"
 sticky = position "sticky"
+
+color = set "color"
 
 visibility = set "visibility"
 visible = visibility "visible"
@@ -52,11 +59,10 @@ strike = set "text-decoration", "line-through"
 capitalize = set "text-transform", "capitalize"
 uppercase = set "text-transform", "uppercase"
 
-src = set "src"
+line = set "line"
+text = set "text"
 
-custom =
-  set: ( name, value ) -> set "--#{ name }", value
-  get: ( name ) -> "var(--#{ name })"
+src = set "src"
 
 export {
   display
@@ -66,6 +72,8 @@ export {
   hidden
   flex
   grid
+  place
+  gap
   position
   fixed
   absolute
@@ -78,6 +86,7 @@ export {
   transparent
   opaque
   background
+  color
   width
   height
   max
@@ -94,5 +103,6 @@ export {
   capitalize
   uppercase
   src
-  custom
+  line
+  text
 }
