@@ -134,6 +134,15 @@ layer = Fn.curry ( query, fx ) ->
     K.pop Node.attach
   ]
 
+layers = Fn.curry ( query ) ->
+  Fn.pipe [
+    K.push Fn.wrap query
+    K.poke Layer.Scope.make
+    K.poke ( value, parent ) -> { value, parent }
+    K.poke Node.make 
+    K.pop Node.attach
+  ]
+
 container = Fn.curry ( query, fx ) ->
   Fn.pipe [
     K.push Fn.wrap query
@@ -167,6 +176,7 @@ export {
   keyframes
   supports
   layer
+  layers
   container
   property
   custom
