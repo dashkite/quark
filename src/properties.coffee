@@ -13,6 +13,7 @@ grid = set "grid"
 place = set "place"
 gap = set "gap"
 
+order = set "order"
 
 position = set "position"
 fixed = position "fixed"
@@ -74,6 +75,7 @@ export {
   grid
   place
   gap
+  order
   position
   fixed
   absolute

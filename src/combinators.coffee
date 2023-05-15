@@ -73,7 +73,6 @@ sheet = ( fx ) ->
 render = ( f ) ->
 
   Fn.pipe [
-
     f    
     K.read "sheet"
     K.poke Node.get
