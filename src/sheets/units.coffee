@@ -3,7 +3,7 @@ suffix = ( s ) ->
 
 Units =
 
-  du: ( n ) -> Units.px n * 320
+  du: ( n ) -> Units.px n * 300
 
   vu: ( n ) -> Units.px n * 192
 

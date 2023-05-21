@@ -186,25 +186,52 @@ do ->
             }
           """
 
-      test "@media", ->
+      test "@media", [
 
-        verify
-          quark: Q.sheet [
-            Q.media "print", [
-              Q.select "#header, #footer", [
-                Q.hidden
+        test "simple", ->
+
+          verify
+            quark: Q.sheet [
+              Q.media "print", [
+                Q.select "#header, #footer", [
+                  Q.hidden
+                ]
               ]
             ]
-          ]
-          css: """
-            @media print {
-              #header,
-              #footer {
-                display: none;
-              }
-            }          
-          """
+            css: """
+              @media print {
+                #header,
+                #footer {
+                  display: none;
+                }
+              }          
+            """
 
+        test "bubbling", ->
+
+          verify
+          
+            quark: Q.sheet [
+              Q.select ".widget", [
+                Q.padding Units.px 10
+                Q.media "(min-width: 600px)", [
+                  Q.padding Units.px 20
+                ]
+              ]
+            ] 
+          
+            css: """
+              @media (min-width: 600px) {
+                .widget {
+                  padding: 20px;
+                }
+              }
+              .widget {
+                padding: 10px;
+              }              
+            """
+      ]
+      
       test "@keyframes", ->
 
         verify
@@ -366,6 +393,31 @@ do ->
                 }
               }
               """
+              
+        test "bubbling", ->
+
+          verify
+          
+            quark: Q.sheet [
+              Q.select ".widget", [
+                Q.padding Units.px 10
+                Q.container "(min-width: 600px)", [
+                  Q.padding Units.px 20
+                ]
+              ]
+            ] 
+          
+            css: """
+              @container (min-width: 600px) {
+                .widget {
+                  padding: 20px;
+                }
+              }
+              .widget {
+                padding: 10px;
+              }              
+            """
+        
 
       ]
 

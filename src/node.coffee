@@ -40,7 +40,13 @@ generic attach,
     style.selector = Selector.compose node.value.selector, style.selector
     attach node.parent, style
 
-# generally, scopes pass the value up the tree
+# generally, rules pass the value up the tree
+generic attach,
+    ( Node.contains Rule ),
+    ( Type.isKind Scope ),
+    ( node, scope ) -> attach node.parent, scope
+
+# scopes do the same
 generic attach,
   ( Node.contains Scope ),
   ( Type.isKind Scope ),
@@ -64,6 +70,64 @@ generic attach,
 generic attach, 
   ( Node.contains Container.Scope ),
   ( Type.isType Container.Scope ), 
-  ( node, layer ) -> node.value.append layer
+  ( node, container ) -> node.value.append container
 
+
+# bubbling for media rules
+generic attach, 
+  ( Node.contains Style.Rule ),
+  ( Type.isType Media.Scope ),
+  ( node, media ) ->
+    Replacement =
+      # 1. create a new (empty) rule based on the parent's selector
+      rule: Style.Rule.make node.value.selector
+      # 2. create a new (empty) replacement container query 
+      #    based on the container's query
+      scope: Media.Scope.make media.query
+    # 3. create a replacement Node to wrap the rule
+    #    this is a peer node to the given rule so it has 
+    #    the same parent
+    Replacement.node = Node.make
+      parent: node.parent
+      value: Replacement.rule
+    # 4. attach the container content to the replacement node
+    console.log { media }
+    ( attach Replacement.node, item ) for item in media.rules.list
+    # 4. append the new rule to the replacement container
+    #    this is the only content for the replacement container
+    Replacement.scope.append Replacement.rule
+    # 5. attach the replacement to the next node up in the tree
+    attach node.parent, Replacement.scope
+
+
+# bubbling for container rules
+generic attach, 
+  ( Node.contains Style.Rule ),
+  ( Type.isType Container.Scope ),
+  ( node, container ) ->
+    Replacement =
+      # 1. create a new (empty) rule based on the parent's selector
+      rule: Style.Rule.make node.value.selector
+      # 2. create a new (empty) replacement container query 
+      #    based on the container's query
+      scope: Container.Scope.make container.query
+    # 3. create a replacement Node to wrap the rule
+    #    this is a peer node to the given rule so it has 
+    #    the same parent
+    Replacement.node = Node.make
+      parent: node.parent
+      value: Replacement.rule
+    # 4. attach the container content to the replacement node
+    ( attach Replacement.node, item ) for item in container.content
+    # 4. append the new rule to the replacement container
+    #    this is the only content for the replacement container
+    Replacement.scope.append Replacement.rule
+    # 5. attach the replacement to the next node up in the tree
+    attach node.parent, Replacement.scope
+
+
+
+
+
+      
 export { Node }

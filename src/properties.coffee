@@ -10,7 +10,10 @@ hidden = display "none"
 flex = set "flex"
 grid = set "grid"
 
+justify = set "justify"
+align = set "align"
 place = set "place"
+
 gap = set "gap"
 
 order = set "order"
@@ -72,7 +75,9 @@ export {
   table
   hidden
   flex
-  grid
+  grid  
+  justify
+  align
   place
   gap
   order
