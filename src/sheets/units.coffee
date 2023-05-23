@@ -3,9 +3,9 @@ suffix = ( s ) ->
 
 Units =
 
-  du: ( n ) -> Units.px n * 300
+  du: ( n ) -> Units.rem n * 18
 
-  vu: ( n ) -> Units.px n * 192
+  vu: ( n ) -> Units.rem n * 12
 
   ch: suffix "ch"
 

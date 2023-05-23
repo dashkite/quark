@@ -72,6 +72,13 @@ generic attach,
   ( Type.isType Container.Scope ), 
   ( node, container ) -> node.value.append container
 
+# bubbling for media and container queries is slightly different
+# they should probably work the same way, but media queries have a 
+# rules property instead of content like media queries. the media
+# queries approach is probably correct.
+
+# ideally we can have a general purpose bubbling algorithm and have 
+# it built into the different scopes as helper, like Selector.compose
 
 # bubbling for media rules
 generic attach, 
@@ -91,7 +98,6 @@ generic attach,
       parent: node.parent
       value: Replacement.rule
     # 4. attach the container content to the replacement node
-    console.log { media }
     ( attach Replacement.node, item ) for item in media.rules.list
     # 4. append the new rule to the replacement container
     #    this is the only content for the replacement container
