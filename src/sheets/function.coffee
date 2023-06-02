@@ -12,12 +12,16 @@ F =
     f = generic name: "var"
     generic f, Type.isString, ( name )  -> "var(--#{ name })"
     generic f, Type.isArray, ([ name, fallback ]) ->
-      "var(--#{ name }, #{ fallback })"
+      "var(--#{ name },#{ fallback })"
     f
   
-  max: ( args ) -> "max( #{ It.join ', ', args })"
+  max: ( args ) -> "max(#{ It.join ',', args })"
 
-  min: ( args ) -> "min( #{ It.join ', ', args })"
+  min: ( args ) -> "min(#{ It.join ',', args })"
+
+  minmax: ( args ) -> "minmax(#{ It.join ',', args })"
+  
+  clamp: ([ lower, preferred, upper ]) -> "clamp(#{ lower },#{ preferred },#{ upper })"
 
 export {
   F
