@@ -4,10 +4,22 @@ import print from "@dashkite/amen-console"
 
 import * as Fn from "@dashkite/joy/function"
 import * as Prettier from "prettier"
+import * as Diff from "diff"
+import chalk from "chalk"
 
 format = ( css ) ->
   # for some reason prettier adds a newline at the end
   ( Prettier.format css, parser: "css" ).trim()
+
+diff = ({ actual, expected }) ->
+  diff = Diff.diffChars expected, actual
+  for part in diff
+    [ color, indicator ] = if part.added?
+      [ "green", "+" ]
+    else if part.removed?
+      [ "red", "-" ]
+    else [ "gray", ":" ]
+    console.log chalk[ color ] indicator, part.value
 
 verify = ({ quark, css }) ->
   expected = format css
@@ -15,7 +27,7 @@ verify = ({ quark, css }) ->
   try
     assert.equal expected, actual
   catch error
-    console.error "CSS mismatch:", { actual, expected }
+    diff { actual, expected }
     throw error
 
 # MUT
@@ -230,6 +242,32 @@ do ->
                 padding: 10px;
               }              
             """
+        
+        test "bubbling with nested rules", ->
+
+          verify
+          
+            quark: Q.sheet [
+              Q.select ".widget", [
+                Q.padding Units.px 10
+                Q.media "(min-width: 600px)", [
+                  Q.select "& > header", [
+                    Q.padding Units.px 20
+                  ]
+                ]
+              ]
+            ] 
+          
+            css: """
+              @media (min-width: 600px) {
+                .widget > header {
+                  padding: 20px;
+                }
+              }
+              .widget {
+                padding: 10px;
+              }              
+            """
       ]
       
       test "@keyframes", ->
@@ -417,8 +455,83 @@ do ->
                 padding: 10px;
               }              
             """
-        
 
+        test "bubbling with nested rules", ->
+
+          verify 
+
+            quark: Q.sheet [
+
+              Q.select ".navigation.gadget", [
+
+                Q.height "min-content"
+
+                Q.select "& > nav", [
+                  Q.display "flex"
+                  Q.justify content: "end"
+                  Q.gap Units.rem 1
+                ]
+
+                Q.select "& > details", [
+                  Q.set "cursor", "pointer"
+                  Q.text align: "right"
+                  Q.select "& > summary", [
+                    Q.set "list-style-type", "none"
+                    Q.margin bottom: Units.rem 1
+                    Q.select "& > *", [
+                      Q.display "inline"
+                    ]
+                  ]
+                ]         
+
+                # seems to assume that we're adding properties,
+                # not rules...
+                Q.container "( width > 40rem )", [
+                  Q.select "& > details", [
+                    Q.display "none"
+                  ]
+                ]
+              
+                Q.container "( width <= 40rem )", [
+                  Q.select "& > nav", [
+                    Q.display "none"
+                  ]
+                ]
+              ]
+            ]
+
+            css: """
+              .navigation.gadget > nav {
+                  display: flex;
+                  justify-content: end;
+                  gap: 1rem;
+              }
+              .navigation.gadget > details > summary > * {
+                  display: inline;
+              }
+              .navigation.gadget > details > summary {
+                  list-style-type: none;
+                  margin-bottom: 1rem;
+              }
+              .navigation.gadget > details {
+                  cursor: pointer;
+                  text-align: right;
+              }
+              @container ( width > 40rem ) {
+                .navigation.gadget > details {
+                    display: none;
+                }
+              }
+              @container ( width <= 40rem ) {
+                .navigation.gadget > nav {
+                    display: none;
+                }
+              }
+              .navigation.gadget {
+                  height: min-content;
+              }
+            """
+        
       ]
 
       test "@property", ->

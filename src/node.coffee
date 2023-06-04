@@ -74,8 +74,7 @@ generic attach,
 
 # bubbling for media and container queries is slightly different
 # they should probably work the same way, but media queries have a 
-# rules property instead of content like media queries. the media
-# queries approach is probably correct.
+# rules property instead of content like container queries.
 
 # ideally we can have a general purpose bubbling algorithm and have 
 # it built into the different scopes as helper, like Selector.compose
@@ -91,18 +90,20 @@ generic attach,
       # 2. create a new (empty) replacement container query 
       #    based on the container's query
       scope: Media.Scope.make media.query
-    # 3. create a replacement Node to wrap the rule
+    # 3. append the new rule to the replacement container
+    #    this is the only content for the replacement container
+    Replacement.scope.append Replacement.rule
+    # 4. create a replacement Node to wrap the rule
     #    this is a peer node to the given rule so it has 
     #    the same parent
     Replacement.node = Node.make
-      parent: node.parent
+      parent: Node.make
+        parent: node.parent
+        value: Replacement.scope
       value: Replacement.rule
-    # 4. attach the container content to the replacement node
+    # 5. attach the container content to the replacement node
     ( attach Replacement.node, item ) for item in media.rules.list
-    # 4. append the new rule to the replacement container
-    #    this is the only content for the replacement container
-    Replacement.scope.append Replacement.rule
-    # 5. attach the replacement to the next node up in the tree
+    # 6. attach the replacement to the next node up in the tree
     attach node.parent, Replacement.scope
 
 
@@ -117,21 +118,21 @@ generic attach,
       # 2. create a new (empty) replacement container query 
       #    based on the container's query
       scope: Container.Scope.make container.query
-    # 3. create a replacement Node to wrap the rule
+    # 3. append the new rule to the replacement container
+    #    this is the only content for the replacement container
+    Replacement.scope.append Replacement.rule
+    # 4. create a replacement Node to wrap the rule
     #    this is a peer node to the given rule so it has 
     #    the same parent
     Replacement.node = Node.make
-      parent: node.parent
+      parent: Node.make
+        parent: node.parent
+        value: Replacement.scope
       value: Replacement.rule
-    # 4. attach the container content to the replacement node
+    # 5. attach the container content to the replacement node
     ( attach Replacement.node, item ) for item in container.content
-    # 4. append the new rule to the replacement container
-    #    this is the only content for the replacement container
-    Replacement.scope.append Replacement.rule
-    # 5. attach the replacement to the next node up in the tree
+    # 6. attach the replacement to the next node up in the tree
     attach node.parent, Replacement.scope
-
-
 
 
 

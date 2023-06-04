@@ -7,9 +7,13 @@ getters = ( type, dictionary ) ->
     Meta.getters dictionary
   ]
 
+trim = ( text ) -> text.trim?()
+
 block = ( identifier, list ) ->
-  content = It.join " ", ( item.render() for item in list )
-  "#{ identifier } { #{ content } }"
+  content = trim It.join " ", ( item.render() for item in list )
+  if content.length > 0
+    "#{ identifier } { #{ content } }"
+  else ""
 
 # TODO this should be in Katana
 clear = Fn.tee ( daisho ) -> daisho.stack = []
