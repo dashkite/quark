@@ -484,8 +484,6 @@ do ->
                   ]
                 ]         
 
-                # seems to assume that we're adding properties,
-                # not rules...
                 Q.container "( width > 40rem )", [
                   Q.select "& > details", [
                     Q.display "none"

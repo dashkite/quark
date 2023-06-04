@@ -48,6 +48,11 @@ padding = set "padding"
 
 margin = set "margin"
 
+top = set "top"
+left = set "left"
+bottom = set "bottom"
+right = set "right"
+
 border = set "border"
 
 fit = set "object-fit"
@@ -100,6 +105,10 @@ export {
   min
   margin
   padding
+  top
+  left
+  bottom
+  right
   border
   fit
   font
