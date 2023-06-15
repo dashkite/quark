@@ -41,4 +41,8 @@ Units =
 
   fr: suffix "fr"
 
+  lh: suffix "lh"
+
+  rlh: suffix "rlh"
+
 export { Units }

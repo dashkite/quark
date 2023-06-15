@@ -73,6 +73,9 @@ text = set "text"
 
 src = set "src"
 
+content = ( value ) ->
+  set "content", "\"#{value}\""
+
 export {
   display
   block
@@ -121,4 +124,5 @@ export {
   src
   line
   text
+  content
 }
