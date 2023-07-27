@@ -1,4 +1,4 @@
-import { make, block } from "../helpers"
+import { block } from "../helpers"
 import { Scope, Scopes } from "./scope"
 
 Supports = {}

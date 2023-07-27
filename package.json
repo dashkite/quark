@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@dashkite/joy": "^0.3.16",
+    "@dashkite/katana": "^0.4.8",
     "chalk": "^4.1.2",
     "diff": "^5.1.0"
   },
@@ -38,6 +39,7 @@
     "@dashkite/amen-console": "^0.0.2",
     "@dashkite/assert": "^0.1.4",
     "@dashkite/genie": "^0.5.11",
+    "@dashkite/genie-modules": "link:../genie-modules",
     "@dashkite/genie-presets": "^0.6.4",
     "prettier": "^2.8.7"
   }
