@@ -1,6 +1,10 @@
 suffix = ( s ) ->
   ( text ) -> "#{ text }#{ s }"
 
+quarter = ( f ) -> ( n ) -> f n/4
+
+half = ( f ) -> ( n ) -> f n/2
+
 Units =
 
   du: ( n ) -> Units.rem n * 18
@@ -11,15 +15,15 @@ Units =
 
   px: suffix "px"
 
-  rem: suffix "rem"
+  rem: rem = suffix "rem"
 
   em: suffix "em"
 
   pct: suffix "%"
 
-  qrem: ( n ) -> Units.rem n/4
+  qrem: quarter rem
 
-  hrem: ( n ) -> Units.rem n/2
+  hrem: half rem
 
   vw: suffix "vw"
 
@@ -43,6 +47,10 @@ Units =
 
   lh: suffix "lh"
 
-  rlh: suffix "rlh"
+  rlh: rlh = suffix "rlh"
+
+  qrlh: quarter rlh
+
+  hrlh: half rlh
 
 export { Units }
