@@ -40,7 +40,6 @@
     "@dashkite/assert": "^0.1.4",
     "@dashkite/genie": "link:../genie",
     "@dashkite/genie-modules": "link:../genie-modules",
-    "@dashkite/genie-presets": "link:../genie-presets",
     "prettier": "^2.8.7"
   }
 }
