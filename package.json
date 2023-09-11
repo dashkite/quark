@@ -30,16 +30,16 @@
   },
   "dependencies": {
     "@dashkite/joy": "^0.3.16",
-    "@dashkite/katana": "^0.4.8",
-    "chalk": "^4.1.2",
-    "diff": "^5.1.0"
+    "@dashkite/katana": "^0.4.8"
   },
   "devDependencies": {
     "@dashkite/amen": "^0.2.0",
     "@dashkite/amen-console": "^0.0.2",
     "@dashkite/assert": "^0.1.4",
     "@dashkite/genie": "link:../genie",
-    "@dashkite/genie-modules": "link:../genie-modules",
+    "@dashkite/genie-coffee": "link:../genie-coffee",
+    "chalk": "^4.1.2",
+    "diff": "^5.1.0",
     "prettier": "^2.8.7"
   }
 }
