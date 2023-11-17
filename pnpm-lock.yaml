@@ -1,68 +1,81 @@
-lockfileVersion: 5.4
+lockfileVersion: '6.0'
 
-specifiers:
-  '@dashkite/amen': ^0.2.0
-  '@dashkite/amen-console': ^0.0.2
-  '@dashkite/assert': ^0.1.4
-  '@dashkite/genie': link:../genie
-  '@dashkite/genie-coffee': link:../genie-coffee
-  '@dashkite/genie-modules': link:../genie-modules
-  '@dashkite/joy': ^0.3.16
-  '@dashkite/katana': ^0.4.8
-  chalk: ^4.1.2
-  diff: ^5.1.0
-  prettier: ^2.8.7
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 dependencies:
-  '@dashkite/joy': 0.3.16
-  '@dashkite/katana': 0.4.8
+  '@dashkite/joy':
+    specifier: ^0.3.16
+    version: 0.3.16
+  '@dashkite/katana':
+    specifier: ^0.4.8
+    version: 0.4.8
 
 devDependencies:
-  '@dashkite/amen': 0.2.2
-  '@dashkite/amen-console': 0.0.2
-  '@dashkite/assert': 0.1.4
-  '@dashkite/genie': link:../genie
-  '@dashkite/genie-coffee': link:../genie-coffee
-  '@dashkite/genie-modules': link:../genie-modules
-  chalk: 4.1.2
-  diff: 5.1.0
-  prettier: 2.8.8
+  '@dashkite/amen':
+    specifier: ^0.2.0
+    version: 0.2.2
+  '@dashkite/amen-console':
+    specifier: ^0.0.2
+    version: 0.0.2
+  '@dashkite/assert':
+    specifier: ^0.1.4
+    version: 0.1.4
+  '@dashkite/genie':
+    specifier: link:../genie
+    version: link:../genie
+  '@dashkite/genie-coffee':
+    specifier: link:../genie-coffee
+    version: link:../genie-coffee
+  '@dashkite/genie-modules':
+    specifier: link:../genie-modules
+    version: link:../genie-modules
+  chalk:
+    specifier: ^4.1.2
+    version: 4.1.2
+  diff:
+    specifier: ^5.1.0
+    version: 5.1.0
+  prettier:
+    specifier: ^2.8.7
+    version: 2.8.8
 
 packages:
 
-  /@dashkite/amen-console/0.0.2:
+  /@dashkite/amen-console@0.0.2:
     resolution: {integrity: sha512-16xkmucNi9enIjXI3Khf54mdvDFG7+QSeB4/Xlh3AGKjPCwSQppV/DTVgaI5mkYcYO3b9v6RGrEGYvaji4ynVw==}
     dependencies:
       chalk: 4.1.2
     dev: true
 
-  /@dashkite/amen/0.2.2:
+  /@dashkite/amen@0.2.2:
     resolution: {integrity: sha512-bJBbRiIcQaKBT2A+EOltZaZMqGCptPw7rfSnTsu1AiicYWrXwe41zwo2W0a079OpJTLsH9v2vnU20xMCP9mQqA==}
     dev: true
 
-  /@dashkite/assert/0.1.4:
+  /@dashkite/assert@0.1.4:
     resolution: {integrity: sha512-OLOzI/lA+EwCh6znSexGAG1V4bkaT5gU04xl6ApEluv5jICnHhinZ707MObu+jhVVJ9uHDDlG85O+Afn1aTQoQ==}
     dependencies:
       '@dashkite/joy': 0.3.16
     dev: true
 
-  /@dashkite/joy/0.3.16:
+  /@dashkite/joy@0.3.16:
     resolution: {integrity: sha512-dsU0us4j1Pb+zceoBvLbnZ2PbmULkJUtM2vtWLxKmoc1DE4w9SVTiPTe6JWvF0A0vk90ldv+Lc9qEA5x3O+DtQ==}
 
-  /@dashkite/katana/0.4.8:
+  /@dashkite/katana@0.4.8:
     resolution: {integrity: sha512-KOfMS5aRZItxPeMv0OXbOTCj5BZhN9jM190jae8HB7WgGB5uM5jEzRWmyh3yVbxTaL83o7csktRzUkxkr/Op1A==}
     dependencies:
       '@dashkite/joy': 0.3.16
     dev: false
 
-  /ansi-styles/4.3.0:
+  /ansi-styles@4.3.0:
     resolution: {integrity: sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==}
     engines: {node: '>=8'}
     dependencies:
       color-convert: 2.0.1
     dev: true
 
-  /chalk/4.1.2:
+  /chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
     engines: {node: '>=10'}
     dependencies:
@@ -70,34 +83,34 @@ packages:
       supports-color: 7.2.0
     dev: true
 
-  /color-convert/2.0.1:
+  /color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
     engines: {node: '>=7.0.0'}
     dependencies:
       color-name: 1.1.4
     dev: true
 
-  /color-name/1.1.4:
+  /color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
     dev: true
 
-  /diff/5.1.0:
+  /diff@5.1.0:
     resolution: {integrity: sha512-D+mk+qE8VC/PAUrlAU34N+VfXev0ghe5ywmpqrawphmVZc1bEfn56uo9qpyGp1p4xpzOHkSW4ztBd6L7Xx4ACw==}
     engines: {node: '>=0.3.1'}
     dev: true
 
-  /has-flag/4.0.0:
+  /has-flag@4.0.0:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
     dev: true
 
-  /prettier/2.8.8:
+  /prettier@2.8.8:
     resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
 
-  /supports-color/7.2.0:
+  /supports-color@7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
     engines: {node: '>=8'}
     dependencies:
