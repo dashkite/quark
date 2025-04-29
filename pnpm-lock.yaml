@@ -39,6 +39,9 @@ importers:
       '@dashkite/genie-release':
         specifier: link:../genie-release
         version: link:../genie-release
+      '@dashkite/vista':
+        specifier: link:../vista
+        version: link:../vista
       chalk:
         specifier: ^4.1.2
         version: 4.1.2
