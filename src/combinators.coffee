@@ -100,7 +100,6 @@ media = Fn.curry ( query, fx ) ->
     K.pop Node.attach
   ]
 
-# TODO customize for Keyframe rules?
 keyframe = select
 
 keyframes = Fn.curry ( name, fx ) ->

@@ -1,8 +1,6 @@
 import { getters, block } from "../helpers"
 import { Scope, Scopes } from "./scope"
 
-# TODO anonymous layers
-# TODO nested layers
 
 Layer = {}
 

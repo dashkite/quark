@@ -15,11 +15,8 @@ block = ( identifier, list ) ->
     "#{ identifier } { #{ content } }"
   else ""
 
-# TODO this should be in Katana
 clear = Fn.tee ( daisho ) -> daisho.stack = []
 
-# TODO this *is* in Katana but doesn't copy the stack
-#      so it ends up including itself :/
 stack = Fn.tee ( daisho ) -> daisho.stack.unshift structuredClone daisho.stack
 
 log = ( label ) ->
